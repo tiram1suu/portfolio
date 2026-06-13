@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>MARIANNA — ПРОЕКТ 006 / ПРАЗДНИЧНЫЕ ОТКРЫТКИ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #010103;
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    .noise {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 4px 4px; pointer-events: none; z-index: 9998; opacity: 0.3;
+      mix-blend-mode: overlay;
+    }
+
+    .glow {
+      position: fixed; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(10, 132, 255, 0.15), rgba(0, 60, 130, 0) 70%);
+      border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 9990;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor {
+      width: 28px; height: 28px; border: 1.5px solid #7dd9ff; border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 10000;
+      transition: transform 0.12s cubic-bezier(0.2, 0.9, 0.4, 1.1), width 0.2s, height 0.2s, background 0.2s;
+      transform: translate(-50%, -50%); backdrop-filter: blur(2px);
+      box-shadow: 0 0 8px rgba(125, 217, 255, 0.4);
+    }
+    .cursor.hover-active { width: 48px; height: 48px; background: rgba(125, 217, 255, 0.12); border-width: 2px; box-shadow: 0 0 16px #7dd9ff; transform: translate(-50%, -50%) scale(1.05); }
+
+    .nav {
+      position: fixed; top: 0; left: 0; width: 100%; padding: 1.8rem 4vw;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 100; mix-blend-mode: difference;
+      font-weight: 400; letter-spacing: 1px;
+    }
+    .nav a { color: #fff; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid transparent; transition: 0.2s; }
+    .nav a:hover { border-bottom-color: #7dd9ff; text-shadow: 0 0 8px #7dd9ff; }
+    .nav .back { font-size: 1.2rem; }
+
+    .project-hero {
+      padding: 8rem 10vw 3rem 10vw;
+      position: relative;
+      z-index: 10;
+      min-height: 40vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .project-hero h1 {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      max-width: 90%;
+    }
+    .project-hero .sub {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: #7dd9ff;
+      margin-top: 0.5rem;
+      letter-spacing: 2px;
+    }
+    .project-hero .meta {
+      display: flex; gap: 2rem; margin-top: 1.5rem;
+      font-size: 0.9rem; opacity: 0.6;
+      flex-wrap: wrap;
+    }
+
+    .content {
+      padding: 1rem 10vw 6rem 10vw;
+      position: relative;
+      z-index: 10;
+    }
+
+    .section-block {
+      margin-bottom: 3.5rem;
+      max-width: 900px;
+    }
+    .section-block h2 {
+      font-size: 1.8rem;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      color: #7dd9ff;
+      margin-bottom: 1rem;
+      border-left: 3px solid #7dd9ff;
+      padding-left: 1.2rem;
+    }
+    .section-block p {
+      font-size: 1.1rem;
+      font-weight: 300;
+      opacity: 0.85;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .section-block .highlight {
+      background: rgba(125, 217, 255, 0.06);
+      padding: 1.2rem 1.8rem;
+      border-left: 2px solid #7dd9ff;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .section-block ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 1rem 0;
+    }
+    .section-block li {
+      font-size: 1rem;
+      font-weight: 300;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(125, 217, 255, 0.05);
+      display: flex;
+      align-items: center;
+    }
+    .section-block li::before {
+      content: '✦';
+      color: #7dd9ff;
+      margin-right: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, #7dd9ff44, transparent);
+      margin: 3rem 0;
+      width: 100%;
+    }
+
+    /* Галерея открыток */
+    .card-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+    .card-gallery .card-item {
+      background: #0a0a12;
+      border: 1px solid rgba(125, 217, 255, 0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+    .card-gallery .card-item:hover {
+      border-color: #7dd9ff44;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 40px rgba(125, 217, 255, 0.08);
+    }
+    .card-gallery .card-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .card-gallery .fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      color: #7dd9ff;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: #0a0a12;
+    }
+
+    .role-tag {
+      display: inline-block;
+      background: #7dd9ff15;
+      padding: 0.2rem 1.2rem;
+      border: 1px solid #7dd9ff30;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #7dd9ff;
+      letter-spacing: 1px;
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .project-hero { padding: 6rem 6vw 2rem 6vw; }
+      .content { padding: 0.5rem 6vw 4rem 6vw; }
+      .section-block p { font-size: 1rem; }
+      .card-gallery { grid-template-columns: 1fr 1fr; }
+      .nav { padding: 1.2rem 4vw; }
+      .cursor { display: none; } body { cursor: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="cursor"></div>
+<div class="glow"></div>
+
+<div class="nav">
+  <a href="one.html" class="back" id="backBtn">← back</a>
+  <a href="#">MARIANNA</a>
+</div>
+
+<section class="project-hero">
+  <h1>Серия праздничных открыток</h1>
+  <div class="sub">графический дизайн / мультикультурная серия</div>
+  <div class="meta">
+    <span>2025</span>
+    <span>концепция / типографика / вёрстка</span>
+  </div>
+</section>
+
+<div class="content">
+
+  <!-- ЗАДАЧА -->
+  <div class="section-block">
+    <h2>Задача</h2>
+    <p>Создать серию праздничных открыток, объединённых общей визуальной стилистикой, для использования в личных и коммерческих поздравлениях. Требовалось охватить несколько культурных и религиозных праздников, сохранив уважение к традициям и эстетическую цельность.</p>
+  </div>
+
+  <!-- РЕШЕНИЕ -->
+  <div class="section-block">
+    <h2>Решение</h2>
+    <p>Я разработала серию из пяти открыток, посвящённых Ид, Пасхе, Дивали, Хануке и Кришна-джанмаштами. Каждая открытка использует уникальные цветовую палитру и орнаменты, соответствующие культуре, но объединена общей композиционной схемой и типографикой, адаптированной под язык и традиции праздника.</p>
+  </div>
+
+  <!-- ГАЛЕРЕЯ ОТКРЫТОК -->
+  <div class="section-block">
+    <h2>Открытки</h2>
+    <div class="card-gallery">
+      <div class="card-item">
+        <img src="imgs/eid.png" alt="Открытка Эйд" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback" style="display:none;">eid.png</div>
+      </div>
+      <div class="card-item">
+        <img src="imgs/easter.png" alt="Открытка Пасха" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback" style="display:none;">easter.png</div>
+      </div>
+      <div class="card-item">
+        <img src="imgs/diwali.png" alt="Открытка Дивали" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback" style="display:none;">diwali.png</div>
+      </div>
+      <div class="card-item">
+        <img src="imgs/hannukah.png" alt="Открытка Ханука" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback" style="display:none;">hanukkah.png</div>
+      </div>
+      <div class="card-item">
+        <img src="imgs/krishna.png" alt="Открытка Кришна-джанмаштами" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback" style="display:none;">krishna.png</div>
+      </div>
+    </div>
+    <p style="font-size:0.9rem; opacity:0.5; margin-top:0.5rem;">Серия из пяти открыток для разных культурных и религиозных праздников.</p>
+  </div>
+
+  <!-- РЕЗУЛЬТАТ -->
+  <div class="section-block">
+    <h2>Результат</h2>
+    <p>Серия получила положительную обратную связь от коллег и представителей культурных сообществ. Работа была отмечена за внимательное отношение к культурным кодам и стилистическую цельность.</p>
+    <div class="highlight">
+      <p style="margin-bottom:0;">Единая композиционная схема и уважение к традициям позволили создать узнаваемую серию, которая работает на разных языках и для разных аудиторий.</p>
+    </div>
+  </div>
+
+  <!-- МОЯ РОЛЬ -->
+  <div class="section-block">
+    <h2>Моя роль</h2>
+    <p><span class="role-tag">дизайнер</span> концепция, типографика, подбор образов, вёрстка, подготовка к печати и цифровому использованию.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div style="display: flex; gap: 2rem; flex-wrap: wrap; opacity:0.6; font-size:0.9rem; padding-top: 1rem;">
+    <span>проект 06 / 06</span>
+    <a href="one.html" style="color:#7dd9ff; text-decoration: none; border-bottom:1px solid #7dd9ff44;">в начало →</a>
+  </div>
+
+</div>
+
+<script>
+  const cursorElem = document.querySelector('.cursor');
+  const glowElem = document.querySelector('.glow');
+  if (cursorElem && glowElem) {
+    document.addEventListener('mousemove', (e) => {
+      cursorElem.style.left = e.clientX + 'px';
+      cursorElem.style.top = e.clientY + 'px';
+      glowElem.style.left = e.clientX + 'px';
+      glowElem.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, .role-tag, h2, .back').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorElem.classList.add('hover-active'));
+      el.addEventListener('mouseleave', () => cursorElem.classList.remove('hover-active'));
+    });
+    document.body.addEventListener('mouseleave', () => { cursorElem.style.opacity = '0'; glowElem.style.opacity = '0'; });
+    document.body.addEventListener('mouseenter', () => { cursorElem.style.opacity = '1'; glowElem.style.opacity = '1'; });
+  }
+  if ('ontouchstart' in window) {
+    if (cursorElem) cursorElem.style.display = 'none';
+    if (glowElem) glowElem.style.display = 'none';
+  }
+
+  document.getElementById('backBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (document.referrer && document.referrer !== '') {
+      window.history.back();
+    } else {
+      window.location.href = '/';
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>MARIANNA ARCHIVE — CYBERCORE PORTFOLIO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+    body { background: #010103; color: #ffffff; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+
+    .noise {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 4px 4px; pointer-events: none; z-index: 9998; opacity: 0.3;
+      mix-blend-mode: overlay;
+    }
+
+    .cursor {
+      width: 28px; height: 28px; border: 1.5px solid #7dd9ff; border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 10000;
+      transition: transform 0.12s cubic-bezier(0.2, 0.9, 0.4, 1.1), width 0.2s, height 0.2s, background 0.2s;
+      transform: translate(-50%, -50%); backdrop-filter: blur(2px);
+      box-shadow: 0 0 8px rgba(125, 217, 255, 0.4);
+    }
+    .cursor.hover-active { width: 48px; height: 48px; background: rgba(125, 217, 255, 0.12); border-width: 2px; box-shadow: 0 0 16px #7dd9ff; transform: translate(-50%, -50%) scale(1.05); }
+
+    .glow {
+      position: fixed; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(10, 132, 255, 0.35), rgba(0, 60, 130, 0) 70%);
+      border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 9990;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero { height: 100vh; display: flex; align-items: center; padding-left: 8vw; position: relative; overflow: hidden; }
+    .title { position: relative; z-index: 20; mix-blend-mode: difference; }
+    h1 { font-size: clamp(70px, 12vw, 180px); line-height: 0.85; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+    .stroke { color: transparent; -webkit-text-stroke: 1.5px #7dd9ff; text-shadow: 0 0 8px rgba(125, 217, 255, 0.3); }
+    .hero p { font-size: 1rem; letter-spacing: 4px; margin-top: 1.2rem; opacity: 0.7; font-weight: 300; }
+
+    #spine-container {
+      position: absolute; right: 0; top: 0; width: 58vw; height: 100vh; z-index: 5;
+      pointer-events: none; filter: drop-shadow(0 0 12px #7dd9ff66);
+    }
+
+    .projects { padding: 100px 10vw; position: relative; z-index: 10; background: linear-gradient(180deg, #010103 0%, #05050c 100%); }
+    .project {
+      padding: 32px 0; border-bottom: 1px solid rgba(125, 217, 255, 0.2);
+      font-size: clamp(1.4rem, 5vw, 2.2rem); font-weight: 500; letter-spacing: -0.3px;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; cursor: none;
+      
+    }
+
+    .project a {
+      color: #ffffff;          
+      text-decoration: none;   
+      transition: color 0.3s;  
+    }
+
+
+    .project a:hover {
+      color: #7dd9ff;          
+      text-decoration: none;   
+    }
+    .project span { font-size: 0.9rem; font-weight: 300; color: #7dd9ff; letter-spacing: 1px; opacity: 0; transform: translateX(15px); transition: 0.3s; }
+    .project:hover { border-bottom-color: #7dd9ff; padding-left: 20px; transform: translateX(8px); text-shadow: 0 0 4px #7dd9ff; }
+    .project:hover span { opacity: 1; transform: translateX(0); }
+
+    .about { padding: 100px 10vw; border-top: 1px solid rgba(125, 217, 255, 0.2); background: #050308; position: relative; z-index: 10; }
+    .about h2 { font-size: 2.2rem; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 1.5rem; color: #7dd9ff; }
+    .about p { font-size: 1.6rem; font-weight: 300; max-width: 700px; line-height: 1.3; opacity: 0.85; }
+
+    @media (max-width: 900px) {
+      .hero { padding-left: 6vw; }
+      #spine-container { width: 80vw; opacity: 0.65; }
+      .projects, .about { padding: 70px 6vw; }
+      .about p { font-size: 1.2rem; }
+    }
+    @media (max-width: 600px) {
+      .cursor { display: none; } body { cursor: auto; }
+      .project { flex-direction: column; gap: 8px; }
+      .project span { opacity: 1; transform: none; font-size: 0.75rem; }
+    }
+
+    body::after {
+      content: '';
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: linear-gradient(rgba(125, 217, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(125, 217, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none; z-index: 9997;
+    }
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="cursor"></div>
+<div class="glow"></div>
+
+<section class="hero">
+  <div id="spine-container"></div>
+  <div class="title">
+    <h1>MARIANNA</h1>
+    <h1 class="stroke">ARCHIVE</h1>
+    <p>DESIGN // WEB // DIGITAL CULTURE</p>
+  </div>
+</section>
+
+<section class="projects">
+  <div class="project" ><a href = 'web-app.html'>ПРОЕКТ_001 — ПРИЛОЖЕНИЕ ДЛЯ ЦЕНТРА КУЛЬТУРЫ</a> <span>✦ UX/UI + frontend</span></div>
+  <div class="project"><a href = 'misako.html'>ПРОЕКТ_002 — САЙТ ГРУППЫ «МИСАКО»</a> <span>✦ UX/UI и Веб-дизайн</span></div>
+  <div class="project"><a href = 'web-app.html'>ПРОЕКТ_003 — АФИШИ ДЛЯ «ЯТЬ»</a> <span>✦ Типографика</span></div>
+  <div class="project"><a href = 'museum.html'>ПРОЕКТ_004 — КАРТОЧКИ ДЛЯ БРЕНДА ОДЕЖДЫ</a> <span>✦ Коммерческая графика</span></div>
+  <div class="project"><a href = 'wb.html'>ПРОЕКТ_005 — ПЛАШКИ ДЛЯ МУЗЕЯ ТЕМНОТЫ</a> <span>✦ Типографика</span></div>
+  <div class="project"><a href = 'postcards.html'>ПРОЕКТ_006 — ПРАЗДНИЧНЫЕ ОТКРЫТКИ</a> <span>✦ Типографика</span></div>
+</section>
+
+<section class="about">
+  <h2>UX/UI-дизайнер и frontend-разработчик</h2>
+  <p>Разрабатываю цифровые интерфейсы, айдентику и типографику. Веду проекты по принципу полного цикла: от идеи и прототипа до финальной реализации на любых носителях.<br> Создаю визуальные решения, которые решают ваши задачи.</p>
+</section>
+
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+    }
+  }
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+
+  const container = document.getElementById('spine-container');
+  let width = container?.clientWidth || window.innerWidth * 0.58;
+  let height = container?.clientHeight || window.innerHeight;
+
+  const scene = new THREE.Scene();
+  scene.background = null;
+  scene.fog = new THREE.FogExp2(0x010103, 0.015);
+
+  const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
+  camera.position.set(0, 0.5, 18);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+  container.appendChild(renderer.domElement);
+
+  // ---- LIGHTS ----
+  const ambientLight = new THREE.AmbientLight(0x225588, 0.65);
+  scene.add(ambientLight);
+  const mainLight = new THREE.DirectionalLight(0xffffff, 1.0);
+  mainLight.position.set(5, 8, 4);
+  scene.add(mainLight);
+  const fillLight = new THREE.PointLight(0x3366aa, 0.6);
+  fillLight.position.set(0, -3, 2);
+  scene.add(fillLight);
+  const rimLight = new THREE.PointLight(0x7dd9ff, 1.0);
+  rimLight.position.set(-2, 2, -5);
+  scene.add(rimLight);
+
+  // ---- MATERIALS for crosses (glassy, subtle, cyber) ----
+  const crossMat1 = new THREE.MeshStandardMaterial({
+    color: 0x88ddff, emissive: 0x004466, emissiveIntensity: 0.3, metalness: 0.7, roughness: 0.2, transparent: true, opacity: 0.25
+  });
+  const crossMat2 = new THREE.MeshStandardMaterial({
+    color: 0xcc88ff, emissive: 0x330066, emissiveIntensity: 0.2, metalness: 0.6, roughness: 0.3, transparent: true, opacity: 0.2
+  });
+  const crossMat3 = new THREE.MeshStandardMaterial({
+    color: 0x66ffaa, emissive: 0x004433, emissiveIntensity: 0.2, metalness: 0.5, roughness: 0.4, transparent: true, opacity: 0.15
+  });
+
+  // ---- function to create a stylized cross ----
+  function createCross(mat, scale = 1, pos = [0,0,0], rot = [0,0,0]) {
+    const group = new THREE.Group();
+    // vertical bar
+    const vert = new THREE.Mesh(new THREE.BoxGeometry(0.2 * scale, 1.2 * scale, 0.1 * scale), mat);
+    // horizontal bar
+    const hor = new THREE.Mesh(new THREE.BoxGeometry(0.8 * scale, 0.2 * scale, 0.1 * scale), mat);
+    // tiny top ornament (like cyber node)
+    const orb = new THREE.Mesh(new THREE.SphereGeometry(0.12 * scale, 8, 8), mat);
+    orb.position.y = 0.65 * scale;
+    group.add(vert);
+    group.add(hor);
+    group.add(orb);
+    group.position.set(pos[0], pos[1], pos[2]);
+    group.rotation.set(rot[0], rot[1], rot[2]);
+    return group;
+  }
+
+  // ---- CROSSES (subtle, scattered, floating, no rotation animation, just static with slight floating offset) ----
+  const crossGroup = new THREE.Group();
+
+  // cross 1 (large, back left)
+  const c1 = createCross(crossMat1, 1.6, [-2.2, 0.5, -1.2], [0.2, 0.4, 0.1]);
+  crossGroup.add(c1);
+
+  // cross 2 (medium, right)
+  const c2 = createCross(crossMat2, 1.2, [2.0, -0.8, 0.5], [0.5, -0.3, 0.2]);
+  crossGroup.add(c2);
+
+  // cross 3 (small, high)
+  const c3 = createCross(crossMat3, 0.9, [-1.0, 2.0, -2.5], [0.1, 0.8, 0.0]);
+  crossGroup.add(c3);
+
+  // cross 4 (small, low, right)
+  const c4 = createCross(crossMat1, 0.7, [2.8, -1.8, -0.2], [0.3, -0.6, 0.4]);
+  crossGroup.add(c4);
+
+  // cross 5 (tiny, far)
+  const c5 = createCross(crossMat2, 0.5, [-3.0, -0.2, 0.8], [0.7, 0.2, -0.3]);
+  crossGroup.add(c5);
+
+  // cross 6 (tiny, far right)
+  const c6 = createCross(crossMat3, 0.6, [3.5, 1.5, -1.0], [-0.2, 0.5, 0.1]);
+  crossGroup.add(c6);
+
+  // cross 7 (medium, center back, slightly tilted)
+  const c7 = createCross(crossMat1, 1.0, [0.0, -1.2, -2.0], [0.8, 0.0, 0.3]);
+  crossGroup.add(c7);
+
+  // cross 8 (small, front-left)
+  const c8 = createCross(crossMat3, 0.8, [-1.8, -0.5, 1.8], [0.4, -0.2, 0.6]);
+  crossGroup.add(c8);
+
+  // cross 9 (small, high right)
+  const c9 = createCross(crossMat2, 0.7, [2.2, 2.5, 0.2], [-0.3, 0.7, -0.1]);
+  crossGroup.add(c9);
+
+  scene.add(crossGroup);
+
+  // ---- BACKGROUND PARTICLES (floating dust, no rotation) ----
+  const particleCount = 800;
+  const particleGeometry = new THREE.BufferGeometry();
+  const particlePositions = new Float32Array(particleCount * 3);
+  for (let i = 0; i < particleCount; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 2.0 + Math.random() * 4.0;
+    const y = -6 + Math.random() * 12;
+    particlePositions[i*3] = Math.cos(angle) * radius;
+    particlePositions[i*3+1] = y;
+    particlePositions[i*3+2] = Math.sin(angle) * radius - 1.0;
+  }
+  particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+  const particleMaterial = new THREE.PointsMaterial({
+    color: 0x7dd9ff, size: 0.04, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending
+  });
+  const particles = new THREE.Points(particleGeometry, particleMaterial);
+  scene.add(particles);
+
+  // ---- subtle glow spheres (ambient) ----
+  const glowMat = new THREE.MeshStandardMaterial({
+    color: 0x7dd9ff, emissive: 0x4488ff, emissiveIntensity: 0.6, transparent: true, opacity: 0.15
+  });
+  const g1 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 16, 16), glowMat);
+  g1.position.set(1.5, 0.2, 1.0);
+  scene.add(g1);
+  const g2 = new THREE.Mesh(new THREE.SphereGeometry(0.6, 16, 16), glowMat);
+  g2.position.set(-1.8, -0.5, 1.5);
+  scene.add(g2);
+
+  // ---- ANIMATION (only very slow floating, no rotation of crosses) ----
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.008;
+
+    // very subtle floating of crosses group (barely noticeable)
+    crossGroup.position.y = Math.sin(time * 0.2) * 0.08;
+    crossGroup.position.x = Math.sin(time * 0.15) * 0.05;
+
+    // particles move slightly (drift)
+    particles.rotation.y += 0.0002;
+    particles.rotation.x += 0.0001;
+
+    // glow spheres subtle pulse
+    g1.material.opacity = 0.12 + Math.sin(time * 0.5) * 0.04;
+    g2.material.opacity = 0.12 + Math.cos(time * 0.4) * 0.04;
+
+    // camera micro sway
+    camera.position.x = Math.sin(time * 0.05) * 0.4;
+    camera.position.y = 0.5 + Math.sin(time * 0.08) * 0.1;
+    camera.lookAt(0, 0.2, 0);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // ---- RESIZE ----
+  window.addEventListener('resize', () => {
+    if (!container) return;
+    const newWidth = container.clientWidth;
+    const newHeight = container.clientHeight;
+    if (newWidth === 0 || newHeight === 0) return;
+    camera.aspect = newWidth / newHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newWidth, newHeight);
+  });
+
+  // ---- CURSOR ----
+  const cursorElem = document.querySelector('.cursor');
+  const glowElem = document.querySelector('.glow');
+  if (cursorElem && glowElem) {
+    document.addEventListener('mousemove', (e) => {
+      cursorElem.style.left = e.clientX + 'px';
+      cursorElem.style.top = e.clientY + 'px';
+      glowElem.style.left = e.clientX + 'px';
+      glowElem.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('.project, .about h2, .title h1, .title p').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorElem.classList.add('hover-active'));
+      el.addEventListener('mouseleave', () => cursorElem.classList.remove('hover-active'));
+    });
+    document.body.addEventListener('mouseleave', () => { cursorElem.style.opacity = '0'; glowElem.style.opacity = '0'; });
+    document.body.addEventListener('mouseenter', () => { cursorElem.style.opacity = '1'; glowElem.style.opacity = '1'; });
+  }
+  if ('ontouchstart' in window) {
+    if (cursorElem) cursorElem.style.display = 'none';
+    if (glowElem) glowElem.style.display = 'none';
+  }
+</script>
+<section class="contact" style="padding: 100px 10vw; border-top: 1px solid rgba(125, 217, 255, 0.2); background: #050308; position: relative; z-index: 10;">
+  <div style="max-width: 900px;">
+    <h2 style="font-size: 2.2rem; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 1.5rem; color: #7dd9ff;">Контакты</h2>
+    <div style="display: flex; gap: 4rem; flex-wrap: wrap;">
+      <div>
+        <p style="font-size: 1rem; opacity: 0.5; margin-bottom: 0.2rem;">Email</p>
+        <a href="mailto:mariannasumina@gmail.com" style="color: #ffffff; text-decoration: none; font-size: 1.4rem; border-bottom: 1px solid transparent; transition: 0.2s;">mariannasumina@gmail.com</a>
+      </div>
+      <div>
+        <p style="font-size: 1rem; opacity: 0.5; margin-bottom: 0.2rem;">Telegram</p>
+        <a href="https://t.me/mariannamss" style="color: #ffffff; text-decoration: none; font-size: 1.4rem; border-bottom: 1px solid transparent; transition: 0.2s;">@mariannamss</a>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
