@@ -1,309 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>MARIANNA — PROJECT 002 / MISAKO WEBSITE</title>
+  <title>MARIANNA - Сайт группы «Мисако»</title>
   <link rel="icon" type="image/x-icon" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #010103;
-      color: #ffffff;
-      font-family: 'Space Grotesk', sans-serif;
+      background: #ffffff;
+      color: #111111;
+      font-family: 'Inter', sans-serif;
       overflow-x: hidden;
-      line-height: 1.5;
     }
 
-    .noise {
-      position: fixed; inset: 0; width: 100%; height: 100%;
-      background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.08) 1px, transparent 1px);
-      background-size: 4px 4px; pointer-events: none; z-index: 9998; opacity: 0.3;
-      mix-blend-mode: overlay;
-    }
-
-    .glow {
-      position: fixed; width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(10, 132, 255, 0.15), rgba(0, 60, 130, 0) 70%);
-      border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 9990;
-      transform: translate(-50%, -50%);
-    }
-
-    .cursor {
-      width: 28px; height: 28px; border: 1.5px solid #7dd9ff; border-radius: 50%;
-      position: fixed; pointer-events: none; z-index: 10000;
-      transition: transform 0.12s cubic-bezier(0.2, 0.9, 0.4, 1.1), width 0.2s, height 0.2s, background 0.2s;
-      transform: translate(-50%, -50%); backdrop-filter: blur(2px);
-      box-shadow: 0 0 8px rgba(125, 217, 255, 0.4);
-    }
-    .cursor.hover-active { width: 48px; height: 48px; background: rgba(125, 217, 255, 0.12); border-width: 2px; box-shadow: 0 0 16px #7dd9ff; transform: translate(-50%, -50%) scale(1.05); }
-
-    .nav {
+    .header {
       position: fixed; top: 0; left: 0; width: 100%; padding: 1.8rem 4vw;
       display: flex; justify-content: space-between; align-items: center;
-      z-index: 100; mix-blend-mode: difference;
-      font-weight: 400; letter-spacing: 1px;
+      z-index: 100; background: #ffffff; border-bottom: 1px solid #f0f0f0;
     }
-    .nav a { color: #fff; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid transparent; transition: 0.2s; }
-    .nav a:hover { border-bottom-color: #7dd9ff; text-shadow: 0 0 8px #7dd9ff; }
-    .nav .back { font-size: 1.2rem; }
+    .header .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: #111; text-decoration: none; letter-spacing: -0.5px; }
+    .header nav { display: flex; gap: 2.5rem; align-items: center; }
+    .header nav a { color: #111; text-decoration: none; font-size: 0.9rem; font-weight: 400; transition: 0.2s; opacity: 0.7; }
+    .header nav a:hover { opacity: 1; }
+    
+    .back-link { 
+      font-size: 1.2rem; margin-right: auto; opacity: 0.6; 
+      color: #111 !important; text-decoration: none !important; 
+    }
+    .back-link:hover { opacity: 1; }
+
+    .lang-switch {
+      background: none; border: 1px solid #ddd; 
+      padding: 0.2rem 0.8rem; border-radius: 12px; font-size: 0.7rem; 
+      text-transform: uppercase; cursor: pointer; letter-spacing: 1px; color: #111;
+      font-family: 'Inter', sans-serif; transition: 0.2s;
+    }
+    .lang-switch:hover { border-color: #111; }
 
     .project-hero {
-      padding: 8rem 10vw 3rem 10vw;
-      position: relative;
-      z-index: 10;
-      min-height: 40vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: 8rem 4vw 2rem 4vw;
+      background: #ffffff;
+      max-width: 1200px; margin: 0 auto;
     }
     .project-hero h1 {
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.05;
-      max-width: 90%;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; color: #111;
     }
-    .project-hero .sub {
-      font-size: 1.2rem;
-      font-weight: 300;
-      color: #7dd9ff;
-      margin-top: 0.5rem;
-      letter-spacing: 2px;
-    }
-    .project-hero .meta {
-      display: flex; gap: 2rem; margin-top: 1.5rem;
-      font-size: 0.9rem; opacity: 0.6;
-      flex-wrap: wrap;
+    .project-meta {
+      display: flex; gap: 2.5rem; margin-top: 1.5rem;
+      font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px;
+      flex-wrap: wrap; border-bottom: 1px solid #eee; padding-bottom: 1.5rem;
     }
 
     .content {
-      padding: 1rem 10vw 6rem 10vw;
-      position: relative;
-      z-index: 10;
+      padding: 2rem 4vw 6rem 4vw;
+      max-width: 1100px; margin: 0 auto;
     }
 
     .section-block {
-      margin-bottom: 3.5rem;
-      max-width: 900px;
+      margin-bottom: 4rem;
     }
     .section-block h2 {
-      font-size: 1.8rem;
-      font-weight: 500;
-      letter-spacing: -0.3px;
-      color: #7dd9ff;
-      margin-bottom: 1rem;
-      border-left: 3px solid #7dd9ff;
-      padding-left: 1.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem; font-weight: 600; letter-spacing: -0.3px;
+      margin-bottom: 1.5rem; color: #111;
     }
     .section-block p {
-      font-size: 1.1rem;
-      font-weight: 300;
-      opacity: 0.85;
-      margin-bottom: 1rem;
-      line-height: 1.6;
+      font-size: 1.1rem; font-weight: 300; color: #444; line-height: 1.6;
+      margin-bottom: 1rem; max-width: 800px;
     }
-    .section-block .highlight {
-      background: rgba(125, 217, 255, 0.06);
-      padding: 1.2rem 1.8rem;
-      border-left: 2px solid #7dd9ff;
-      margin: 1.5rem 0;
-      border-radius: 0 8px 8px 0;
-    }
+    
     .section-block ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 1rem 0;
+      list-style: none; padding-left: 0; margin: 1.5rem 0; max-width: 800px;
     }
     .section-block li {
-      font-size: 1rem;
-      font-weight: 300;
-      padding: 0.4rem 0;
-      border-bottom: 1px solid rgba(125, 217, 255, 0.05);
-      display: flex;
-      align-items: center;
+      position: relative;
+      padding: 0.25rem 0 0.25rem 1.8rem;
+      font-size: 1rem; font-weight: 300; color: #444;
+      line-height: 1.6; margin-bottom: 0.25rem;
     }
     .section-block li::before {
-      content: '✦';
-      color: #7dd9ff;
-      margin-right: 1rem;
-      font-size: 0.8rem;
+      content: '-';
+      position: absolute; left: 0; top: 0.25rem;
+      color: #111; font-weight: 400;
+    }
+    .section-block li strong {
+      font-weight: 600; color: #111; 
+      display: inline-block; margin-right: 0.5rem;
     }
 
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, #7dd9ff44, transparent);
-      margin: 3rem 0;
-      width: 100%;
+    .highlight-box {
+      background: #f8f8f8; padding: 1.5rem 2rem;
+      border-left: 2px solid #111; margin: 2rem 0; max-width: 800px;
     }
 
     .mockup-container {
-      width: 100%;
-      margin: 2.5rem 0;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(125, 217, 255, 0.15);
-      box-shadow: 0 0 40px rgba(125, 217, 255, 0.05);
-      transition: 0.3s;
-      background: #0a0a12;
-    }
-    .mockup-container:hover {
-      border-color: #7dd9ff44;
-      box-shadow: 0 0 60px rgba(125, 217, 255, 0.08);
+      width: 100%; margin: 2.5rem 0; border-radius: 4px;
+      overflow: hidden; border: 1px solid #f0f0f0; background: #ffffff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
     }
     .mockup-container img {
-      width: 100%;
-      height: auto;
-      display: block;
+      width: 100%; height: auto; display: block;
     }
-    .mockup-container .fallback-pdf {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 2rem;
-      color: #7dd9ff;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      background: #0a0a12;
+    .mockup-caption {
+      font-size: 0.8rem; color: #888; margin-top: 0.5rem; letter-spacing: 0.5px;
     }
 
     .role-tag {
-      display: inline-block;
-      background: #7dd9ff15;
-      padding: 0.2rem 1.2rem;
-      border: 1px solid #7dd9ff30;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      color: #7dd9ff;
-      letter-spacing: 1px;
-      margin-right: 0.5rem;
+      display: inline-block; background: #f0f0f0; padding: 0.2rem 1.2rem;
+      border-radius: 16px; font-size: 0.8rem; color: #111; letter-spacing: 1px; margin-right: 0.5rem; margin-bottom: 0.3rem;
     }
 
+    .page-footer {
+      margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+      font-size: 0.9rem; color: #666;
+    }
+    .page-footer a { color: #111; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.2s; }
+    .page-footer a:hover { border-bottom-color: #111; }
+
+    @media (max-width: 900px) {
+      .project-hero { padding-top: 6rem; }
+    }
     @media (max-width: 600px) {
-      .project-hero { padding: 6rem 6vw 2rem 6vw; }
-      .content { padding: 0.5rem 6vw 4rem 6vw; }
+      .project-hero h1 { font-size: 2.2rem; }
+      .project-meta { gap: 1.5rem; font-size: 0.7rem; }
       .section-block p { font-size: 1rem; }
-      .nav { padding: 1.2rem 4vw; }
-      .cursor { display: none; } body { cursor: auto; }
+      .header { padding: 1.2rem 4vw; }
+      .header nav { gap: 1.5rem; }
+      .content { padding: 1rem 4vw 4rem 4vw; }
+      .section-block li { padding-left: 1.4rem; }
     }
   </style>
-  <meta name="description" content="Веб-дизайн и лендинг для музыкальной группы «Мисако». Восточная эстетика, типографика, атмосферный дизайн.">
-  <meta name="keywords" content="веб-дизайн, лендинг, сайт группы, музыкальный сайт, дизайн музыкального проекта">
-  <meta property="og:title" content="Сайт группы «Мисако» — Портфолио MARIANNA">
-  <meta property="og:description" content="Дизайн лендинга для музыкальной группы с восточной эстетикой и современным веб-дизайном.">
 </head>
 <body>
-<div class="noise"></div>
-<div class="cursor"></div>
-<div class="glow"></div>
 
-<div class="nav">
-  <a href="one.html" class="back" id="backBtn">← back</a>
-  <a href="#">MARIANNA</a>
-</div>
+<header class="header">
+  <a href="index.html" class="back-link" data-key="back_btn">← НАЗАД</a>
+  <nav>
+    <a href="index.html#projects" data-key="nav_projects">ПРОЕКТЫ</a>
+    <a href="index.html#contacts" data-key="nav_contact">КОНТАКТ</a>
+    <button class="lang-switch" id="langToggle">EN</button>
+  </nav>
+</header>
 
 <section class="project-hero">
-  <h1>Сайт для группы Мисако</h1>
-  <div class="sub">веб-дизайн / landing page</div>
-  <div class="meta">
-    <span>2025</span>
-    <span>концепция / UI / визуальная система</span>
+  <h1 data-key="hero_title">Сайт группы «Мисако»</h1>
+  <div class="project-meta">
+    <span data-key="meta_year">2025</span>
+    <span data-key="meta_role">Веб-дизайн / Landing Page</span>
   </div>
 </section>
 
 <div class="content">
 
-  <!-- ЗАДАЧА -->
   <div class="section-block">
-    <h2>Задача</h2>
-    <p>Разработать визуальную концепцию и дизайн лендинга для музыкального проекта «МИСАКО». Клиенту нужно было показать два лица: универсальную кавер-группу для мероприятий и аутентичный арт-проект с собственной музыкой. Главная сложность — объединить восточную эстетику с современным веб-дизайном, не скатываясь в откровенные стереотипы.</p>
+    <h2 data-key="sec1_title">Задача</h2>
+    <p data-key="sec1_p1">Разработать визуальную концепцию и дизайн лендинга для музыкального проекта «МИСАКО». Клиенту нужно было показать два лица: универсальную кавер-группу для мероприятий и аутентичный арт-проект с собственной музыкой.</p>
+    <p data-key="sec1_p2">Главная сложность - объединить восточную эстетику с современным веб-дизайном, не скатываясь в откровенные стереотипы.</p>
   </div>
 
-  <!-- РЕШЕНИЕ -->
   <div class="section-block">
-    <h2>Решение</h2>
-    <p>Дизайн построен на контрасте тёмной, атмосферной эстетики и ярких акцентов (красный, золотой). Основные инструменты:</p>
+    <h2 data-key="sec2_title">Решение</h2>
+    <p data-key="sec2_p1">Дизайн построен на контрасте тёмной, атмосферной эстетики и ярких акцентов (красный, золотой). Основные инструменты:</p>
     <ul>
-      <li>глубокая типографика с иероглифическими акцентами</li>
-      <li>лаконичные карточки для разделов «Анонсы», «Билеты», «Мерч»</li>
-      <li>два смысловых блока для двух форматов группы (кавер / арт-проект)</li>
-      <li>адаптивная сетка, подчёркивающая восточный минимализм</li>
+      <li><strong data-key="sec2_l1">глубокая типографика с иероглифическими акцентами</strong></li>
+      <li><strong data-key="sec2_l2">лаконичные карточки для разделов «Анонсы», «Билеты», «Мерч»</strong></li>
+      <li><strong data-key="sec2_l3">два смысловых блока для двух форматов группы (кавер / арт-проект)</strong></li>
+      <li><strong data-key="sec2_l4">адаптивная сетка, подчёркивающая восточный минимализм</strong></li>
     </ul>
-    <p>Цель — не просто показать информацию, а передать атмосферу: восточная медитативность, инструментальную текстуру и сюжеты из азиатской мифологии. Сайт должен говорить с аудиторией на языке образов, а не фактов.</p>
+    <p data-key="sec2_p2">Цель - не просто показать информацию, а передать атмосферу: восточная медитативность, инструментальную текстуру и сюжеты из азиатской мифологии. Сайт должен говорить с аудиторией на языке образов, а не фактов.</p>
   </div>
 
-  <!-- МАКЕТ -->
   <div class="section-block">
-    <h2>Макет страницы</h2>
+    <h2 data-key="sec3_title">Макет страницы</h2>
     <div class="mockup-container">
-      <img src="imgs/body.jpg" alt="Полный макет сайта Мисако" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="fallback-pdf" style="display:none;">
-        <span>📄 макет сайта (body.jpg) — загрузите изображение в папку imgs/</span>
-      </div>
+      <img src="imgs/body.jpg" alt="Полный макет сайта Мисако" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:4rem;text-align:center;color:#888;\'>Изображение imgs/body.jpg не найдено</div>';">
     </div>
-    <p style="font-size:0.9rem; opacity:0.5; margin-top:0.5rem;">Главная страница: сочетание восточной эстетики и современного веб-дизайна.</p>
+    <div class="mockup-caption" data-key="sec3_caption">Главная страница: сочетание восточной эстетики и современного веб-дизайна.</div>
   </div>
 
-  <!-- АРТ-ПРОЕКТ (как часть дизайн-системы) -->
   <div class="section-block">
-    <h2>Страница арт-проекта</h2>
-    <p>Для собственной музыки «МИСАКО» потребовалась более глубокая, мифологическая эстетика. Я использовала:</p>
+    <h2 data-key="sec4_title">Арт-проект (часть дизайн-системы)</h2>
+    <p data-key="sec4_p1">Для собственной музыки «МИСАКО» потребовалась более глубокая, мифологическая эстетика. Я использовала:</p>
     <ul>
-      <li>приглушённую цветовую палитру с акцентами тёмного золота</li>
-      <li>крупные образы (традиционные инструменты, силуэты)</li>
-      <li>типографику с «нарративным» ритмом — тексты как часть композиции</li>
+      <li><strong data-key="sec4_l1">приглушённую цветовую палитру с акцентами тёмного золота</strong></li>
+      <li><strong data-key="sec4_l2">крупные образы (традиционные инструменты, силуэты)</strong></li>
+      <li><strong data-key="sec4_l3">типографику с «нарративным» ритмом - тексты как часть композиции</strong></li>
     </ul>
-    <p>Задача была — не просто показать группу, а создать ощущение, что пользователь заходит в другую реальность, где древние мифы звучат через современный дизайн.</p>
+    <p data-key="sec4_p2">Задача была - не просто показать группу, а создать ощущение, что пользователь заходит в другую реальность, где древние мифы звучат через современный дизайн.</p>
   </div>
 
-  <!-- МОЯ РОЛЬ -->
   <div class="section-block">
-    <h2>Моя роль</h2>
-    <p><span class="role-tag">дизайнер</span> концепция, визуальная система, макеты страниц, адаптивная вёрстка, подготовка ассетов.</p>
+    <h2 data-key="sec5_title">Моя роль</h2>
+    <p>
+      <span class="role-tag" data-key="role1">Дизайнер</span>
+      <span class="role-tag" data-key="role2">Концепция и визуальная система</span>
+      <span class="role-tag" data-key="role3">Адаптивная верстка</span>
+    </p>
   </div>
 
-  <div class="divider"></div>
-
-  <div style="display: flex; gap: 2rem; flex-wrap: wrap; opacity:0.6; font-size:0.9rem; padding-top: 1rem;">
-    <span>проект 02 / 06</span>
-    <a href="poster.html" style="color:#7dd9ff; text-decoration: none; border-bottom:1px solid #7dd9ff44;">следующий →</a>
+  <div class="page-footer">
+    <span data-key="footer_counter">Проект 02 / 06</span>
+    <a href="poster.html" data-key="footer_next">Следующий проект →</a>
   </div>
 
 </div>
 
 <script>
-  const cursorElem = document.querySelector('.cursor');
-  const glowElem = document.querySelector('.glow');
-  if (cursorElem && glowElem) {
-    document.addEventListener('mousemove', (e) => {
-      cursorElem.style.left = e.clientX + 'px';
-      cursorElem.style.top = e.clientY + 'px';
-      glowElem.style.left = e.clientX + 'px';
-      glowElem.style.top = e.clientY + 'px';
+  const translations = {
+    ru: {
+      back_btn: '← НАЗАД', nav_projects: 'ПРОЕКТЫ', nav_contact: 'КОНТАКТ',
+      hero_title: 'Сайт группы «Мисако»',
+      meta_year: '2025', meta_role: 'Веб-дизайн / Landing Page',
+      sec1_title: 'Задача', sec1_p1: 'Разработать визуальную концепцию и дизайн лендинга для музыкального проекта «МИСАКО». Клиенту нужно было показать два лица: универсальную кавер-группу для мероприятий и аутентичный арт-проект с собственной музыкой.', sec1_p2: 'Главная сложность - объединить восточную эстетику с современным веб-дизайном, не скатываясь в откровенные стереотипы.',
+      sec2_title: 'Решение', sec2_p1: 'Дизайн построен на контрасте тёмной, атмосферной эстетики и ярких акцентов (красный, золотой). Основные инструменты:', sec2_l1: 'глубокая типографика с иероглифическими акцентами', sec2_l2: 'лаконичные карточки для разделов «Анонсы», «Билеты», «Мерч»', sec2_l3: 'два смысловых блока для двух форматов группы (кавер / арт-проект)', sec2_l4: 'адаптивная сетка, подчёркивающая восточный минимализм', sec2_p2: 'Цель - не просто показать информацию, а передать атмосферу: восточная медитативность, инструментальную текстуру и сюжеты из азиатской мифологии. Сайт должен говорить с аудиторией на языке образов, а не фактов.',
+      sec3_title: 'Макет страницы', sec3_caption: 'Главная страница: сочетание восточной эстетики и современного веб-дизайна.',
+      sec4_title: 'Арт-проект (часть дизайн-системы)', sec4_p1: 'Для собственной музыки «МИСАКО» потребовалась более глубокая, мифологическая эстетика. Я использовала:', sec4_l1: 'приглушённую цветовую палитру с акцентами тёмного золота', sec4_l2: 'крупные образы (традиционные инструменты, силуэты)', sec4_l3: 'типографику с «нарративным» ритмом - тексты как часть композиции', sec4_p2: 'Задача была - не просто показать группу, а создать ощущение, что пользователь заходит в другую реальность, где древние мифы звучат через современный дизайн.',
+      sec5_title: 'Моя роль', role1: 'Дизайнер', role2: 'Концепция и визуальная система', role3: 'Адаптивная верстка',
+      footer_counter: 'Проект 02 / 06', footer_next: 'Следующий проект →'
+    },
+    en: {
+      back_btn: '← BACK', nav_projects: 'PROJECTS', nav_contact: 'CONTACT',
+      hero_title: '«Misako» Band Website',
+      meta_year: '2025', meta_role: 'Web Design / Landing Page',
+      sec1_title: 'Task', sec1_p1: 'Develop a visual concept and landing page design for the musical project "MISAKO". The client needed to show two sides: a universal cover band for events and an authentic art project with original music.', sec1_p2: 'The main challenge was combining Eastern aesthetics with modern web design without falling into clichés.',
+      sec2_title: 'Solution', sec2_p1: 'The design is built on the contrast of dark, atmospheric aesthetics and bright accents (red, gold). Key tools:', sec2_l1: 'deep typography with hieroglyphic accents', sec2_l2: 'minimalist cards for "Announcements", "Tickets", "Merch" sections', sec2_l3: 'two semantic blocks for two band formats (cover / art project)', sec2_l4: 'an adaptive grid emphasizing Eastern minimalism', sec2_p2: 'The goal was not just to show information, but to convey an atmosphere: Eastern meditativeness, instrumental texture, and stories from Asian mythology. The site should speak to the audience in the language of images, not facts.',
+      sec3_title: 'Page Mockup', sec3_caption: 'Main page: a combination of Eastern aesthetics and modern web design.',
+      sec4_title: 'Art Project (part of the design system)', sec4_p1: 'For "MISAKO" original music, a deeper, mythological aesthetic was required. I used:', sec4_l1: 'muted color palette with dark gold accents', sec4_l2: 'large imagery (traditional instruments, silhouettes)', sec4_l3: 'typography with a "narrative" rhythm - texts as part of the composition', sec4_p2: 'The goal was not just to show the band, but to create a feeling that the user enters a different reality where ancient myths sound through modern design.',
+      sec5_title: 'My Role', role1: 'Designer', role2: 'Concept & Visual System', role3: 'Adaptive Layout',
+      footer_counter: 'Project 02 / 06', footer_next: 'Next project →'
+    }
+  };
+
+  function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    const elements = document.querySelectorAll('[data-key]');
+    elements.forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (translations[lang] && translations[lang][key]) {
+        el.innerHTML = translations[lang][key];
+      }
     });
-    document.querySelectorAll('a, .role-tag, h2, .back').forEach(el => {
-      el.addEventListener('mouseenter', () => cursorElem.classList.add('hover-active'));
-      el.addEventListener('mouseleave', () => cursorElem.classList.remove('hover-active'));
-    });
-    document.body.addEventListener('mouseleave', () => { cursorElem.style.opacity = '0'; glowElem.style.opacity = '0'; });
-    document.body.addEventListener('mouseenter', () => { cursorElem.style.opacity = '1'; glowElem.style.opacity = '1'; });
-  }
-  if ('ontouchstart' in window) {
-    if (cursorElem) cursorElem.style.display = 'none';
-    if (glowElem) glowElem.style.display = 'none';
+    document.getElementById('langToggle').textContent = lang === 'ru' ? 'EN' : 'RU';
+    localStorage.setItem('preferredLanguage', lang);
   }
 
-  document.getElementById('backBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    if (document.referrer && document.referrer !== '') {
-      window.history.back();
-    } else {
-      window.location.href = '/';
-    }
+  const userLang = localStorage.getItem('preferredLanguage') || navigator.language.slice(0, 2);
+  const initialLang = (userLang === 'ru') ? 'ru' : 'en';
+  setLanguage(initialLang);
+
+  document.getElementById('langToggle').addEventListener('click', () => {
+    const currentLang = document.documentElement.lang;
+    const nextLang = currentLang === 'ru' ? 'en' : 'ru';
+    setLanguage(nextLang);
   });
 </script>
 </body>
