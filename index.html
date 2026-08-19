@@ -177,6 +177,39 @@
       }
       .hero-tags { flex-wrap: wrap; font-size: 0.7rem; gap: 1rem; }
     }
+
+    .cookie-banner {
+      position: fixed; bottom: 0; left: 0; width: 100%;
+      background: #ffffff; border-top: 1px solid #e5e5e5;
+      padding: 1rem 4vw; z-index: 9999;
+      display: flex; justify-content: space-between; align-items: center;
+      transform: translateY(100%); opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.5s ease;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
+    }
+    .cookie-banner.active {
+      transform: translateY(0); opacity: 1;
+    }
+    .cookie-banner p {
+      font-size: 0.85rem; color: #444; font-weight: 300; max-width: 800px; margin: 0;
+      line-height: 1.4; padding-right: 1.5rem;
+    }
+    .cookie-banner p a { color: #111; text-decoration: underline; }
+    .cookie-banner p a:hover { text-decoration: none; }
+    
+    .cookie-btn {
+      background: #111; color: #fff; border: none;
+      font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 400;
+      padding: 0.6rem 1.8rem; border-radius: 24px; cursor: pointer;
+      transition: background 0.2s; flex-shrink: 0;
+    }
+    .cookie-btn:hover { background: #333; }
+
+    @media (max-width: 600px) {
+      .cookie-banner { flex-direction: column; gap: 1rem; padding: 1.2rem 4vw; align-items: flex-start; }
+      .cookie-banner p { padding-right: 0; font-size: 0.8rem; }
+      .cookie-btn { width: 100%; text-align: center; }
+    }
   </style>
 </head>
 <body>
@@ -299,7 +332,9 @@
       p6_title: 'Культурная серия', p6_desc: 'Мультикультурные праздничные открытки', p6_tag: 'Графика',
       about_title: 'Дизайн & Типографика',
       about_text: 'Разрабатываю визуальные системы для культурных институций, музыкальных проектов и арт-пространств. Работаю на стыке смысла и формы, создавая айдентику, печатную графику и цифровые среды.',
-      contact_title: 'Контакты'
+      contact_title: 'Контакты',
+      cookie_text: 'Я использую файлы cookie для сбора статистики посещений. Продолжая использовать сайт, вы соглашаетесь с этим.',
+      cookie_btn: 'Понятно'
     },
     en: {
       nav_projects: 'PROJECTS', nav_contact: 'CONTACT',
@@ -314,7 +349,9 @@
       p6_title: 'Cultural Series', p6_desc: 'Multicultural holiday cards', p6_tag: 'Graphics',
       about_title: 'Design & Typography',
       about_text: 'I develop visual systems for cultural institutions, music projects, and art spaces. I work at the intersection of meaning and form, creating identity, printed graphics, and digital environments.',
-      contact_title: 'Contact'
+      contact_title: 'Contact',
+      cookie_text: 'I use cookies to collect visit statistics. By continuing to use the site, you agree to this.',
+      cookie_btn: 'Got it'
     }
   };
 
@@ -351,6 +388,29 @@
       header.classList.remove('light');
     }
   });
+
+  const cookieBanner = document.getElementById('cookieBanner');
+  const cookieAccept = document.getElementById('cookieAccept');
+
+  if (!localStorage.getItem('cookiesAccepted')) {
+    
+    setTimeout(() => {
+      cookieBanner.classList.add('active');
+    }, 1000);
+  }
+
+  cookieAccept.addEventListener('click', () => {
+    cookieBanner.classList.remove('active');
+    localStorage.setItem('cookiesAccepted', 'true');
+    
+  });
 </script>
+
+<div class="cookie-banner" id="cookieBanner">
+  <p data-key="cookie_text">
+    Я использую файлы cookie для сбора статистики посещений. Продолжая использовать сайт, вы соглашаетесь с этим.
+  </p>
+  <button class="cookie-btn" id="cookieAccept" data-key="cookie_btn">Понятно</button>
+</div>
 </body>
 </html>
