@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DM65F50FVL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DM65F50FVL');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  
+  <title>MARIANNA - Ребрендинг Калининградского Зоопарка | Культурная айдентика</title>
+  <meta name="description" content="Портфолио MARIANNA. Полный ребрендинг Калининградского Зоопарка: идея янтаря, новая айдентика, билеты, униформа сотрудников, навигация и редизайн веб-сайта.">
+  <link rel="canonical" href="https://www.mariannasumina.com/zoo.html">
+  <link rel="alternate" href="https://www.mariannasumina.com/zoo.html" hreflang="ru" />
+  <link rel="alternate" href="https://www.mariannasumina.com/zoo.html" hreflang="en" />
+  <meta property="og:title" content="MARIANNA — Ребрендинг Калининградского Зоопарка">
+  <meta property="og:description" content="Ребрендинг зоопарка: от идеи янтаря до полной айдентики и редизайна сайта.">
+  <meta property="og:url" content="https://www.mariannasumina.com/zoo.html">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1F2019;
+      color: #EBE7DC;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .firefly {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgb(242, 225, 203), rgba(254, 179, 113, 0.7), rgba(0, 0, 0, 0));
+      box-shadow: 0 0 6px 2px rgba(254, 179, 113, 0.3), 0 0 15px 5px rgba(254, 179, 113, 0.15);
+      pointer-events: none;
+      z-index: 1;
+      animation: fly 12s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes fly {
+      0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+      20% { opacity: 0.6; }
+      50% { opacity: 0.6; transform: translate(var(--dx), var(--dy)) scale(1.1); }
+      80% { opacity: 0.4; }
+      100% { opacity: 0; transform: translate(calc(var(--dx) * 1.7), calc(var(--dy) * 1.7)) scale(0.5); }
+    }
+
+    .header {
+      position: fixed; top: 0; left: 0; width: 100%; padding: 1.8rem 4vw;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 100; background: rgba(31, 32, 25, 0.95); border-bottom: 1px solid rgba(235, 231, 220, 0.15);
+      backdrop-filter: blur(8px);
+    }
+    .header .logo, .header nav a, .lang-switch {
+      color: #EBE7DC; text-decoration: none; transition: 0.2s;
+    }
+    .header .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
+    .header nav { display: flex; gap: 2.5rem; align-items: center; }
+    .header nav a { font-size: 0.9rem; font-weight: 400; opacity: 0.7; }
+    .header nav a:hover { opacity: 1; }
+    .back-link { font-size: 1.2rem; margin-right: auto; opacity: 0.6; }
+    .back-link:hover { opacity: 1; }
+
+    .back-link:visited, .header nav a:visited, .page-footer a:visited, .external-links a:visited {
+      color: #EBE7DC;
+    }
+    .back-link { color: #EBE7DC !important; text-decoration: none !important; }
+
+    .lang-switch {
+      background: none; border: 1px solid rgba(235, 231, 220, 0.3);
+      padding: 0.2rem 0.8rem; border-radius: 12px; font-size: 0.7rem;
+      text-transform: uppercase; cursor: pointer; letter-spacing: 1px;
+      font-family: 'Inter', sans-serif;
+    }
+    .lang-switch:hover { border-color: #EBE7DC; }
+
+    .project-hero {
+      padding: 8rem 4vw 3rem 4vw;
+      max-width: 1200px; margin: 0 auto;
+      position: relative; z-index: 2;
+    }
+    .project-hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 600; letter-spacing: -0.03em; line-height: 1; color: #EBE7DC; text-transform: uppercase;
+    }
+    .project-hero .sub {
+      font-size: 1rem; font-weight: 300; color: #A8A89C; letter-spacing: 2px; text-transform: uppercase; margin-top: 0.5rem;
+    }
+    .project-meta {
+      display: flex; gap: 2rem; margin-top: 2rem;
+      font-size: 0.9rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;
+      flex-wrap: wrap;
+    }
+
+    .content {
+      padding: 2rem 4vw 6rem 4vw;
+      max-width: 1000px; margin: 0 auto;
+      position: relative; z-index: 2;
+    }
+
+    .section-block {
+      margin-bottom: 4rem;
+    }
+    .section-block h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem; font-weight: 600; letter-spacing: -0.3px;
+      margin-bottom: 1.5rem; color: #EBE7DC;
+    }
+    .section-block p {
+      font-size: 1.1rem; font-weight: 300; color: #D5D0C3; line-height: 1.6;
+      margin-bottom: 1.5rem; max-width: 800px;
+    }
+
+    .project-image {
+      width: 100%;
+      background: #2A2B23; border: 1px solid rgba(235, 231, 220, 0.15);
+      overflow: hidden; border-radius: 4px;
+    }
+    .project-image img {
+      width: 100%; height: auto; display: block;
+    }
+
+    .grid-2 {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;
+    }
+    .grid-item {
+      background: #2A2B23; border: 1px solid rgba(235, 231, 220, 0.1);
+      overflow: hidden; border-radius: 4px;
+      display: flex; flex-direction: column;
+    }
+    .grid-item .image-wrapper {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .grid-item .caption {
+      padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+
+    .grid-3 {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.5rem;
+    }
+    .grid-3 .grid-item {
+      background: #2A2B23; border: 1px solid rgba(235, 231, 220, 0.1);
+      overflow: hidden; border-radius: 4px;
+      display: flex; flex-direction: column;
+    }
+    .grid-3 .grid-item:first-child {
+      grid-column: span 2;
+    }
+    .grid-3 .image-wrapper {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+    .grid-3 img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .grid-3 .caption {
+      padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+
+    .comparison-wrapper {
+      margin-top: 1.5rem;
+    }
+    .toggle-buttons {
+      display: flex; gap: 0.5rem; margin-bottom: 1rem;
+    }
+    .toggle-buttons button {
+      background: rgba(235, 231, 220, 0.1);
+      border: 1px solid rgba(235, 231, 220, 0.3);
+      color: #EBE7DC; font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; padding: 0.8rem 1.5rem;
+      border-radius: 4px; cursor: pointer; transition: 0.2s;
+    }
+    .toggle-buttons button:hover,
+    .toggle-buttons button.active {
+      background: #EBE7DC; color: #1F2019;
+    }
+    .comparison-slot {
+      background: #2A2B23; border: 1px solid rgba(235, 231, 220, 0.1);
+      overflow: hidden; border-radius: 4px;
+    }
+    .comparison-slot img {
+      width: 100%; height: auto; display: block;
+    }
+
+    .rect-image {
+      width: 100%; margin-top: 1.5rem;
+      border-radius: 4px; overflow: hidden;
+    }
+    .rect-image img {
+      width: 100%; height: auto; display: block;
+    }
+
+    .page-footer {
+      margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(235, 231, 220, 0.2);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+      font-size: 0.9rem; color: #A8A89C;
+    }
+    .page-footer a { color: #EBE7DC; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.2s; }
+    .page-footer a:hover { border-bottom-color: #EBE7DC; }
+    .page-footer a:visited { color: #EBE7DC; }
+
+    @media (max-width: 900px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-3 .grid-item:first-child { grid-column: span 1; }
+    }
+
+    @media (max-width: 600px) {
+      .project-hero h1 { font-size: 2.2rem; }
+      .project-meta { gap: 1rem; font-size: 0.7rem; }
+      .section-block p { font-size: 1rem; }
+      .header nav { gap: 1.5rem; }
+      .content { padding: 1rem 4vw 4rem 4vw; }
+      .external-links { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+      .external-links a { font-size: 1rem; }
+      .toggle-buttons { flex-direction: column; width: 100%; }
+      .toggle-buttons button { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="firefly-container"></div>
+
+<header class="header">
+  <a href="index.html" class="back-link" data-key="back_btn">← BACK</a>
+  <nav>
+    <a href="index.html#projects" data-key="nav_projects">PROJECTS</a>
+    <a href="index.html#contacts" data-key="nav_contact">CONTACT</a>
+    <button class="lang-switch" id="langToggle">RU</button>
+  </nav>
+</header>
+
+<section class="project-hero">
+  <h1 data-key="hero_title">КАЛИНИНГРАДСКИЙ<br>ЗООПАРК</h1>
+  <div class="sub" data-key="hero_sub">КУЛЬТУРНЫЙ РЕБРЕНДИНГ / АЙДЕНТИКА</div>
+  <div class="project-meta">
+    <span data-key="meta_year">2026</span>
+    <span data-key="meta_tools">БРЕНДИНГ, UX, УПАКОВКА</span>
+  </div>
+</section>
+
+<div class="content">
+
+
+  <div class="section-block">
+    <p data-key="project_info">Концептуальный ребрендинг одного из старейших зоопарков Европы - основан в 1896 году, вновь открыт в 1947-м. Независимый проект, не связанный с самим зоопарком и не заказанный им.</p>
+  </div>
+
+
+  <div class="section-block">
+    <h2 data-key="sec1_title">Идея</h2>
+    <p data-key="sec1_p1">Калининград - город янтаря. Я превратила это в физический опыт: билет зоопарка содержит биопластиковую вставку, похожую на витраж - она светится янтарным на солнце и может использоваться как закладка. В итоге билет ощущается не как формальность, а как памятный предмет. Я сохранила оригинальный логотип - бегемот уже давно играет важную роль в истории зоопарка.</p>
+  </div>
+
+
+  <div class="section-block">
+    <h2 data-key="sec2_title">Визуальная система</h2>
+    <p data-key="sec2_p1">Тёмная лесная палитра, тёплое золото и янтарные текстуры повсюду. Каждая точка контакта - от логотипа до формы сотрудников - работает на единую атмосферу. Цифровая среда переносит в интернет ощущение влажного тёмного леса, магических светлячков и янтаря.</p>
+    <div class="project-image">
+      <img src="imgs/zoo_system.jpg" alt="Визуальная система" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_system.jpg</div>';">
+    </div>
+  </div>
+
+ 
+  <div class="section-block">
+    <h2 data-key="sec_logo_title">Лого</h2>
+    <p data-key="sec_logo_p">Было решено сохранить оригинальный логотип зоопарка, потому что бегемот — его главный символ, играющий важную роль в истории зоопарка.</p>
+    
+    <div class="project-image" style="margin-bottom: 1.5rem;">
+      <img src="imgs/zoo_logo_digital.jpg" alt="Логотип в цифровом виде" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_logo_digital.jpg</div>';">
+      <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;">Логотип в цифровом виде</div>
+    </div>
+
+    <div class="project-image">
+
+      <img src="imgs/zoo_logo_ru.jpg" alt="Логотип на материалах" id="logoMaterialsImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_logo_ru.jpg</div>';">
+      <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;">Логотип на материалах</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec3_title">Редизайн сайта</h2>
+    <p data-key="sec3_p1">Я переделала сайт по двум причинам. Во-первых, у прежнего сайта не было собственной визуальной идентики - белый фон, разрозненные виджеты и разный акцентный цвет почти у каждой кнопки, без намёка на Калининград, янтарь или лес. Он мог принадлежать любому муниципальному учреждению. Во-вторых, действительно полезная информация - время кормления, цены на билеты, часы работы - терялась в шуме. Представьте: жара, ребёнок тянет за руку, а вы пытаетесь найти сегодняшнее расписание кормлений в стене разноцветных кнопок.</p>
+    
+    <div class="comparison-wrapper">
+      <div class="toggle-buttons">
+        <button class="active" onclick="toggleComparison('old')" data-key="toggle_old">До</button>
+        <button onclick="toggleComparison('new')" data-key="toggle_new">После</button>
+      </div>
+
+      <div class="comparison-slot" id="oldSiteSlot" style="display: block;">
+        <img src="imgs/zoo_old_site.jpg" alt="Старый сайт" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте скриншот старого сайта как imgs/zoo_old_site.jpg</div>';">
+        <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;" data-key="sec3_caption_old">До</div>
+      </div>
+
+      <div class="comparison-slot" id="newSiteSlot" style="display: none;">
+        <img src="imgs/zoo_new_site.jpg" alt="Новый сайт" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте скриншот нового сайта как imgs/zoo_new_site.jpg</div>';">
+        <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;" data-key="sec3_caption_new">После</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec_mobile_title">Мобильная адаптация</h2>
+    <p data-key="sec_mobile_p1">Ключевые кнопки - покупка билетов, карта и другие - выстроены в сетку для быстрого доступа без необходимости прокрутки. Расписание событий выбранного дня выстроено в столбик на светлом фоне, чтобы нужную информацию было быстрее и проще найти в солнечный день, когда нет времени листать карусель. Кнопки товаров в разделе мерча расположены в столбик для чистого вертикального ритма.</p>
+    <div class="rect-image">
+      <img src="imgs/zoo_mobile.png" alt="Мобильная адаптация" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_mobile.png</div>';">
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec_nav_title">Навигация</h2>
+    <p data-key="sec_nav_p1">Знаки навигации по зоопарку были разработаны для создания более ясного и атмосферного опыта. На них - обитатели зоопарка, представленные в едином стиле, что помогает гостям ориентироваться и чувствовать себя частью этой истории.</p>
+    <div class="grid-3">
+      <div class="grid-item">
+        <div class="image-wrapper">
+          <img src="imgs/zoo_nav_species.jpg" alt="Species label" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_nav_species.jpg</div>';">
+        </div>
+        <div class="caption" data-key="sec_nav_cap1">Видовая табличка</div>
+      </div>
+      <div class="grid-item">
+        <div class="image-wrapper">
+          <img src="imgs/zoo_nav_signposts.jpg" alt="Signposts" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_nav_signposts.jpg</div>';">
+        </div>
+        <div class="caption" data-key="sec_nav_cap2">Указатели</div>
+      </div>
+      <div class="grid-item">
+        <div class="image-wrapper">
+          <img src="imgs/zoo_nav_map.jpg" alt="Map" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_nav_map.jpg</div>';">
+        </div>
+        <div class="caption" data-key="sec_nav_cap3">Карта</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec4_title">Ритейл и мерч</h2>
+    <p data-key="sec4_p1">Бренд выходит за пределы экрана. Вместо стандартных шоперов - сумки с современным дизайном из той же льняной ткани: их удобно взять на пляж или на прогулку по городу в поисках семи хомлинов. Так как сумки по-прежнему сделаны из льна, основные затраты уходят на фурнитуру и литьё брелоков - это снижает себестоимость, позволяя продавать их дороже. Этого, кстати, хватает, чтобы прокормить одного бегемота в день.</p>
+    <div class="grid-2">
+      <div class="grid-item">
+        <div class="image-wrapper">
+          <img src="imgs/zoo_retail_bags.jpg" alt="Сумки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_retail_bags.jpg</div>';">
+        </div>
+        <div class="caption" data-key="sec4_cap1">Сумки</div>
+      </div>
+      <div class="grid-item">
+        <div class="image-wrapper">
+          <img src="imgs/zoo_retail_keychains.jpg" alt="Брелоки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_retail_keychains.jpg</div>';">
+        </div>
+        <div class="caption" data-key="sec4_cap2">Брелоки</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec_stationery_title">Канцелярия</h2>
+    <p data-key="sec_stationery_p1">Блокноты, брендированный лист А4 и карандаши продолжают линию айдентики в офисных пространствах и сувенирной лавке. Обложка блокнота - из той же тёмной ткани, что и билет, а на каждой - свой обитатель зоопарка.</p>
+    <div class="project-image">
+      <img src="imgs/zoo_stationery.jpg" alt="Канцелярия" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_stationery.jpg</div>';">
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec5_title">Детская линейка</h2>
+    <p data-key="sec5_p1">Янтарь, переосмысленный для детей. Вырасти на Балтийском побережье - значит вырасти любопытным: улитки на асфальте после дождя, жуки под корой, бабочки, летящие на янтарный свет. Этот набор превращает ежедневное наблюдение в маленький ритуал: присмотрись, а потом отпусти. Каждый инструмент в наборе создан для наблюдения без вреда природе - то же уважение к дикой природе, которому учит зоопарк. А вместо привычных деревянных шашек я сделала игру «крестики-нолики» из янтарных фишек с настоящими инклюзами - дань уважения янтарному наследию Калининграда.</p>
+    <div class="grid-3">
+      <div class="grid-item">
+        <div class="image-wrapper">
+          <img src="imgs/zoo_kids_full.jpg" alt="Сборное фото детской линейки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_kids_full.jpg</div>';">
+        </div>
+        <div class="caption" data-key="sec5_cap_full">Сборное фото</div>
+      </div>
+      <div class="grid-item">
+        <div class="image-wrapper">
+          <img src="imgs/zoo_kids_kit.jpg" alt="Набор юного исследователя" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_kids_kit.jpg</div>';">
+        </div>
+        <div class="caption" data-key="sec5_cap_kit">Набор юного исследователя</div>
+      </div>
+      <div class="grid-item">
+        <div class="image-wrapper">
+          <img src="imgs/zoo_kids_tictactoe.jpg" alt="Крестики-нолики" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_kids_tictactoe.jpg</div>';">
+        </div>
+        <div class="caption" data-key="sec5_cap_tictactoe">Крестики-нолики</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec6_title">Форма сотрудников</h2>
+    <p data-key="sec6_p1">Многослойная система - от лёгкой футболки до ветровки - из дышащих натуральных материалов. Свободный крой предотвращает сенсорные раздражения, обеспечивая комфорт в течение долгих смен. Слоёный дизайн позволяет каждому киперу адаптировать свой комплект под любые условия.</p>
+    <div class="project-image" style="margin-bottom: 1.5rem;">
+      <img src="imgs/zoo_uniform_crew.jpg" alt="Сотрудники в форме" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_uniform_crew.jpg</div>';">
+      <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;" data-key="sec6_cap1">Сотрудники в форме</div>
+    </div>
+
+    <div class="project-image">
+      <img src="imgs/zoo_uniform_ru.jpg" alt="Части комплекта" id="uniformImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_uniform_ru.jpg</div>';">
+      <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;" data-key="sec6_cap2">Части комплекта</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec_badge_title">Бейджи</h2>
+    <p data-key="sec_badge_p1">ID является частью повседневной униформы. Он обеспечивает быстрый доступ, безопасность и чувство принадлежности.</p>
+    <div class="project-image">
+      <img src="imgs/zoo_badges.jpg" alt="Бейджи сотрудников" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'>Вставьте фото как imgs/zoo_badges.jpg</div>';">
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec_role_title">Моя роль</h2>
+    <p>
+      <span class="role-tag" data-key="role1">Брендинг</span>
+      <span class="role-tag" data-key="role2">UX/UI</span>
+      <span class="role-tag" data-key="role3">Упаковка</span>
+    </p>
+  </div>
+
+  <div class="external-links">
+    <a href="https://www.behance.net/gallery/254702445/Kaliningrad-Zoo-Brand-Digital-Identity/modules/1482372569" target="_blank" data-key="link_behance">Смотреть на Behance →</a>
+    <a href="https://lnkd.in/p/eGmU4pGm" target="_blank" data-key="link_linkedin">Смотреть на LinkedIn →</a>
+  </div>
+
+  <div class="page-footer">
+    <span data-key="footer_counter">Проект 04 / 04</span>
+    <a href="index.html" data-key="footer_next">В начало →</a>
+  </div>
+
+</div>
+
+<script>
+  const translations = {
+    ru: {
+      back_btn: '← НАЗАД', nav_projects: 'ПРОЕКТЫ', nav_contact: 'КОНТАКТ',
+      hero_title: 'КАЛИНИНГРАДСКИЙ<br>ЗООПАРК',
+      hero_sub: 'КУЛЬТУРНЫЙ РЕБРЕНДИНГ / АЙДЕНТИКА',
+      meta_year: '2026', meta_tools: 'БРЕНДИНГ, UX, УПАКОВКА',
+      project_info: 'Концептуальный ребрендинг одного из старейших зоопарков Европы, который был основан в 1896 году и вновь открыт в 1947 году. Это независимый проект, он никак не связан с самим зоопарком и не создавался по его заказу.',
+      sec1_title: 'Идея', sec1_p1: 'Калининград знаменит своим янтарем, и этот образ лег в основу осязаемого физического опыта. Входной билет в зоопарк дополнен биопластиковой вставкой, похожей на витраж. Она красиво светится янтарным оттенком на солнце, а после визита ее можно использовать как книжную закладку. В итоге билет воспринимается не как формальность, а как приятный памятный сувенир.',
+      sec2_title: 'Визуальная система', sec2_p1: 'Тёмная лесная палитра, тёплое золото и янтарные текстуры. Каждая деталь от логотипа до формы сотрудников создает общую атмосферу в любой точке контакта.',
+      sec_logo_title: 'Лого', sec_logo_p: 'Было решено сохранить оригинальный логотип зоопарка, потому что бегемот - его главный символ, играющий важную роль в истории зоопарка.',
+      sec3_title: 'Редизайн сайта', sec3_p1: 'Я переделала сайт по двум причинам. Во-первых, у прежнего сайта не было своего стиля из-за белого фона, разрозненных виджетов и разного цвета у каждой кнопки. В дизайне не было ни намека на Калининград, янтарь или лес, поэтому он мог принадлежать любому госучреждению. Во-вторых, полезная информация вроде цен, часов работы и времени кормления просто терялась в этом шуме. Представьте ситуацию: жара, ребенок тянет за руку, а вы пытаетесь отыскать сегодняшнее расписание среди стены разноцветных кнопок.', sec3_caption_old: 'До', sec3_caption_new: 'После', toggle_old: 'До', toggle_new: 'После',
+      sec_mobile_title: 'Мобильная адаптация', sec_mobile_p1: 'Основные кнопки для покупки билетов и просмотра карты теперь объединены в сетку ради быстрого доступа без лишней прокрутки. Расписание событий на выбранный день выстроено столбиком на светлом фоне. Такое решение помогает быстрее найти нужную информацию в солнечный день, когда нет времени листать карусель. Кнопки товаров в разделе мерча тоже расположены вертикально для создания чистого визуального ритма.',
+      sec_nav_title: 'Навигация', sec_nav_p1: 'Знаки навигации по зоопарку разработаны для создания более ясного и атмосферного опыта. На указателях изображены обитатели зоопарка в едином стиле, что помогает гостям легко ориентироваться и чувствовать себя частью этой истории.', sec_nav_cap1: 'Видовая табличка', sec_nav_cap2: 'Указатели', sec_nav_cap3: 'Карта',
+      sec4_title: 'Ритейл и мерч', sec4_p1: 'Бренд выходит за пределы экрана, поэтому вместо стандартных шоперов созданы сумки с современным дизайном из той же льняной ткани. Их удобно взять на пляж или на прогулку по городу в поисках семи хомлинов. Поскольку сумки по-прежнему сшиты из льна, основные затраты уходят на фурнитуру и литье брелоков. Такое решение снижает себестоимость и позволяет продавать их дороже.', sec4_cap1: 'Сумки', sec4_cap2: 'Брелоки',
+      sec_stationery_title: 'Канцелярия', sec_stationery_p1: 'Блокноты, брендированный лист А4 и карандаши продолжают линию айдентики в офисных пространствах и сувенирной лавке. Обложка блокнота выполнена в том же цвете, что и билет, при этом на каждой обложке изображен свой обитатель зоопарка.',
+      sec5_title: 'Детская линейка', sec5_p1: 'Вырасти на Балтийском побережье означает вырасти любопытным, замечая улиток на асфальте после дождя, жуков под корой и бабочек, летящих на свет. Этот набор превращает ежедневное наблюдение в маленький ритуал, где главное правило звучит так: присмотрись, а потом отпусти. Каждый инструмент в комплекте создан для наблюдения без вреда природе. Это отражает то же уважение к дикому миру, которому учит зоопарк. Вместо привычных деревянных шашек создана игра в крестики-нолики из янтарных фишек с настоящими инклюзами как дань уважения янтарному наследию Калининграда.', sec5_cap_full: 'Сборное фото', sec5_cap_kit: 'Набор юного исследователя', sec5_cap_tictactoe: 'Крестики-нолики',
+      sec6_title: 'Форма сотрудников', sec6_p1: 'Многослойная система одежды включает все элементы от легкой футболки до ветровки и выполнена из дышащих натуральных материалов. Свободный крой предотвращает сенсорные раздражения и обеспечивает комфорт в течение долгих смен. Слоеный дизайн позволяет каждому киперу легко адаптировать свой комплект под любые погодные условия.', sec6_cap1: 'Сотрудники в форме', sec6_cap2: 'Части комплекта',
+      sec_badge_title: 'Бейджи', sec_badge_p1: 'ID стал неотъемлемой частью повседневной униформы. Он обеспечивает быстрый доступ в помещения, гарантирует безопасность и подчеркивает чувство принадлежности к команде.',
+      sec_role_title: 'Моя роль', role1: 'Брендинг, ', role2: 'UX/UI, ', role3: 'Упаковка',
+      link_behance: 'Смотреть на Behance →',
+      link_linkedin: 'Смотреть на LinkedIn →',
+      footer_counter: 'Проект 04 / 04', footer_next: 'В начало →'
+    },
+    en: {
+      back_btn: '← BACK', nav_projects: 'PROJECTS', nav_contact: 'CONTACT',
+      hero_title: 'KALININGRAD<br>ZOO',
+      hero_sub: 'CULTURAL REBRANDING / IDENTITY',
+      meta_year: '2026', meta_tools: 'BRANDING, UX, PACKAGING',
+      project_info: 'A speculative rebrand of one of Europe’s oldest zoos, which was founded in 1896 and reopened in 1947. This is an independent project unaffiliated with and not commissioned by the zoo.',
+      sec1_title: 'Idea', sec1_p1: 'Kaliningrad is famous for its amber, and this image inspired a tangible physical experience. The zoo ticket features a bio-plastic insert resembling stained glass. It glows amber in the sun and can be used as a bookmark after the visit. As a result, the ticket feels like a pleasant keepsake rather than a mere formality.',
+      sec2_title: 'Visual System', sec2_p1: 'A dark forest palette, warm gold, and amber textures are used throughout the project. Every touchpoint from the logo to staff uniforms works toward a unified atmosphere.',
+      sec_logo_title: 'Logo', sec_logo_p: 'The original zoo logo was preserved because the hippo remains its main symbol and long-time resident.',
+      sec3_title: 'Website Redesign', sec3_p1: 'The website was redesigned for two reasons. First, the previous site had no visual identity due to a white background, scattered widgets, and a different accent color for almost every button. The design lacked any connection to Kaliningrad, amber, or the forest, so it could belong to any municipal institution. Second, useful information like prices, opening hours, and feeding times simply got lost in the noise. Imagine standing in the heat while a child tugs your hand, trying to find today’s feeding schedule in a wall of multicolored buttons.', sec3_caption_old: 'Before', sec3_caption_new: 'After', toggle_old: 'Before', toggle_new: 'After',
+      sec_mobile_title: 'Mobile Adaptation', sec_mobile_p1: 'Key buttons for purchasing tickets and viewing the map are arranged in a grid for quick access without scrolling. The schedule of events for the selected day is organized in a column against a light background. This layout helps visitors find information faster on a sunny day when there is no time to scroll through a carousel. Product buttons in the merch section are also arranged vertically to create a clean visual rhythm.',
+      sec_nav_title: 'Navigation', sec_nav_p1: 'Wayfinding signs were designed to create a clearer and more atmospheric experience. They feature the zoo’s residents in a unified style, which helps guests navigate easily and feel part of the story.', sec_nav_cap1: 'Species label', sec_nav_cap2: 'Signposts', sec_nav_cap3: 'Map',
+      sec4_title: 'Retail & Merch', sec4_p1: 'The brand extends beyond the screen, replacing standard totes with modern bags made from the same linen fabric. They are convenient for the beach or a city stroll in search of the seven Homlins. Since the bags are still made of linen, the main costs go toward hardware and casting the keychains. This approach keeps production costs down while allowing them to be sold at a premium price.', sec4_cap1: 'Bags', sec4_cap2: 'Keychains',
+      sec_stationery_title: 'Stationery', sec_stationery_p1: 'Notebooks, a branded A4 sheet, and pencils continue the identity line in office spaces and the souvenir shop. The notebook cover comes in the same color as the ticket, with each one featuring a different resident of the zoo.',
+      sec5_title: 'Kids Line', sec5_p1: 'Amber is reimagined here for children. Growing up on the Baltic coast means growing up curious, noticing snails on the pavement after rain, beetles under bark, and butterflies chasing the amber light. This kit turns everyday observation into a small ritual to look closely and then let go. Every tool in the set is built for harmless observation without collecting, reflecting the same respect for wildlife that the zoo teaches. Instead of the usual wooden checkers, a tic-tac-toe game was created using amber pieces with real inclusions as a tribute to the amber heritage of Kaliningrad.', sec5_cap_full: 'Overview', sec5_cap_kit: 'Explorer kit', sec5_cap_tictactoe: 'Tic-tac-toe',
+      sec6_title: 'Staff Uniforms', sec6_p1: 'The layered clothing system includes everything from a lightweight t-shirt to a windbreaker and is made from breathable, natural materials. The loose fit prevents sensory irritation and ensures comfort during long shifts. The layered design allows each zookeeper to easily adapt their outfit to any weather conditions.', sec6_cap1: 'Staff in uniform', sec6_cap2: 'Set components',
+      sec_badge_title: 'Badges', sec_badge_p1: 'The ID card has become an integral part of the daily uniform. It provides quick access, ensures security, and highlights a sense of belonging to the team.',
+      sec_role_title: 'My Role', role1: 'Branding, ', role2: 'UX/UI, ', role3: 'Packaging',
+      link_behance: 'View on Behance →',
+      link_linkedin: 'View on LinkedIn →',
+      footer_counter: 'Project 04 / 04', footer_next: 'Back to start →'
+    }
+  };
+
+  function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    const elements = document.querySelectorAll('[data-key]');
+    elements.forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (translations[lang] && translations[lang][key]) {
+        el.innerHTML = translations[lang][key];
+      }
+    });
+    document.getElementById('langToggle').textContent = lang === 'ru' ? 'EN' : 'RU';
+    localStorage.setItem('preferredLanguage', lang);
+
+    const logoImg = document.getElementById('logoMaterialsImg');
+    if (logoImg) {
+      logoImg.src = lang === 'ru' ? 'imgs/zoo_logo_ru.jpg' : 'imgs/zoo_logo_en.jpg';
+    }
+
+    const uniformImg = document.getElementById('uniformImg');
+    if (uniformImg) {
+      uniformImg.src = lang === 'ru' ? 'imgs/zoo_uniform_ru.jpg' : 'imgs/zoo_uniform_en.jpg';
+    }
+  }
+
+  const userLang = localStorage.getItem('preferredLanguage') || navigator.language.slice(0, 2);
+  const initialLang = (userLang === 'ru') ? 'ru' : 'en';
+  setLanguage(initialLang);
+
+  document.getElementById('langToggle').addEventListener('click', () => {
+    const currentLang = document.documentElement.lang;
+    const nextLang = currentLang === 'ru' ? 'en' : 'ru';
+    setLanguage(nextLang);
+  });
+
+  function toggleComparison(state) {
+    const oldSlot = document.getElementById('oldSiteSlot');
+    const newSlot = document.getElementById('newSiteSlot');
+    const oldBtn = document.querySelector('.toggle-buttons button:first-child');
+    const newBtn = document.querySelector('.toggle-buttons button:last-child');
+
+    if (state === 'old') {
+      oldSlot.style.display = 'block';
+      newSlot.style.display = 'none';
+      oldBtn.classList.add('active');
+      newBtn.classList.remove('active');
+    } else {
+      oldSlot.style.display = 'none';
+      newSlot.style.display = 'block';
+      oldBtn.classList.remove('active');
+      newBtn.classList.add('active');
+    }
+  }
+
+  const fireflyContainer = document.getElementById('firefly-container');
+  const fireflyCount = 14;
+
+  for (let i = 0; i < fireflyCount; i++) {
+    const firefly = document.createElement('div');
+    firefly.classList.add('firefly');
+    firefly.style.left = `${Math.random() * 100}vw`;
+    firefly.style.top = `${Math.random() * 100}vh`;
+    firefly.style.animationDuration = `${10 + Math.random() * 8}s`;
+    firefly.style.animationDelay = `${Math.random() * 12}s`;
+    firefly.style.setProperty('--dx', `${(Math.random() - 0.5) * 150}px`);
+    firefly.style.setProperty('--dy', `${(Math.random() - 0.5) * 150}px`);
+    fireflyContainer.appendChild(firefly);
+  }
+</script>
+</body>
+</html>

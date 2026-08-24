@@ -19,7 +19,7 @@
   <link rel="alternate" href="https://www.mariannasumina.com/" hreflang="ru" />
   <link rel="alternate" href="https://www.mariannasumina.com/" hreflang="en" />
   <link rel="alternate" href="https://www.mariannasumina.com/" hreflang="x-default" />
-  <meta property="og:title" content="MARIANNA — Культурный дизайн и типографика">
+  <meta property="og:title" content="MARIANNA - Культурный дизайн и типографика">
   <meta property="og:description" content="Разработка айдентики и визуальных систем для музеев и культурных проектов.">
   <meta property="og:image" content="https://www.mariannasumina.com/imgs/mockups.png"> 
   <meta property="og:url" content="https://www.mariannasumina.com/">
@@ -110,6 +110,27 @@
       border-bottom: 1px solid #e5e5e5; padding-bottom: 1.5rem; color: #666;
     }
 
+    /* ПРОЕКТ МЕСЯЦА */
+    .featured-project {
+      margin-bottom: 4rem; text-decoration: none; color: inherit; display: block;
+    }
+    .featured-project:hover .featured-project-img { transform: scale(1.01); }
+    .featured-project-img {
+      width: 100%; aspect-ratio: 21/9; background: #f5f5f5; border: 1px solid #eee;
+      overflow: hidden; border-radius: 4px; margin-bottom: 1rem;
+    }
+    .featured-project-img img {
+      width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
+    }
+    .featured-project-text { display: flex; justify-content: space-between; align-items: flex-end; }
+    .featured-project-text h2 {
+      font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 700;
+      letter-spacing: -1px; color: #111; line-height: 1;
+    }
+    .featured-project-text span {
+      font-size: 1rem; font-weight: 400; color: #888; text-transform: uppercase; letter-spacing: 2px;
+    }
+
     .hero-project {
       margin-bottom: 3rem; text-decoration: none; color: inherit; display: block;
     }
@@ -164,7 +185,7 @@
 
     @media (max-width: 900px) {
       .typography-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-      .hero-project-img { aspect-ratio: 16/10; }
+      .hero-project-img, .featured-project-img { aspect-ratio: 16/10; }
     }
     
     
@@ -172,8 +193,8 @@
       .typography-grid { grid-template-columns: 1fr; }
       .hero { height: 85vh; }
       .header nav { gap: 1rem; }
-      .hero-project-text { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-      .hero-project-text h2 { font-size: 1.6rem; }
+      .hero-project-text, .featured-project-text { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .hero-project-text h2, .featured-project-text h2 { font-size: 1.6rem; }
       .contact-inner { flex-direction: column; align-items: flex-start; }
       .contact-links { flex-direction: column; gap: 1rem; align-items: flex-start; }
 
@@ -266,7 +287,21 @@
 </div>
 
 <section id="projects" class="projects-section">
-  <div class="projects-label"><span data-key="label_projects">Избранные работы</span></div>
+  
+  <!-- ПРОЕКТ МЕСЯЦА -->
+  <div class="projects-label"><span data-key="label_featured">Проект месяца</span></div>
+  <a href="zoo.html" class="featured-project">
+    <div class="featured-project-img">
+      <img src="imgs/behance_cover.jpg" alt="Калининградский зоопарк" onerror="this.style.display='none'">
+    </div>
+    <div class="featured-project-text">
+      <h2 data-key="featured_title">Калининградский зоопарк</h2>
+      <span data-key="featured_tag">Ребрендинг</span>
+    </div>
+  </a>
+
+  <!-- ОСТАЛЬНЫЕ ПРОЕКТЫ -->
+  <div class="projects-label"><span data-key="label_projects">Остальные проекты</span></div>
   
   <a href="web-app.html" class="hero-project">
     <div class="hero-project-img">
@@ -278,36 +313,18 @@
     </div>
   </a>
 
-  <!-- <div class="typography-grid">
-    <a href="misako.html" class="type-card">
-      <h3 data-key="p2_title">Сайт «Мисако»</h3>
-      <p data-key="p2_desc">Визуальная концепция в восточной эстетике</p>
-      <span data-key="p2_tag">Веб-дизайн</span>
-    </a> -->
-
+  <div class="typography-grid">
     <a href="poster.html" class="type-card">
       <h3 data-key="p3_title">Серия для «Ять»</h3>
       <p data-key="p3_desc">Афиши с живым, нестандартным визуальным языком</p>
       <span data-key="p3_tag">Типографика</span>
     </a>
 
-    <!-- <a href="wb.html" class="type-card">
-      <h3 data-key="p4_title">Бренд одежды</h3>
-      <p data-key="p4_desc">Комплексный дизайн карточек товара</p>
-      <span data-key="p4_tag">Графика</span>
-    </a> -->
-
     <a href="museum.html" class="type-card">
       <h3 data-key="p5_title">Музей Темноты</h3>
       <p data-key="p5_desc">Юбилейные плашки для соцсетей</p>
       <span data-key="p5_tag">Типографика</span>
     </a>
-
-    <!-- <a href="postcards.html" class="type-card">
-      <h3 data-key="p6_title">Культурная серия</h3>
-      <p data-key="p6_desc">Мультикультурные праздничные открытки</p>
-      <span data-key="p6_tag">Графика</span>
-    </a> -->
   </div>
 </section>
 
@@ -341,13 +358,12 @@
       nav_projects: 'ПРОЕКТЫ', nav_contact: 'КОНТАКТ',
       hero_line1: 'КУЛЬТУРНЫЙ', hero_line2: 'ДИЗАЙН',
       tag1: '- Типографика', tag2: '- Айдентика', tag3: '- Пространства',
-      label_projects: 'Избранные работы',
+      label_featured: 'Проект месяца',
+      featured_title: 'Калининградский зоопарк', featured_tag: 'Ребрендинг',
+      label_projects: 'Остальные проекты',
       p1_title: 'Приложение для центра культуры', p1_tag: 'UX/UI',
-      p2_title: 'Сайт «Мисако»', p2_desc: 'Визуальная концепция в восточной эстетике', p2_tag: 'Веб-дизайн',
       p3_title: 'Серия для «Ять»', p3_desc: 'Афиши с живым, нестандартным визуальным языком', p3_tag: 'Типографика',
-      p4_title: 'Бренд одежды', p4_desc: 'Комплексный дизайн карточек товара', p4_tag: 'Графика',
       p5_title: 'Музей Темноты', p5_desc: 'Юбилейные плашки для соцсетей', p5_tag: 'Типографика',
-      p6_title: 'Культурная серия', p6_desc: 'Мультикультурные праздничные открытки', p6_tag: 'Графика',
       about_title: 'Дизайн & Типографика',
       about_text: 'Разрабатываю визуальные системы для культурных институций, музыкальных проектов и арт-пространств. Работаю на стыке смысла и формы, создавая айдентику, печатную графику и цифровые среды.',
       contact_title: 'Контакты',
@@ -358,13 +374,12 @@
       nav_projects: 'PROJECTS', nav_contact: 'CONTACT',
       hero_line1: 'CULTURAL', hero_line2: 'DESIGN',
       tag1: '- Typography', tag2: '- Identity', tag3: '- Spaces',
-      label_projects: 'Selected works',
+      label_featured: 'Project of the month',
+      featured_title: 'Kaliningrad Zoo', featured_tag: 'Rebranding',
+      label_projects: 'Other projects',
       p1_title: 'Culture Center App', p1_tag: 'UX/UI',
-      p2_title: '«Misako» Website', p2_desc: 'Visual concept in Eastern aesthetics', p2_tag: 'Web Design',
       p3_title: 'Series for «Yat»', p3_desc: 'Posters with a living, non-standard visual language', p3_tag: 'Typography',
-      p4_title: 'Clothing Brand', p4_desc: 'Comprehensive product card design', p4_tag: 'Graphics',
       p5_title: 'Museum of Darkness', p5_desc: 'Anniversary badges for social media', p5_tag: 'Typography',
-      p6_title: 'Cultural Series', p6_desc: 'Multicultural holiday cards', p6_tag: 'Graphics',
       about_title: 'Design & Typography',
       about_text: 'I develop visual systems for cultural institutions, music projects, and art spaces. I work at the intersection of meaning and form, creating identity, printed graphics, and digital environments.',
       contact_title: 'Contact',
