@@ -12,66 +12,103 @@
     }
 
     body {
-        background: #f5f7fa;
+        background: #E8E2D5;
         font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         color: #1a1f2b;
         line-height: 1.5;
         min-height: 100vh;
-        padding: 40px 24px 64px;
+        padding: 48px 24px 72px;
     }
 
     .page {
         max-width: 760px;
         margin: 0 auto;
-        background: #ffffff;
-        border-radius: 28px;
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.02), 0 8px 30px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
 
     
+    .cover {
+        border-radius: 24px;
+        overflow: hidden;
+        line-height: 0;
+        box-shadow: 0 8px 30px rgba(60, 40, 20, 0.12);
+    }
+
+    .cover img {
+        width: 100%;
+        height: auto;
+        display: block;
+        aspect-ratio: 21 / 6;
+        object-fit: cover;
+    }
+
+  
+    .card {
+        background: #ffffff;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(60, 40, 20, 0.08);
+    }
+
+   
+    .title-bar {
+        background: #7A4A1E;
+        padding: 22px 40px;
+    }
+
+    .title-bar h1 {
+        font-size: 26px;
+        font-weight: 500;
+        letter-spacing: -0.4px;
+        color: #F6EFE3;
+        line-height: 1.25;
+    }
+
+  
     .header {
-        padding: 24px 40px;
-        border-bottom: 1px solid #eef1f5;
+        padding: 22px 40px;
+        border-bottom: 1px solid #EFEAE0;
     }
 
     .logo {
         font-weight: 550;
         font-size: 18px;
         letter-spacing: -0.3px;
-        color: #0b1a2e;
+        color: #2B1D0E;
     }
 
     .logo span {
         font-weight: 350;
-        color: #6b7a8f;
+        color: #9C8B74;
     }
 
     
     .hero {
-        padding: 48px 40px 32px;
+        padding: 40px 40px 28px;
     }
 
-    .hero h1 {
-        font-size: 34px;
+    .hero h2 {
+        font-size: 30px;
         font-weight: 540;
         letter-spacing: -0.6px;
-        color: #0b1a2e;
+        color: #2B1D0E;
         line-height: 1.2;
     }
 
     .hero p {
-        font-size: 17px;
-        color: #65758b;
+        font-size: 16.5px;
+        color: #6B5B47;
         margin-top: 12px;
         font-weight: 380;
         max-width: 52ch;
     }
 
-    
+  
     .block {
-        padding: 32px 40px;
-        border-top: 1px solid #eef1f5;
+        padding: 30px 40px;
+        border-top: 1px solid #EFEAE0;
     }
 
     .eyebrow {
@@ -79,14 +116,14 @@
         font-weight: 500;
         letter-spacing: 0.4px;
         text-transform: uppercase;
-        color: #6f7e93;
+        color: #9C8B74;
         margin-bottom: 12px;
     }
 
-    .block h2 {
-        font-size: 22px;
+    .block h3 {
+        font-size: 21px;
         font-weight: 540;
-        color: #0b1a2e;
+        color: #2B1D0E;
         letter-spacing: -0.3px;
         margin-bottom: 14px;
         line-height: 1.3;
@@ -95,7 +132,7 @@
 
     .block p {
         font-size: 15.5px;
-        color: #4e5d73;
+        color: #544636;
         font-weight: 380;
         margin-bottom: 12px;
         max-width: 68ch;
@@ -114,20 +151,20 @@
     }
 
     .item {
-        background: #f0f3f7;
-        border: 1px solid #e3e8ef;
+        background: #F5F0E6;
+        border: 1px solid #E8DFCE;
         border-radius: 100px;
         padding: 7px 14px;
         font-size: 13.5px;
         font-weight: 450;
-        color: #1f2a3c;
+        color: #3B2C1B;
         white-space: nowrap;
     }
 
     
     .note {
-        background: #f6f8fb;
-        border: 1px solid #eef1f5;
+        background: #FAF6EE;
+        border: 1px solid #EEE5D5;
         border-radius: 18px;
         padding: 20px 24px;
         margin-top: 18px;
@@ -135,7 +172,7 @@
 
     .note p {
         font-size: 15px;
-        color: #3e4c5f;
+        color: #4A3B2A;
         font-weight: 400;
         line-height: 1.55;
         margin: 0;
@@ -150,46 +187,46 @@
         margin-top: 18px;
     }
 
-    .card {
-        background: #ffffff;
-        border: 1px solid #eef1f5;
+    .feature {
+        background: #FFFFFF;
+        border: 1px solid #EFEAE0;
         border-radius: 18px;
         padding: 18px 20px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
+        box-shadow: 0 2px 6px rgba(60, 40, 20, 0.02);
     }
 
-    .card .title {
+    .feature .title {
         font-size: 15.5px;
         font-weight: 540;
-        color: #0b1a2e;
+        color: #2B1D0E;
         letter-spacing: -0.2px;
         margin-bottom: 6px;
     }
 
-    .card p {
+    .feature p {
         font-size: 14px;
-        color: #6f7e93;
+        color: #7A6B57;
         font-weight: 380;
         margin: 0;
         line-height: 1.55;
         max-width: none;
     }
 
-    /* финал */
+    
     .cta {
-        padding: 48px 40px 56px;
+        padding: 44px 40px 52px;
         text-align: center;
-        border-top: 1px solid #eef1f5;
+        border-top: 1px solid #EFEAE0;
     }
 
     .cta .eyebrow {
         margin-bottom: 10px;
     }
 
-    .cta h2 {
+    .cta h3 {
         font-size: 24px;
         font-weight: 540;
-        color: #0b1a2e;
+        color: #2B1D0E;
         letter-spacing: -0.4px;
         margin: 0 auto 14px;
         line-height: 1.3;
@@ -198,7 +235,7 @@
 
     .cta p {
         font-size: 15px;
-        color: #65758b;
+        color: #6B5B47;
         font-weight: 380;
         margin: 0 auto 26px;
         line-height: 1.6;
@@ -207,8 +244,8 @@
 
     .btn {
         display: inline-block;
-        background: #0b1a2e;
-        color: #ffffff;
+        background: #7A4A1E;
+        color: #F6EFE3;
         text-decoration: none;
         font-size: 15px;
         font-weight: 500;
@@ -218,21 +255,22 @@
     }
 
     .btn:hover {
-        background: #1f2f47;
+        background: #5E3714;
     }
 
     .foot {
         margin-top: 22px;
         font-size: 13px;
-        color: #8a99ae;
+        color: #9C8B74;
         font-weight: 380;
     }
 
+    
     @media (min-width: 720px) {
         .cards {
             grid-template-columns: 1fr 1fr;
         }
-        .card:first-child {
+        .feature:first-child {
             grid-column: 1 / -1;
         }
     }
@@ -241,21 +279,32 @@
     @media (max-width: 560px) {
         body {
             padding: 0;
-            background: #ffffff;
+            background: #E8E2D5;
         }
         .page {
+            gap: 0;
+        }
+        .cover {
             border-radius: 0;
             box-shadow: none;
-            max-width: 100%;
         }
+        .cover img {
+            aspect-ratio: 16 / 9;
+        }
+        .card {
+            border-radius: 0;
+            box-shadow: none;
+        }
+        .title-bar { padding: 18px 20px; }
+        .title-bar h1 { font-size: 21px; }
         .header { padding: 18px 20px; }
         .hero { padding: 32px 20px 24px; }
-        .hero h1 { font-size: 28px; }
+        .hero h2 { font-size: 26px; }
         .hero p { font-size: 16px; }
-        .block { padding: 28px 20px; }
-        .block h2 { font-size: 20px; }
-        .cta { padding: 40px 20px 48px; }
-        .cta h2 { font-size: 22px; }
+        .block { padding: 26px 20px; }
+        .block h3 { font-size: 19px; }
+        .cta { padding: 38px 20px 46px; }
+        .cta h3 { font-size: 21px; }
     }
 </style>
 </head>
@@ -264,81 +313,96 @@
 <div class="page">
 
     
-    <div class="header">
-        <div class="logo">Muslim <span>Moscow</span></div>
+    <div class="cover">
+        <img src="https://i.pinimg.com/736x/cf/d3/f3/cfd3f3b0d602d07d9fed4f93a919549b.jpg" alt="Мусульманская архитектура">
     </div>
 
     
-    <div class="hero">
-        <h1>О проекте</h1>
-        <p>Городской гид для мусульман в Москве. Ниже коротко о том, что это за идея и для кого она.</p>
-    </div>
+    <div class="card">
 
-    
-    <div class="block">
-        <div class="eyebrow">Зачем</div>
-        <h2>Информация о городе разбросана по разным местам</h2>
-        <p>Сведения о мусульманской инфраструктуре Москвы сейчас живут в Telegram-каналах, чатах, соцсетях и личных советах. Иногда это удобно, но чаще приходится каждый раз собирать нужное заново: где молиться рядом, где поесть, куда обратиться.</p>
-        <p>Muslim Moscow задуман как одно спокойное место, где такая информация собрана вместе и подана понятно.</p>
-    </div>
-
-    
-    <div class="block">
-        <div class="eyebrow">Что может быть внутри</div>
-        <h2>Городские места и сервисы, которые могут быть полезны</h2>
-        <p>Предполагаемые разделы приложения. Список еще будет уточняться по итогам опроса.</p>
-        <div class="list">
-            <div class="item">места для молитвы</div>
-            <div class="item">халяльная еда</div>
-            <div class="item">магазины</div>
-            <div class="item">женские салоны</div>
-            <div class="item">клиники</div>
-            <div class="item">одежда и товары</div>
-            <div class="item">отели</div>
-            <div class="item">городские сервисы</div>
-            <div class="item">мероприятия</div>
-            <div class="item">карта</div>
+        
+        <div class="title-bar">
+            <h1>Городской гид Muslim Moscow</h1>
         </div>
-    </div>
 
-    
-    <div class="block">
-        <div class="eyebrow">Как это может работать</div>
-        <h2>Приложение, которое подстраивается под ситуацию</h2>
-        <p>Одна из идей: при первом входе приложение задает несколько простых вопросов и на их основе показывает то, что может быть актуально именно сейчас.</p>
-        <div class="note">
-            <p>Например, человек приехал в Москву впервые, и приложение предлагает подборку на первые дни: где помолиться, где поесть, какие сервисы могут пригодиться.</p>
+        
+        <div class="header">
+            <div class="logo">Muslim <span>Moscow</span></div>
         </div>
-        <p style="margin-top:16px;">Такая подборка может быть временной и постепенно уступать место обычному режиму. Точный формат еще предстоит определить.</p>
-    </div>
 
-    
-    <div class="block">
-        <div class="eyebrow">Возможные функции</div>
-        <h2>Что можно будет делать в приложении</h2>
-        <div class="cards">
-            <div class="card">
-                <div class="title">Поиск обычными словами</div>
-                <p>Например, написать «где поесть халяль рядом» или «место для молитвы поблизости» и получить понятный результат.</p>
-            </div>
-            <div class="card">
-                <div class="title">Карта и карточки мест</div>
-                <p>Места на карте с фильтрами, а в карточке полезные детали: часы работы, особенности, наличие отдельных зон, языки, сведения о сертификатах.</p>
-            </div>
-            <div class="card">
-                <div class="title">Ежедневная польза</div>
-                <p>На главном экране могут быть ближайшее время молитвы, погода, места рядом и сохраненные рекомендации.</p>
+        
+        <div class="hero">
+            <h2>О проекте</h2>
+            <p>Городской гид для мусульман в Москве. Ниже коротко о том, что это за идея и для кого она.</p>
+        </div>
+
+        
+        <div class="block">
+            <div class="eyebrow">Зачем</div>
+            <h3>Информация о городе разбросана по разным местам</h3>
+            <p>Сведения о мусульманской инфраструктуре Москвы сейчас живут в Telegram-каналах, чатах, соцсетях и личных советах. Иногда это удобно, но чаще приходится каждый раз собирать нужное заново: где молиться рядом, где поесть, куда обратиться.</p>
+            <p>Muslim Moscow задуман как одно спокойное место, где такая информация собрана вместе и подана понятно.</p>
+        </div>
+
+       
+        <div class="block">
+            <div class="eyebrow">Что может быть внутри</div>
+            <h3>Городские места и сервисы, которые могут быть полезны</h3>
+            <p>Предполагаемые разделы приложения. Список еще будет уточняться по итогам опроса.</p>
+            <div class="list">
+                <div class="item">места для молитвы</div>
+                <div class="item">халяльная еда</div>
+                <div class="item">магазины</div>
+                <div class="item">женские салоны</div>
+                <div class="item">клиники</div>
+                <div class="item">одежда и товары</div>
+                <div class="item">отели</div>
+                <div class="item">городские сервисы</div>
+                <div class="item">мероприятия</div>
+                <div class="item">карта</div>
             </div>
         </div>
-    </div>
 
-    
-    <div class="cta">
-        <div class="eyebrow">Опрос</div>
-        <h2>Помогите сделать проект точнее</h2>
-        <p>Сейчас я собираю мнения, чтобы понять, какие разделы и функции действительно нужны. Если есть несколько минут, буду благодарна за ответы.</p>
-        <a class="btn" href="https://forms.gle/dzSmGxnMzL2Ntiwx6" target="_blank" rel="noopener">Пройти опрос</a>
-        <div class="foot">Muslim Moscow, городской гид для мусульман в Москве</div>
+        
+        <div class="block">
+            <div class="eyebrow">Как это может работать</div>
+            <h3>Приложение, которое подстраивается под ситуацию</h3>
+            <p>Одна из идей: при первом входе приложение задает несколько простых вопросов и на их основе показывает то, что может быть актуально именно сейчас.</p>
+            <div class="note">
+                <p>Например, человек приехал в Москву впервые, и приложение предлагает подборку на первые дни: где помолиться, где поесть, какие сервисы могут пригодиться.</p>
+            </div>
+            <p style="margin-top:16px;">Такая подборка может быть временной и постепенно уступать место обычному режиму. Точный формат еще предстоит определить.</p>
+        </div>
+
+        
+        <div class="block">
+            <div class="eyebrow">Возможные функции</div>
+            <h3>Что можно будет делать в приложении</h3>
+            <div class="cards">
+                <div class="feature">
+                    <div class="title">Поиск обычными словами</div>
+                    <p>Например, написать «где поесть халяль рядом» или «место для молитвы поблизости» и получить понятный результат.</p>
+                </div>
+                <div class="feature">
+                    <div class="title">Карта и карточки мест</div>
+                    <p>Места на карте с фильтрами, а в карточке полезные детали: часы работы, особенности, наличие отдельных зон, языки, сведения о сертификатах.</p>
+                </div>
+                <div class="feature">
+                    <div class="title">Ежедневная польза</div>
+                    <p>На главном экране могут быть ближайшее время молитвы, погода, места рядом и сохраненные рекомендации.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cta">
+            <div class="eyebrow">Опрос</div>
+            <h3>Помогите сделать проект точнее</h3>
+            <p>Сейчас я собираю мнения, чтобы понять, какие разделы и функции действительно нужны. Если есть несколько минут, буду благодарна за ответы.</p>
+            <a class="btn" href="https://forms.gle/dzSmGxnMzL2Ntiwx6" target="_blank" rel="noopener">Пройти опрос</a>
+            <div class="foot">Muslim Moscow, городской гид для мусульман в Москве</div>
+        </div>
+
     </div>
 
 </div>
