@@ -1,0 +1,2660 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Калькулятор выживаемости: новогоднее кино</title>
+    <style>
+      :root {
+        --bg: #14181d;
+        --ink: #f1ece6;
+        --dim: #8d949c;
+        --red: #e8452c;
+        --pink: #ff8f84;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          14px/1.45 "Trebuchet MS",
+          Verdana,
+          sans-serif;
+        overflow: hidden;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      h1 {
+        position: fixed;
+        left: 24px;
+        top: 18px;
+        margin: 0;
+        font:
+          300 28px/1.1 "Trebuchet MS",
+          sans-serif;
+        letter-spacing: 0.02em;
+        pointer-events: none;
+        z-index: 2;
+      }
+      h1 b {
+        display: block;
+        font-weight: 700;
+        color: var(--red);
+        font-size: 34px;
+      }
+      #hint {
+        position: fixed;
+        left: 24px;
+        top: 94px;
+        max-width: 300px;
+        color: var(--dim);
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* Панель (досье) */
+      #panel {
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 340px;
+        padding: 22px 22px 110px;
+        background: rgba(20, 24, 29, 0.92);
+        border-left: 1px solid #2c333b;
+        overflow: auto;
+        transform: translateX(100%);
+        transition: transform 0.35s;
+        z-index: 10;
+      }
+      #panel.on {
+        transform: none;
+      }
+      #panel h2 {
+        margin: 0 0 4px;
+        font-size: 20px;
+      }
+      #panel .m {
+        color: var(--dim);
+        margin-bottom: 12px;
+      }
+      .bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 6px 0;
+      }
+      .bar i {
+        flex: none;
+        width: 92px;
+        color: var(--dim);
+        font-style: normal;
+      }
+      .bar s {
+        flex: 1;
+        height: 6px;
+        background: #262d34;
+        text-decoration: none;
+        position: relative;
+      }
+      .bar s u {
+        position: absolute;
+        inset: 0 auto 0 0;
+        background: var(--red);
+        transition: width 0.5s;
+      }
+      .bar em {
+        width: 78px;
+        text-align: right;
+        font-style: normal;
+      }
+      #panel ol {
+        padding-left: 18px;
+        margin: 14px 0;
+      }
+      #panel li {
+        margin: 0 0 9px;
+      }
+      .est {
+        color: var(--dim);
+        font-style: italic;
+      }
+      .synopsis {
+        background: #1a2129;
+        border-left: 3px solid #3a4450;
+        padding: 10px 12px;
+        border-radius: 0 6px 6px 0;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #b0bcc4;
+        margin: 12px 0;
+      }
+      button {
+        font: inherit;
+        color: var(--ink);
+        background: var(--red);
+        border: 0;
+        padding: 9px 14px;
+        cursor: pointer;
+        margin-top: 6px;
+        border-radius: 6px;
+        transition: background 0.2s;
+      }
+      button:hover {
+        background: #ff5a40;
+      }
+      button:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+      }
+      button.off {
+        background: #2c333b;
+      }
+      button.off:hover {
+        background: #3a4450;
+      }
+
+      /* HUD (нижняя панель) */
+      #hud {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 12px 24px calc(12px + env(safe-area-inset-bottom, 0px));
+        background: linear-gradient(transparent, #14181d 40%);
+        display: flex;
+        gap: 26px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        pointer-events: none;
+        z-index: 5;
+      }
+      #hud div {
+        pointer-events: auto;
+      }
+      #hud span {
+        display: block;
+        color: var(--dim);
+        font-size: 12px;
+      }
+      #hud strong {
+        font-size: 22px;
+        font-weight: 600;
+      }
+      #chance strong {
+        font-size: 34px;
+        color: var(--pink);
+      }
+
+      #tip {
+        position: fixed;
+        pointer-events: none;
+        background: #000c;
+        padding: 4px 8px;
+        font-size: 13px;
+        display: none;
+        z-index: 20;
+        border-radius: 4px;
+      }
+
+      /* Модальное окно приветствия */
+      #intro {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 18, 0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s;
+        backdrop-filter: blur(8px);
+      }
+      #intro.on {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .intro-card {
+        background: linear-gradient(145deg, #1a232b, #10161c);
+        border: 1px solid #303a44;
+        border-radius: 16px;
+        padding: 32px 36px;
+        max-width: 640px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        position: relative;
+        overflow: hidden;
+      }
+      .intro-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(232, 69, 44, 0.08),
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+      .intro-card h2 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 28px;
+        margin: 0 0 12px;
+        color: var(--ink);
+        line-height: 1.2;
+      }
+      .intro-card h2 span {
+        color: var(--red);
+      }
+      .intro-card p {
+        color: #b0bcc4;
+        font-size: 15px;
+        line-height: 1.65;
+        margin: 0 0 16px;
+      }
+      .intro-card ul {
+        color: #b0bcc4;
+        font-size: 14px;
+        line-height: 1.7;
+        padding-left: 20px;
+        margin: 0 0 20px;
+      }
+      .intro-card ul li {
+        margin-bottom: 8px;
+      }
+      .intro-card ul li strong {
+        color: var(--ink);
+      }
+      .intro-card .btn-start {
+        background: var(--red);
+        color: #fff;
+        border: none;
+        padding: 14px 36px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+        width: 100%;
+      }
+      .intro-card .btn-start:hover {
+        background: #ff5a40;
+      }
+
+      @media (max-width: 700px) {
+        #panel {
+          width: 100%;
+          top: auto;
+          height: 58%;
+          border-left: 0;
+          border-top: 1px solid #2c333b;
+          transform: translateY(100%);
+        }
+        #hint {
+          display: none;
+        }
+        h1 {
+          font-size: 20px;
+        }
+        h1 b {
+          font-size: 24px;
+        }
+        .intro-card {
+          padding: 24px 20px;
+        }
+        .intro-card h2 {
+          font-size: 22px;
+        }
+        .intro-card p,
+        .intro-card ul {
+          font-size: 13px;
+        }
+      }
+
+      #panel {
+        width: 430px;
+        padding-bottom: 28px;
+      }
+      #panel .case-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      #panel .eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        color: #ff8f84;
+        text-transform: uppercase;
+        margin: 0 0 7px;
+      }
+      #panel .case-meta {
+        font-size: 11px;
+        color: var(--dim);
+        line-height: 1.5;
+        margin: 6px 0 14px;
+      }
+      #panel .case-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+        margin: 12px 0;
+      }
+      #panel .stat {
+        background: #202831;
+        border: 1px solid #303a44;
+        padding: 9px;
+        border-radius: 8px;
+      }
+      #panel .stat small {
+        display: block;
+        color: var(--dim);
+        font-size: 10px;
+      }
+      #panel .stat b {
+        font-size: 16px;
+      }
+      #panel .meter {
+        height: 4px;
+        background: #303a44;
+        margin-top: 6px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      #panel .meter i {
+        display: block;
+        height: 100%;
+        background: #e8452c;
+      }
+      #panel .audit-arena {
+        height: 190px;
+        background: radial-gradient(circle at 50% 45%, #26313b, #171c22 72%);
+        border: 1px solid #303a44;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        margin: 12px 0;
+      }
+      #panel .audit-arena:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(#ffffff08 1px, transparent 1px),
+          linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+        background-size: 18px 18px;
+      }
+      #panel #auditDummy {
+        height: 176px;
+        position: relative;
+        z-index: 1;
+        transform-origin: 50% 70%;
+      }
+      #panel .body-part {
+        fill: #58636b;
+        stroke: #a0a9ad;
+        stroke-width: 1.4;
+        transition: 0.25s;
+      }
+      #panel .body-part.warn {
+        fill: #b87836;
+        stroke: #ffbf69;
+      }
+      #panel .body-part.crit {
+        fill: #bd3e37;
+        stroke: #ff7469;
+        filter: drop-shadow(0 0 5px #e8452c);
+      }
+      #panel .audit-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 0;
+      }
+      #panel .audit-controls button {
+        font-size: 11px;
+        padding: 7px 10px;
+        margin: 0;
+      }
+      #panel input[type="range"] {
+        width: 100%;
+        accent-color: #e8452c;
+      }
+      #panel .audit-time {
+        font: 12px monospace;
+        color: #ffaaa0;
+        white-space: nowrap;
+      }
+      #panel .event {
+        padding: 10px 11px;
+        margin: 8px 0;
+        border-left: 2px solid #e8452c;
+        background: #202831;
+        border-radius: 0 7px 7px 0;
+        font-size: 11px;
+      }
+      #panel .event.law {
+        border-color: #e9b35c;
+      }
+      #panel .event.social {
+        border-color: #8ab8c9;
+      }
+      #panel .event small {
+        color: var(--dim);
+        display: block;
+        margin-bottom: 4px;
+      }
+      #panel .event b {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 12px;
+      }
+      #panel .verdict {
+        border: 1px solid #e8452c;
+        background: #321f20;
+        padding: 12px;
+        border-radius: 8px;
+        margin-top: 12px;
+        font-size: 12px;
+      }
+      #panel .verdict strong {
+        display: block;
+        color: #ff9b8f;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        margin-bottom: 5px;
+      }
+      #panel .note {
+        font-size: 10px;
+        color: #8d949c;
+        margin: 10px 0;
+        line-height: 1.5;
+      }
+      @media (max-width: 700px) {
+        #panel {
+          width: 100%;
+          height: 78%;
+          top: auto;
+          padding-bottom: 22px;
+        }
+      }
+
+      /* UX refresh: responsive editorial interface */
+      @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap");
+      :root {
+        --bg: #101820;
+        --ink: #f4f1eb;
+        --dim: #a3adb5;
+        --red: #ed604b;
+        --pink: #ffaaa0;
+        --panel: #17222c;
+        --line: rgba(210, 225, 235, 0.13);
+        --mint: #9bc9c1;
+        --gold: #e8c58c;
+      }
+      html,
+      body {
+        font-family:
+          "Manrope",
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        background:
+          radial-gradient(
+            ellipse at 18% 12%,
+            rgba(44, 83, 94, 0.25),
+            transparent 36%
+          ),
+          radial-gradient(
+            ellipse at 80% 80%,
+            rgba(139, 49, 43, 0.12),
+            transparent 35%
+          ),
+          var(--bg);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      h1 {
+        max-width: min(520px, calc(100vw - 48px));
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: clamp(22px, 2.3vw, 34px);
+        line-height: 1.08;
+        letter-spacing: -0.035em;
+        text-shadow: 0 2px 24px #071018;
+      }
+      h1 b {
+        font-family: "Manrope", sans-serif;
+        font-size: clamp(25px, 2.7vw, 38px);
+        letter-spacing: -0.045em;
+        line-height: 1.12;
+      }
+      #hint {
+        top: 112px;
+        max-width: 330px;
+        font-size: 12px;
+        line-height: 1.7;
+        padding: 12px 15px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(15, 25, 34, 0.62);
+        backdrop-filter: blur(12px);
+      }
+      #panel {
+        width: min(480px, 43vw);
+        padding: 28px 26px 34px;
+        background: rgba(17, 27, 36, 0.96);
+        border-left: 1px solid var(--line);
+        box-shadow: -24px 0 80px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(22px);
+        scrollbar-width: thin;
+        scrollbar-color: #52616b transparent;
+      }
+      #panel h2 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: clamp(22px, 2vw, 29px);
+        line-height: 1.14;
+        letter-spacing: -0.025em;
+      }
+      #panel .eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--gold);
+        font-weight: 800;
+      }
+      #panel .case-meta {
+        font-size: 12px;
+        line-height: 1.7;
+        color: #aab5bd;
+      }
+      #panel .stat {
+        background: linear-gradient(145deg, #202f3a, #1a2731);
+        border: 1px solid var(--line);
+        padding: 12px;
+        border-radius: 13px;
+      }
+      #panel .stat small {
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        color: #aab5bd;
+      }
+      #panel .stat b {
+        font-size: 19px;
+        font-weight: 800;
+      }
+      #panel .audit-arena {
+        height: 210px;
+        border-radius: 16px;
+        background: radial-gradient(circle at 50% 45%, #31434d, #17232c 72%);
+        border-color: var(--line);
+      }
+      #panel .audit-controls {
+        gap: 9px;
+        flex-wrap: wrap;
+      }
+      #panel .audit-time {
+        font-family: "Manrope", sans-serif;
+        font-variant-numeric: tabular-nums;
+      }
+      #panel .event {
+        padding: 13px 14px;
+        margin: 9px 0;
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--red);
+        border-radius: 12px;
+        background: #1c2a34;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      #panel .event b {
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      #panel .event small {
+        font-size: 10px;
+        letter-spacing: 0.04em;
+      }
+      #panel .verdict {
+        border-radius: 14px;
+        padding: 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(237, 96, 75, 0.16),
+          rgba(237, 96, 75, 0.05)
+        );
+        font-size: 13px;
+        line-height: 1.65;
+      }
+      #panel .note {
+        font-size: 11px;
+        line-height: 1.65;
+      }
+      button {
+        border-radius: 999px;
+        padding: 11px 17px;
+        min-height: 42px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        background: linear-gradient(135deg, #f06b55, #d94b3b);
+        box-shadow: 0 6px 18px rgba(217, 75, 59, 0.18);
+        transition:
+          transform 0.18s ease,
+          filter 0.18s ease,
+          background 0.18s ease;
+      }
+      button:hover {
+        background: linear-gradient(135deg, #ff806a, #e95745);
+        transform: translateY(-1px);
+        filter: brightness(1.05);
+      }
+      button:active {
+        transform: translateY(0) scale(0.98);
+      }
+      button.off {
+        background: #2b3a44;
+        box-shadow: none;
+        color: #d5dde0;
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+      }
+      #hud {
+        gap: 10px 22px;
+        padding: 18px 24px calc(16px + env(safe-area-inset-bottom, 0px));
+        background: linear-gradient(transparent, rgba(10, 17, 23, 0.96) 35%);
+        align-items: center;
+      }
+      #hud > div:not(:last-child) {
+        padding: 7px 11px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(18, 29, 38, 0.74);
+        backdrop-filter: blur(10px);
+      }
+      #hud span {
+        font-size: 10px;
+        letter-spacing: 0.04em;
+      }
+      #hud strong {
+        font-size: 17px;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+      }
+      #chance strong {
+        font-size: 25px;
+        color: var(--gold);
+      }
+      #snow {
+        background: #273640;
+        box-shadow: none;
+        font-size: 12px;
+      }
+      #tip {
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 8px 11px;
+        background: rgba(8, 14, 19, 0.92);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 24px #0005;
+      }
+      #panel .audit-controls button {
+        font-size: 12px;
+        padding: 9px 14px;
+        min-height: 40px;
+      }
+      #panel input[type="range"] {
+        height: 28px;
+        cursor: pointer;
+      }
+      #panel .meter {
+        height: 6px;
+        border-radius: 99px;
+        background: #34434c;
+      }
+      #panel .meter i {
+        border-radius: 99px;
+        background: linear-gradient(90deg, #e9b16c, #ed604b);
+      }
+      #panel .body-part {
+        stroke-width: 1.8;
+      }
+      @media (max-width: 760px) {
+        html,
+        body {
+          overflow: hidden;
+        }
+        h1 {
+          left: 16px;
+          top: 14px;
+          max-width: calc(100vw - 32px);
+          font-size: 20px;
+        }
+        h1 b {
+          font-size: 25px;
+        }
+        #hint {
+          display: none;
+        }
+        #panel {
+          width: 100%;
+          max-width: none;
+          height: min(84dvh, 780px);
+          top: auto;
+          bottom: 0;
+          padding: 28px 18px calc(22px + env(safe-area-inset-bottom, 0px));
+          border: 1px solid var(--line);
+          border-bottom: 0;
+          border-radius: 22px 22px 0 0;
+          transform: translateY(105%);
+          box-shadow: 0 -24px 70px rgba(0, 0, 0, 0.45);
+        }
+        #panel.on {
+          transform: translateY(0);
+        }
+        #panel:before {
+          content: "";
+          display: block;
+          width: 42px;
+          height: 4px;
+          border-radius: 99px;
+          background: #64747e;
+          margin: -14px auto 18px;
+          opacity: 0.8;
+        }
+        #panel .case-top {
+          gap: 8px;
+        }
+        #panel .case-stats {
+          gap: 7px;
+        }
+        #panel .stat {
+          padding: 10px 8px;
+          min-width: 0;
+        }
+        #panel .stat small {
+          font-size: 9px;
+        }
+        #panel .stat b {
+          font-size: 16px;
+        }
+        #panel .audit-arena {
+          height: 180px;
+          margin: 12px 0;
+        }
+        #panel #auditDummy {
+          height: 166px;
+        }
+        #panel .event {
+          font-size: 12px;
+        }
+        #hud {
+          left: 10px;
+          right: 10px;
+          bottom: 8px;
+          gap: 6px;
+          padding: 9px 9px calc(9px + env(safe-area-inset-bottom, 0px));
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          background: rgba(12, 20, 27, 0.88);
+          border: 1px solid var(--line);
+          border-radius: 16px;
+          backdrop-filter: blur(14px);
+        }
+        #hud > div:not(:last-child) {
+          padding: 5px 7px;
+          border: 0;
+          background: transparent;
+          min-width: 0;
+        }
+        #hud span {
+          font-size: 9px;
+          line-height: 1.2;
+        }
+        #hud strong {
+          font-size: 14px;
+          white-space: nowrap;
+        }
+        #chance strong {
+          font-size: 19px;
+        }
+        #hud #chance {
+          grid-column: span 2;
+        }
+        #hud > div:last-child {
+          grid-column: 3;
+          align-self: center;
+        }
+        #snow {
+          font-size: 10px;
+          padding: 8px 9px;
+          min-height: 36px;
+          white-space: nowrap;
+        }
+        #tip {
+          display: none !important;
+        }
+      }
+      @media (max-width: 380px) {
+        #panel {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+        #panel .case-stats {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        #panel .stat b {
+          font-size: 14px;
+        }
+        #hud span {
+          font-size: 8px;
+        }
+        #hud strong {
+          font-size: 12px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <h1>Калькулятор выживаемости<b>в новогоднем кино</b></h1>
+    <div id="hint">
+      КИНОВСЕЛЕННАЯ / КРАШ-ТЕСТ<br />Каждая точка — фильм. Нити связывают фильмы
+      по общим создателям и показывают три вида последствий. Выберите точку,
+      чтобы открыть досье и прокрутить сюжет как симуляцию.
+    </div>
+    <div id="tip"></div>
+
+    <!-- Модальное окно приветствия -->
+    <div id="intro" class="on">
+      <div class="intro-card">
+        <h2>Добро пожаловать в <span>Калькулятор выживаемости</span></h2>
+        <p>
+          Этот проект — сатирический аудит безопасности. Мы берем новогодние
+          фильмы и переводим сказочную логику в суровую реальность. В кино герои
+          творят дичь, и это подается как милая шутка. В жизни это привело бы к
+          катастрофе.
+        </p>
+        <ul>
+          <li>
+            <strong>Больница:</strong> падения, драки, отравления. Считаем дни в
+            реанимации.
+          </li>
+          <li>
+            <strong>Тюрьма:</strong> взлом квартир, угон, хулиганство. Переводим
+            в статьи УК и сроки.
+          </li>
+          <li>
+            <strong>Развод / Увольнение:</strong> измены, вранье, прогулы.
+            Считаем социальный урон.
+          </li>
+        </ul>
+        <p>
+          Кликайте на точки на графе, чтобы открыть досье фильма, запустить
+          симуляцию и собрать свой «марафон» из катастроф. Наведите на манекен,
+          чтобы увидеть последствия.
+        </p>
+        <button class="btn-start" id="startBtn">Начать симуляцию</button>
+      </div>
+    </div>
+
+    <aside id="panel" aria-live="polite"></aside>
+    <div id="hud">
+      <div><span>В марафоне</span><strong id="n">0 фильмов</strong></div>
+      <div><span>Время</span><strong id="tm">0 ч</strong></div>
+      <div><span>Больница</span><strong id="hh">0 дн.</strong></div>
+      <div><span>Срок</span><strong id="jj">0 лет</strong></div>
+      <div><span>Развод / увольнение</span><strong id="ss">0%</strong></div>
+      <div id="chance">
+        <span>Шанс дожить до курантов</span><strong id="ch">100%</strong>
+      </div>
+      <div><button id="snow">Метель: вкл</button></div>
+    </div>
+
+    <script>
+      const F = [
+        {
+          t: "Ирония судьбы, или С легким паром!",
+          y: 1975,
+          d: 184,
+          c: "СССР",
+          g: "мелодрама",
+          dr: "Эльдар Рязанов",
+          ac: ["Андрей Мягков", "Барбара Брыльска"],
+          r: 8.2,
+          v: 631645,
+          synopsis:
+            "Москвич Женя Лукашин после бани с друзьями по ошибке улетает в Ленинград и попадает в чужую квартиру, где находит свое счастье. Классика, которая в реальности закончилась бы двумя уголовными делами.",
+          u: "https://www.kinopoisk.ru/film/77331/",
+        },
+        {
+          t: "Вечера на хуторе близ Диканьки",
+          y: 1961,
+          d: 66,
+          c: "СССР",
+          g: "фэнтези",
+          dr: "Александр Роу",
+          ac: ["Юрий Тавров", "Людмила Хитяева"],
+          r: 8.3,
+          v: 290884,
+          synopsis:
+            "Кузнец Вакула пытается завоевать сердце красавицы Оксаны с помощью нечистой силы. Похищение месяца, полеты на черте и кража царских черевичек.",
+          u: "https://www.kinopoisk.ru/film/45694/",
+        },
+        {
+          t: "Морозко",
+          y: 1964,
+          d: 84,
+          c: "СССР",
+          g: "фэнтези",
+          dr: "Александр Роу",
+          ac: ["Александр Хвыля", "Наталья Седых"],
+          r: 8.1,
+          v: 371450,
+          synopsis:
+            "Мачеха выгоняет падчерицу Настеньку в зимний лес. Там она встречает Ивана и волшебника Морозко. В реальности — это статья за оставление в опасности и смерть от переохлаждения.",
+          u: "https://www.kinopoisk.ru/film/46701/",
+        },
+        {
+          t: "Чародеи",
+          y: 1982,
+          d: 147,
+          c: "СССР",
+          g: "мюзикл",
+          dr: "Константин Бромберг",
+          ac: ["Александра Яковлева", "Александр Абдулов"],
+          r: 8.0,
+          v: 175461,
+          synopsis:
+            "Сотрудники НИИ волшебства готовятся к Новому году. Иванушка ломает стену лбом, крадет волшебную палочку и случайно заколдовывает невесту.",
+          u: "https://www.kinopoisk.ru/film/79450/",
+        },
+        {
+          t: "Карнавальная ночь",
+          y: 1956,
+          d: 78,
+          c: "СССР",
+          g: "комедия",
+          dr: "Эльдар Рязанов",
+          ac: ["Игорь Ильинский", "Людмила Гурченко"],
+          r: 8.2,
+          v: 269614,
+          synopsis:
+            "Молодые сотрудники Дома культуры готовят веселый новогодний вечер, а директор-бюрократ требует скучного официального концерта. Саботаж, пьянство и удержание начальника в лифте.",
+          u: "https://www.kinopoisk.ru/film/44720/",
+        },
+        {
+          t: "Приходи на меня посмотреть",
+          y: 2000,
+          d: 101,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Михаил Агранович",
+          ac: ["Олег Янковский", "Ирина Купченко"],
+          r: 8.2,
+          v: 141672,
+          synopsis:
+            "Пожилая женщина решает свести счеты с жизнью под Новый год, но ее планам мешает случайный гость. История о том, как праздник меняет судьбы.",
+          u: "https://www.kinopoisk.ru/film/40955/",
+        },
+        {
+          t: "Старый Новый год",
+          y: 1980,
+          d: 138,
+          c: "СССР",
+          g: "комедия",
+          dr: "Наум Ардашников",
+          ac: ["Вячеслав Невинный", "Александр Калягин"],
+          r: 8.2,
+          v: 69461,
+          synopsis:
+            "В коммунальной квартире празднуют Старый Новый год. Соседи выясняют отношения, пьют, ссорятся и мирятся. Классика бытовой комедии.",
+          u: "https://www.kinopoisk.ru/film/43986/",
+        },
+        {
+          t: "Зигзаг удачи",
+          y: 1968,
+          d: 88,
+          c: "СССР",
+          g: "комедия",
+          dr: "Эльдар Рязанов",
+          ac: ["Евгений Леонов", "Валентина Талызина"],
+          r: 8.0,
+          v: 79730,
+          synopsis:
+            "Сотрудник фотоателье выигрывает в лотерею, но деньги из общей кассы. Коллектив начинает делить выигрыш, что приводит к скандалам и дракам.",
+          u: "https://www.kinopoisk.ru/film/45352/",
+        },
+        {
+          t: "Новогодние приключения Маши и Вити",
+          y: 1975,
+          d: 71,
+          c: "СССР",
+          g: "фэнтези",
+          dr: "Геннадий Казанский",
+          ac: ["Ирина Борисова", "Михаил Боярский"],
+          r: 8.0,
+          v: 124239,
+          synopsis:
+            "Школьники отправляются в сказочный лес, чтобы спасти Снегурочку от Кощея Бессмертного. В реальности — похищение человека и нелегальное проникновение в жилище.",
+          u: "https://www.kinopoisk.ru/film/252037/",
+        },
+        {
+          t: "Сирота казанская",
+          y: 1997,
+          d: 82,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Владимир Машков",
+          ac: ["Елена Шевченко", "Николай Фоменко"],
+          r: 7.9,
+          v: 47105,
+          synopsis:
+            "Девушка приезжает в деревню к бабушке и знакомится с тремя мужчинами, каждый из которых утверждает, что он ее отец. Новогодняя комедия положений.",
+          u: "https://www.kinopoisk.ru/film/41058/",
+        },
+        {
+          t: "Невеста",
+          y: 2006,
+          d: 85,
+          c: "Россия",
+          g: "драма",
+          dr: "Эльёр Ишмухамедов",
+          ac: ["Тамара Акулова", "Александр Головин"],
+          r: 7.6,
+          v: 10244,
+          synopsis:
+            "В канун Нового года в дом приходит беда. История о любви, предательстве и надежде, которая в реальности закончилась бы трагедией.",
+          u: "https://www.kinopoisk.ru/film/277556/",
+        },
+        {
+          t: "Снежная королева",
+          y: 1966,
+          d: 85,
+          c: "СССР",
+          g: "фэнтези",
+          dr: "Геннадий Казанский",
+          ac: ["Елена Проклова", "Слава Цюпа"],
+          r: 7.7,
+          v: 58738,
+          synopsis:
+            "Кай попадает в плен к Снежной королеве, а Герда отправляется на его поиски. Похищение ребенка, бродяжничество и контакт с криминалом.",
+          u: "https://www.kinopoisk.ru/film/43890/",
+        },
+        {
+          t: "Бедная Саша",
+          y: 1997,
+          d: 95,
+          c: "Россия",
+          g: "комедия",
+          dr: "Тигран Кеосаян",
+          ac: ["Юлия Чернова", "Александр Збруев"],
+          r: 7.6,
+          v: 36309,
+          synopsis:
+            "Девочка Саша решает ограбить банк, чтобы вернуть отца в семью. Взрывчатка, оружие и привлечение несовершеннолетних — в реальности это статья.",
+          u: "https://www.kinopoisk.ru/film/41481/",
+        },
+        {
+          t: "Кушать подано!",
+          y: 2005,
+          d: 85,
+          c: "Украина",
+          g: "комедия",
+          dr: "Максим Паперник",
+          ac: ["Александр Балуев", "Юлия Рутберг"],
+          r: 7.3,
+          v: 16224,
+          synopsis:
+            "Новогодний корпоратив в ресторане выходит из-под контроля. Пьяные начальники, скандалы и разрушенный интерьер.",
+          u: "https://www.kinopoisk.ru/film/257825/",
+        },
+        {
+          t: "Железнодорожный романс",
+          y: 2002,
+          d: 102,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Иван Соловов",
+          ac: ["Егор Бероев", "Ольга Будина"],
+          r: 7.2,
+          v: 7221,
+          synopsis:
+            "Случайная встреча в поезде в новогоднюю ночь перерастает в роман. В реальности — это нарушение расписания и самовольный захват купе.",
+          u: "https://www.kinopoisk.ru/film/161075/",
+        },
+        {
+          t: "Со мною вот что происходит",
+          y: 2012,
+          d: 72,
+          c: "Россия",
+          g: "драма",
+          dr: "Виктор Шамиров",
+          ac: ["Гоша Куценко", "Виктор Шамиров"],
+          r: 7.3,
+          v: 60207,
+          synopsis:
+            "Молодой человек пытается найти себя в жизни и любви в канун Нового года. Философская драма о потерянном поколении.",
+          u: "https://www.kinopoisk.ru/film/659909/",
+        },
+        {
+          t: "Снежная любовь, или Сон в зимнюю ночь",
+          y: 2003,
+          d: 106,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Оксана Байрак",
+          ac: ["Настасья Зюркалова", "Лидия Вележева"],
+          r: 7.2,
+          v: 7006,
+          synopsis:
+            "Девушка загадывает желание под Новый год и встречает принца. Сказка, которая в реальности обернулась бы разочарованием и депрессией.",
+          u: "https://www.kinopoisk.ru/film/412501/",
+        },
+        {
+          t: "Снегурочка",
+          y: 1968,
+          d: 90,
+          c: "СССР",
+          g: "мюзикл",
+          dr: "Павел Кадочников",
+          ac: ["Евгения Филонова", "Евгений Жариков"],
+          r: 7.2,
+          v: 14689,
+          synopsis:
+            "Сказка о Снегурочке, которая хочет познать любовь. Таяние, эмоциональная нестабильность и смерть от переохлаждения.",
+          u: "https://www.kinopoisk.ru/film/43889/",
+        },
+        {
+          t: "Мужчина в моей голове",
+          y: 2009,
+          d: 113,
+          c: "Россия",
+          g: "комедия",
+          dr: "Алексей Пиманов",
+          ac: ["Андрей Чернышов", "Алексей Серебряков"],
+          r: 7.1,
+          v: 22168,
+          synopsis:
+            "Женщина находит в своей голове мужчину, который постоянно дает ей советы. Шизофрения или новогоднее чудо?",
+          u: "https://www.kinopoisk.ru/film/492099/",
+        },
+        {
+          t: "Тариф Новогодний",
+          y: 2008,
+          d: 83,
+          c: "Россия",
+          g: "фэнтези",
+          dr: "Евгений Бедарев",
+          ac: ["Максим Матвеев", "Валерия Ланская"],
+          r: 7.1,
+          v: 101632,
+          synopsis:
+            "Парень покупает телефон и начинает общаться с девушкой из прошлого. Путешествия во времени, которые в реальности нарушили бы все законы физики.",
+          u: "https://www.kinopoisk.ru/film/406141/",
+        },
+        {
+          t: "Ёлки 2",
+          y: 2011,
+          d: 96,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Дмитрий Киселёв",
+          ac: ["Иван Ургант", "Сергей Светлаков"],
+          r: 7.0,
+          v: 160859,
+          synopsis:
+            "Новогодние истории из разных городов России. Погони, падения, сноуборды и фейковые дочери президента.",
+          u: "https://www.kinopoisk.ru/film/573817/",
+        },
+        {
+          t: "Снежный ангел",
+          y: 2007,
+          d: 101,
+          c: "Россия",
+          g: "комедия",
+          dr: "Александр Карпиловский",
+          ac: ["Виктория Толстоганова", "Александр Балуев"],
+          r: null,
+          v: 6078,
+          synopsis:
+            "Девушка находит в снегу раненого мужчину и решает ему помочь. Новогодняя сказка о том, как доброта меняет жизнь.",
+          u: "https://www.kinopoisk.ru/film/402628/",
+        },
+        {
+          t: "Француз",
+          y: 2004,
+          d: 90,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Вера Сторожева",
+          ac: ["Мария Голубкина", "Тьерри Монфрей"],
+          r: 7.1,
+          v: 30664,
+          synopsis:
+            "Русская девушка влюбляется во француза. Языковой барьер, культурные различия и новогодние чудеса.",
+          u: "https://www.kinopoisk.ru/film/84998/",
+        },
+        {
+          t: "Четвертое желание",
+          y: 2003,
+          d: 160,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Ольга Перуновская",
+          ac: ["Гоша Куценко", "Мария Порошина"],
+          r: null,
+          v: 3479,
+          synopsis:
+            "Героиня загадывает желания под Новый год, и они начинают сбываться. Но не так, как она хотела.",
+          u: "https://www.kinopoisk.ru/film/325792/",
+        },
+        {
+          t: "Ёлки",
+          y: 2010,
+          d: 90,
+          c: "Россия",
+          g: "комедия",
+          dr: "Тимур Бекмамбетов",
+          ac: ["Иван Ургант", "Сергей Светлаков"],
+          r: null,
+          v: 233907,
+          synopsis:
+            "Несколько новогодних историй, связанных одной цепью событий. В реальности — это хаос, аварии и разрушения.",
+          u: "https://www.kinopoisk.ru/film/493768/",
+        },
+        {
+          t: "Суженый-ряженый",
+          y: 2007,
+          d: 90,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Дмитрий Иосифов",
+          ac: ["Мария Порошина", "Алексей Макаров"],
+          r: null,
+          v: 4286,
+          synopsis:
+            "Гадания на суженого приводят к неожиданным последствиям. Новогодняя мистика и романтика.",
+          u: "https://www.kinopoisk.ru/film/403492/",
+        },
+        {
+          t: "Эта веселая планета",
+          y: 1973,
+          d: 94,
+          c: "СССР",
+          g: "мюзикл",
+          dr: "Юрий Сааков",
+          ac: ["Савелий Крамаров", "Леонид Куравлёв"],
+          r: null,
+          v: 11219,
+          synopsis:
+            "Новогодний мюзикл с участием звезд советского кино. Песни, танцы и нелепые ситуации.",
+          u: "https://www.kinopoisk.ru/film/94970/",
+        },
+        {
+          t: "Моя мама Снегурочка",
+          y: 2007,
+          d: 90,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Роман Барабаш",
+          ac: ["Мария Аманова", "Михаил Богдасаров"],
+          r: null,
+          v: 4462,
+          synopsis:
+            "Женщина работает Снегурочкой на детских утренниках. В реальности — это 12 часов на ногах, замерзание и потеря голоса.",
+          u: "https://www.kinopoisk.ru/film/438255/",
+        },
+        {
+          t: "О чём ещё говорят мужчины",
+          y: 2011,
+          d: 95,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Дмитрий Дьяченко",
+          ac: ["Леонид Барац", "Александр Демидов"],
+          r: null,
+          v: 194837,
+          synopsis:
+            "Четверо друзей встречаются в ресторане и обсуждают жизнь. В реальности — это перепившие мужчины, брошенные телефоны и разрушенные браки.",
+          u: "https://www.kinopoisk.ru/film/502733/",
+        },
+        {
+          t: "Глухарь. Приходи, Новый год!",
+          y: 2009,
+          d: 92,
+          c: "Россия",
+          g: "комедия",
+          dr: "Юрий Попович",
+          ac: ["Максим Аверин", "Александр Фурсенко"],
+          r: null,
+          v: 5426,
+          synopsis:
+            "Полицейские празднуют Новый год на работе. Пьяные задержанные, драки и стрельба в отделении.",
+          u: "https://www.kinopoisk.ru/film/491892/",
+        },
+        {
+          t: "Президент и его внучка",
+          y: 1999,
+          d: 100,
+          c: "Россия",
+          g: "комедия",
+          dr: "Тигран Кеосаян",
+          ac: ["Олег Табаков", "Надежда Михалкова"],
+          r: null,
+          v: 28838,
+          synopsis:
+            "Внучка президента сбегает из Кремля в новогоднюю ночь. Похищение ребенка, нарушение протокола и международный скандал.",
+          u: "https://www.kinopoisk.ru/film/40953/",
+        },
+        {
+          t: "Юбилей",
+          y: 2007,
+          d: 113,
+          c: "Россия",
+          g: "комедия",
+          dr: "Нонна Агаджанова",
+          ac: ["Людмила Чурсина", "Ксения Лаврова-Глинка"],
+          r: null,
+          v: 1200,
+          synopsis:
+            "Семейный юбилей под Новый год превращается в скандал. В реальности — это пьяные родственники и испорченный праздник.",
+          u: "https://www.kinopoisk.ru/film/418675/",
+        },
+        {
+          t: "Ночь закрытых дверей",
+          y: 2008,
+          d: 93,
+          c: "Россия",
+          g: "комедия",
+          dr: "Юрий Кузьменко",
+          ac: ["Елена Ксенофонтова", "Александр Макогон"],
+          r: null,
+          v: 2720,
+          synopsis:
+            "Новогодняя ночь в закрытом клубе. Интриги, измены и неожиданные встречи.",
+          u: "https://www.kinopoisk.ru/film/432654/",
+        },
+        {
+          t: "Операция «С новым годом»",
+          y: 1996,
+          d: 93,
+          c: "Россия",
+          g: "комедия",
+          dr: "Александр Рогожкин",
+          ac: ["Алексей Булдаков", "Сергей Маковецкий"],
+          r: null,
+          v: 16583,
+          synopsis:
+            "Генерал и его команда празднуют Новый год в больнице. Водка, медведи и стрельба в черте города.",
+          u: "https://www.kinopoisk.ru/film/79452/",
+        },
+        {
+          t: "Новогодние сваты",
+          y: 2010,
+          d: 97,
+          c: "Украина",
+          g: "мюзикл",
+          dr: "Евгений Бедарев",
+          ac: ["Фёдор Добронравов", "Татьяна Кравченко"],
+          r: null,
+          v: 44558,
+          synopsis:
+            "Сваты снова в деле. Новогодние приключения, песни и пляски.",
+          u: "https://www.kinopoisk.ru/film/574259/",
+        },
+        {
+          t: "Прощайте, доктор Фрейд",
+          y: 2004,
+          d: 104,
+          c: "Россия",
+          g: "комедия",
+          dr: "Марина Мигунова",
+          ac: ["Юлия Рутберг", "Илья Древнов"],
+          r: null,
+          v: 1645,
+          synopsis:
+            "Пациенты психотерапевта сходят с ума под Новый год. В реальности — это обострение психических расстройств и вызов санитаров.",
+          u: "https://www.kinopoisk.ru/film/94197/",
+        },
+        {
+          t: "Снегурочку вызывали?",
+          y: 1985,
+          d: 67,
+          c: "СССР",
+          g: "драма",
+          dr: "Валентин Морозов",
+          ac: ["Ирина Алферова", "Владимир Меньшов"],
+          r: null,
+          v: 4754,
+          synopsis:
+            "Женщина работает Снегурочкой, чтобы прокормить семью. Тяжелый труд, унижения и новогоднее чудо.",
+          u: "https://www.kinopoisk.ru/film/276121/",
+        },
+        {
+          t: "Похищение",
+          y: 1969,
+          d: 212,
+          c: "СССР",
+          g: "комедия",
+          dr: "Юрий Сааков",
+          ac: ["Михаил Пуговкин", "Олег Анофриев"],
+          r: null,
+          v: 2689,
+          synopsis:
+            "Новогодняя комедия о похищении. В реальности — это уголовное дело и срок.",
+          u: "https://www.kinopoisk.ru/film/466875/",
+        },
+        {
+          t: "Лузер",
+          y: 2007,
+          d: 104,
+          c: "Россия",
+          g: "комедия",
+          dr: "Александр Абдулов",
+          ac: ["Александр Абдулов", "Сергей Никоненко"],
+          r: null,
+          v: 5247,
+          synopsis:
+            "Неудачник пытается изменить свою жизнь под Новый год. В реальности — это депрессия и алкоголизм.",
+          u: "https://www.kinopoisk.ru/film/401770/",
+        },
+        {
+          t: "Странное Рождество",
+          y: 2006,
+          d: 142,
+          c: "Украина",
+          g: "комедия",
+          dr: "Максим Паперник",
+          ac: ["Барбара Брыльска", "Лия Ахеджакова"],
+          r: null,
+          v: 1506,
+          synopsis:
+            "Рождественская сказка для взрослых. Чудеса, которые в реальности не случаются.",
+          u: "https://www.kinopoisk.ru/film/427863/",
+        },
+        {
+          t: "Кто приходит в зимний вечер",
+          y: 2006,
+          d: 90,
+          c: "Россия",
+          g: "комедия",
+          dr: "Станислав Дремов",
+          ac: ["Андрей Мягков", "Мария Аронова"],
+          r: null,
+          v: 1358,
+          synopsis:
+            "Новогодняя ночь в коммунальной квартире. Соседи, гости и неожиданные повороты судьбы.",
+          u: "https://www.kinopoisk.ru/film/423044/",
+        },
+        {
+          t: "С Новым годом, папа!",
+          y: 2005,
+          d: 90,
+          c: "Россия",
+          g: "комедия",
+          dr: "Ольга Перуновская",
+          ac: ["Анна Антоненко", "Игорь Арташонов"],
+          r: null,
+          v: 1337,
+          synopsis:
+            "Отец пытается помириться с дочерью под Новый год. В реальности — это годы непонимания и психотерапия.",
+          u: "https://www.kinopoisk.ru/film/414598/",
+        },
+        {
+          t: "Новогодний детектив",
+          y: 2010,
+          d: 90,
+          c: "Россия",
+          g: "комедия",
+          dr: "Алексей Бобров",
+          ac: ["Дарья Михайлова", "Сергей Маковецкий"],
+          r: null,
+          v: 3977,
+          synopsis:
+            "В новогоднюю ночь совершено преступление. Полицейские ведут расследование, которое в реальности закончилось бы провалом.",
+          u: "https://www.kinopoisk.ru/film/573995/",
+        },
+        {
+          t: "32 декабря",
+          y: 2004,
+          d: 104,
+          c: "Россия",
+          g: "комедия",
+          dr: "Александр Муратов",
+          ac: ["Андрей Мягков", "Армен Джигарханян"],
+          r: null,
+          v: 12593,
+          synopsis:
+            "Герои попадают в временную петлю 31 декабря. В реальности — это психиатрический диагноз.",
+          u: "https://www.kinopoisk.ru/film/94976/",
+        },
+        {
+          t: "Убить карпа",
+          y: 2005,
+          d: 100,
+          c: "Россия",
+          g: "комедия",
+          dr: "Наум Ардашников",
+          ac: ["Леонид Якубович", "Любовь Полищук"],
+          r: null,
+          v: 1609,
+          synopsis:
+            "Новогодняя комедия о том, как убить карпа и приготовить праздничный ужин. В реальности — это пищевое отравление.",
+          u: "https://www.kinopoisk.ru/film/276271/",
+        },
+        {
+          t: "Дед Мороз поневоле",
+          y: 2007,
+          d: 77,
+          c: "Россия",
+          g: "комедия",
+          dr: "Елена Цыплакова",
+          ac: ["Егор Бероев", "Ксения Алферова"],
+          r: null,
+          v: 1220,
+          synopsis:
+            "Мужчина вынужден работать Дедом Морозом. В реальности — это 30 замерзших детей и скандал с родителями.",
+          u: "https://www.kinopoisk.ru/film/427905/",
+        },
+        {
+          t: "Тушите свет",
+          y: 2008,
+          d: 75,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Сайдо Курбанов",
+          ac: ["Нонна Гришаева", "Анна Банщикова"],
+          r: null,
+          v: 1615,
+          synopsis:
+            "Новогодняя ночь при свечах. Романтика, которая в реальности обернулась бы отключением электричества и холодом.",
+          u: "https://www.kinopoisk.ru/film/432562/",
+        },
+        {
+          t: "Сверчок за очагом",
+          y: 2001,
+          d: 107,
+          c: "Россия",
+          g: "мюзикл",
+          dr: "Леонид Нечаев",
+          ac: ["Альберт Филозов", "Оксана Пашина"],
+          r: null,
+          v: 1089,
+          synopsis:
+            "Рождественский мюзикл по мотивам сказки. Чудеса, песни и пляски.",
+          u: "https://www.kinopoisk.ru/film/404438/",
+        },
+        {
+          t: "Ой, мороз, мороз!",
+          y: 2005,
+          d: 95,
+          c: "Россия",
+          g: "комедия",
+          dr: "Николай Щербаков",
+          ac: ["Владимир Епифанцев", "Настя Задорожная"],
+          r: null,
+          v: 1648,
+          synopsis:
+            "Новогодняя комедия о том, как два друга едут на праздник. В реальности — это ДТП и обморожение.",
+          u: "https://www.kinopoisk.ru/film/419406/",
+        },
+        {
+          t: "Откройте, Дед Мороз!",
+          y: 2007,
+          d: 98,
+          c: "Россия",
+          g: "мелодрама",
+          dr: "Ольга Субботина",
+          ac: ["Константин Лавроненко", "Любовь Толкалина"],
+          r: null,
+          v: 1461,
+          synopsis:
+            "Женщина ждет Деда Мороза для ребенка. В реальности — это разочарование и слезы.",
+          u: "https://www.kinopoisk.ru/film/403493/",
+        },
+      ];
+      const L = [
+        [0, 4],
+        [0, 7],
+        [0, 39],
+        [0, 40],
+        [0, 43],
+        [1, 2],
+        [3, 38],
+        [4, 7],
+        [6, 44],
+        [8, 11],
+        [12, 30],
+        [13, 21],
+        [13, 35],
+        [13, 39],
+        [14, 45],
+        [15, 23],
+        [19, 34],
+        [20, 24],
+        [23, 25],
+        [23, 41],
+        [26, 37],
+        [33, 42],
+        [40, 43],
+      ];
+      const rnd = (
+        (a) => () =>
+          (a = (a * 16807) % 2147483647) / 2147483647
+      )(42);
+      // баллы 0..10: [больница, тюрьма, развод]
+      const GB = {
+        комедия: [4, 3, 5],
+        мелодрама: [2, 2, 9],
+        фэнтези: [4, 5, 2],
+        мюзикл: [1, 1, 3],
+        драма: [3, 3, 8],
+      };
+      const DOS = {
+        "Ирония судьбы, или С легким паром!": {
+          s: [5, 4, 10],
+          l: [
+            "Баня: тост «за любовь» на троих. Итог: алкогольная интоксикация тяжёлой степени, сутки на капельнице.",
+            "Пассажир в бессознательном состоянии отправлен самолётом в другой город. Итог: протокол и лётный запрет.",
+            "Герой входит в чужую квартиру — ключ подошёл. Итог: ст. 139 УК РФ, незаконное проникновение в жилище.",
+            "Накануне праздника расторгнуты две помолвки. Итог: развод до свадьбы, дважды.",
+          ],
+        },
+        Морозко: {
+          s: [5, 6, 6],
+          l: [
+            "Мачеха отправляет падчерицу в зимний лес. Итог: ст. 125 УК РФ, оставление в опасности.",
+            "Морозко «проверяет» девушку холодом: «тепло ли тебе?» Итог: обморожение, угроза жизни.",
+            "Марфушка замерзает насмерть. Итог: смерть от переохлаждения, дело передано в СК.",
+            "Иван превращён в медведя. Итог: осмотр у ветеринара, вопросы к Бабе-яге.",
+          ],
+        },
+        "Снежная королева": {
+          s: [3, 7, 5],
+          l: [
+            "Снежная королева увозит ребёнка на север. Итог: ст. 126 УК РФ, похищение человека.",
+            "Девочка одна идёт через полстраны. Итог: проверка органов опеки.",
+            "Разбойники удерживают Герду. Итог: ст. 127 УК РФ, незаконное лишение свободы.",
+            "Осколок в глазу: Кай оскорбляет бабушку и срывает розы. Итог: хулиганство, порча имущества.",
+          ],
+        },
+        "Вечера на хуторе близ Диканьки": {
+          s: [4, 5, 6],
+          l: [
+            "Чёрт крадёт месяц. Итог: кража, хутор без света.",
+            "Вакула связывает нечисть и летит на ней в столицу. Итог: ст. 166 УК РФ, угон (чёрта).",
+            "Трое поклонников Солохи сидят в мешках, по ним бьют. Итог: побои, нарушение неприкосновенности жилища.",
+            "Черевички у царицы. Итог: подарок от главы государства, вопросы к антикоррупционной комиссии.",
+          ],
+        },
+      };
+      F.forEach((f, i) => {
+        const d = DOS[f.t];
+        f.cur = !!d;
+        f.s = d
+          ? d.s
+          : GB[f.g].map((x) =>
+              Math.max(0.5, Math.min(10, x + (rnd() - 0.5) * 4)),
+            );
+        f.l = d ? d.l : null;
+        f.j = [rnd(), rnd(), rnd()];
+      });
+      const cv = document.getElementById("c"),
+        x = cv.getContext("2d"),
+        P = document.getElementById("panel"),
+        tip = document.getElementById("tip");
+      let W,
+        H,
+        dpr,
+        hubs,
+        sel = -1,
+        hov = -1,
+        mx = -999,
+        my = -999,
+        basket = new Set(),
+        snowOn = true,
+        t0 = 0;
+      const HN = ["Больница", "Тюрьма", "Развод и увольнение"],
+        flakes = [];
+
+      function layout() {
+        dpr = devicePixelRatio || 1;
+        W = innerWidth;
+        H = innerHeight;
+        cv.width = W * dpr;
+        cv.height = H * dpr;
+        x.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const cx = W / 2;
+        const cy = H * 0.52;
+        const R = Math.min(W * 0.4, H * 0.38);
+
+        hubs = [
+          [cx - R * 1.0, cy + R * 0.62],
+          [cx + R * 1.0, cy + R * 0.62],
+          [cx, cy - R * 0.88],
+        ];
+
+        F.forEach((f) => {
+          const w = f.s.map((v) => Math.pow(v, 2.2)),
+            k = w[0] + w[1] + w[2];
+          f.x = 0;
+          f.y = 0;
+          w.forEach((a, i) => {
+            f.x += (hubs[i][0] * a) / k;
+            f.y += (hubs[i][1] * a) / k;
+          });
+          f.bx = f.x + (f.j[0] - 0.5) * R * 0.55;
+          f.by = f.y + (f.j[1] - 0.5) * R * 0.45;
+          f.rad = 2.5 + Math.log10(f.v + 10) * 1.5;
+          f.w = w.map((a) => a / k);
+        });
+      }
+
+      for (let i = 0; i < 170; i++)
+        flakes.push({
+          x: rnd() * 2000,
+          y: rnd() * 1200,
+          r: 0.6 + rnd() * 2,
+          v: 0.2 + rnd() * 0.5,
+          p: rnd() * 6,
+        });
+      function days(f) {
+        return Math.round(f.s[0] * 7);
+      }
+      function yrs(f) {
+        return f.s[1] * 0.8;
+      }
+      function soc(f) {
+        return Math.round(f.s[2] * 10);
+      }
+      function fmtY(y) {
+        const a = Math.floor(y),
+          m = Math.round((y - a) * 12);
+        return (a ? a + " г. " : "") + (m || !a ? m + " мес." : "");
+      }
+      function frame(t) {
+        x.clearRect(0, 0, W, H);
+
+        const isPanelOpen = P.classList.contains("on") && W > 760;
+        const shiftTarget = isPanelOpen ? -200 : 0;
+
+        if (typeof window.currentShift === "undefined") window.currentShift = 0;
+        window.currentShift += (shiftTarget - window.currentShift) * 0.05;
+
+        x.save();
+        x.translate(window.currentShift, 0);
+
+        F.forEach((f) => {
+          f.x = f.bx + Math.sin(t / 1500 + f.j[2] * 9) * 3;
+          f.y = f.by + Math.cos(t / 1700 + f.j[0] * 9) * 3;
+        });
+        const act = hov >= 0 ? hov : sel;
+
+        x.lineWidth = 0.6;
+        L.forEach(([a, b]) => {
+          const A = F[a],
+            B = F[b],
+            on = act == a || act == b;
+          x.strokeStyle = on ? "rgba(255,255,255,.7)" : "rgba(255,255,255,.1)";
+          x.beginPath();
+          x.moveTo(A.x, A.y);
+          x.quadraticCurveTo((A.x + B.x) / 2, (A.y + B.y) / 2 - 40, B.x, B.y);
+          x.stroke();
+        });
+
+        F.forEach((f, i) => {
+          const on = act == i || basket.has(i);
+          for (let h = 0; h < 3; h++) {
+            const w = f.w[h];
+            x.strokeStyle = on
+              ? `rgba(255,${on && act == i ? 120 : 70},60,${0.35 + w})`
+              : `rgba(232,69,44,${0.05 + w * 0.28})`;
+            x.lineWidth = on ? 1.3 : 0.6;
+            x.beginPath();
+            x.moveTo(f.x, f.y);
+            x.quadraticCurveTo(
+              (f.x + hubs[h][0]) / 2 + (f.j[h] - 0.5) * 80,
+              (f.y + hubs[h][1]) / 2 + (f.j[(h + 1) % 3] - 0.5) * 80,
+              hubs[h][0],
+              hubs[h][1],
+            );
+            x.stroke();
+          }
+        });
+        hubs.forEach((h, i) => {
+          x.fillStyle = "#e8452c";
+          x.beginPath();
+          x.arc(h[0], h[1], 9, 0, 7);
+          x.fill();
+          x.fillStyle = "#f1ece6";
+          x.font = "600 15px Trebuchet MS,sans-serif";
+          x.textAlign = "center";
+          x.fillText(HN[i], h[0], h[1] + (i == 2 ? -18 : 26));
+        });
+        F.forEach((f, i) => {
+          const on = i == act,
+            inb = basket.has(i);
+          x.beginPath();
+          x.arc(f.x, f.y, f.rad + (on ? 3 : 0), 0, 7);
+          x.fillStyle = on
+            ? "#fff"
+            : inb
+              ? "#ffd23f"
+              : f.cur
+                ? "#ff5238"
+                : "#ff9f95";
+          x.globalAlpha = f.cur || on || inb ? 1 : 0.62;
+          x.fill();
+          x.globalAlpha = 1;
+          if (inb) {
+            x.strokeStyle = "#ffd23f";
+            x.lineWidth = 1.5;
+            x.beginPath();
+            x.arc(f.x, f.y, f.rad + 6, 0, 7);
+            x.stroke();
+          }
+          if (f.cur || on) {
+            x.fillStyle = "#f1ece6";
+            x.font = "12px Trebuchet MS,sans-serif";
+            x.textAlign = "center";
+            x.fillText(f.t.split(",")[0], f.x, f.y - f.rad - 8);
+          }
+        });
+
+        x.restore();
+
+        if (snowOn) {
+          x.fillStyle = "#fff";
+          flakes.forEach((s) => {
+            s.y += s.v;
+            s.p += 0.02;
+            s.x += Math.sin(s.p) * 0.4;
+            const dx = s.x - mx,
+              dy = s.y - my,
+              d = Math.hypot(dx, dy);
+            if (d < 90) {
+              s.x += (dx / d) * (90 - d) * 0.02;
+              s.y += (dy / d) * (90 - d) * 0.02;
+            }
+            if (s.y > H + 5) {
+              s.y = -5;
+              s.x = rnd() * W;
+            }
+            if (s.x > W + 5) s.x = -5;
+            if (s.x < -5) s.x = W;
+            x.globalAlpha = 0.25 + s.r / 3.5;
+            x.beginPath();
+            x.arc(s.x, s.y, s.r, 0, 7);
+            x.fill();
+          });
+          x.globalAlpha = 1;
+        }
+        requestAnimationFrame(frame);
+      }
+      function pick() {
+        let b = -1,
+          bd = 1e9;
+        const localMx = mx - (window.currentShift || 0);
+        F.forEach((f, i) => {
+          const d = Math.hypot(f.x - localMx, f.y - my);
+          if (d < f.rad + 8 && d < bd) {
+            bd = d;
+            b = i;
+          }
+        });
+        return b;
+      }
+      cv.onmousemove = (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        hov = pick();
+        cv.style.cursor = hov >= 0 ? "pointer" : "default";
+        if (hov >= 0) {
+          const f = F[hov];
+          tip.style.display = "block";
+          tip.style.left = mx + 14 + "px";
+          tip.style.top = my + 14 + "px";
+          tip.textContent =
+            f.t + " · " + f.y + (f.r ? " · " + f.r.toFixed(1) : "");
+        } else tip.style.display = "none";
+      };
+      cv.onmouseleave = () => {
+        mx = my = -999;
+        hov = -1;
+        tip.style.display = "none";
+      };
+      cv.onclick = (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        const i = pick();
+        if (i >= 0) open(i);
+        else {
+          sel = -1;
+          P.classList.remove("on");
+        }
+      };
+      function bar(n, v, txt) {
+        return `<div class="bar"><i>${n}</i><s><u style="width:0" data-w="${v * 10}%"></u></s><em>${txt}</em></div>`;
+      }
+
+      function open(i) {
+        sel = i;
+        const f = F[i],
+          inb = basket.has(i);
+        P.innerHTML = `<h2>${f.t}</h2><div class="m">${f.y} · ${f.c} · ${f.g} · ${Math.floor(f.d / 60)} ч ${f.d % 60} мин${f.r ? " · КП " + f.r.toFixed(1) : ""}</div>
+ ${f.synopsis ? `<div class="synopsis">${f.synopsis}</div>` : ""}
+ ${bar("Больница", f.s[0], days(f) + " дн.")}${bar("Тюрьма", f.s[1], fmtY(yrs(f)))}${bar("Развод", f.s[2], soc(f) + "%")}
+ ${f.cur ? "<ol>" + f.l.map((a) => `<li>${a}</li>`).join("") + "</ol>" : `<p class="est">Досье не открыто. Оценка предварительная, по жанру «${f.g}». Добавьте сцены в протокол — и точка станет красной.</p>`}
+ <button id="add" class="${inb ? "off" : ""}">${inb ? "Убрать из марафона" : "В новогодний марафон"}</button>`;
+        P.classList.add("on");
+        requestAnimationFrame(() =>
+          P.querySelectorAll("u").forEach((u) => (u.style.width = u.dataset.w)),
+        );
+        document.getElementById("add").onclick = () => {
+          basket.has(i) ? basket.delete(i) : basket.add(i);
+          open(i);
+          hud();
+        };
+      }
+      function hud() {
+        let h = 0,
+          j = 0,
+          s = 1,
+          m = 0;
+        basket.forEach((i) => {
+          const f = F[i];
+          h += days(f);
+          j += yrs(f);
+          m += f.d;
+          s *= 1 - soc(f) / 130;
+        });
+        const set = (a, b) => (document.getElementById(a).textContent = b);
+        set(
+          "n",
+          basket.size +
+            " " +
+            (basket.size % 10 == 1 && basket.size != 11
+              ? "фильм"
+              : basket.size % 10 > 1 &&
+                  basket.size % 10 < 5 &&
+                  (basket.size < 10 || basket.size > 20)
+                ? "фильма"
+                : "фильмов"),
+        );
+        set("tm", (m / 60).toFixed(1) + " ч");
+        set("hh", h + " дн.");
+        set("jj", fmtY(j));
+        set("ss", Math.round((1 - s) * 100) + "%");
+        set(
+          "ch",
+          Math.max(
+            1,
+            Math.round(100 * Math.exp(-(h * 0.012 + j * 0.09) - (1 - s) * 0.5)),
+          ) + "%",
+        );
+      }
+      document.getElementById("snow").onclick = (e) => {
+        snowOn = !snowOn;
+        e.target.textContent = "Метель: " + (snowOn ? "вкл" : "выкл");
+      };
+      matchMedia("(prefers-reduced-motion:reduce)").matches &&
+        ((snowOn = false),
+        (document.getElementById("snow").textContent = "Метель: выкл"));
+
+      // Приветственный экран
+      document.getElementById("startBtn").onclick = () => {
+        document.getElementById("intro").classList.remove("on");
+      };
+      document.getElementById("intro").onclick = (e) => {
+        if (e.target.id === "intro")
+          document.getElementById("intro").classList.remove("on");
+      };
+
+      addEventListener("resize", layout);
+      layout();
+      hud();
+      requestAnimationFrame(frame);
+    </script>
+    <script>
+      const AUDIT_SCENARIOS = {
+        "Ирония судьбы, или С легким паром!": {
+          verdict:
+            "Итог для Жени Лукашина: токсический гепатит, 2 года колонии за незаконное проникновение в жилище и расторжение помолвки через суд.",
+          events: [
+            {
+              pct: 18,
+              type: "health",
+              part: "liver",
+              hp: -25,
+              jail: 0,
+              soc: -15,
+              title: "Баня: пиво + водка натощак",
+              desc: "Критическая нагрузка на печень и ЦНС. В реальности — острая алкогольная интоксикация и госпитализация в токсикологию.",
+            },
+            {
+              pct: 32,
+              type: "law",
+              part: "head",
+              hp: -10,
+              jail: 0.5,
+              soc: -20,
+              title: "Нелегальный перелет в Ленинград",
+              desc: "Нарушение правил авиационной безопасности (КоАП РФ ст. 11.17) и подлог посадочного талона.",
+            },
+            {
+              pct: 45,
+              type: "law",
+              part: "arms",
+              hp: 0,
+              jail: 2,
+              soc: -15,
+              title: "Взлом чужой квартиры типовым ключом",
+              desc: "Статья 139 УК РФ «Нарушение неприкосновенности жилища». Срок до 2 лет исправительных работ.",
+            },
+            {
+              pct: 68,
+              type: "health",
+              part: "torso",
+              hp: -20,
+              jail: 0,
+              soc: -20,
+              title: "Ипполит в пальто под ледяным душем",
+              desc: "Острое переохлаждение, спазм сосудов и двусторонняя пневмония. Плюс риск инфаркта от стресса.",
+            },
+            {
+              pct: 88,
+              type: "social",
+              part: "heart",
+              hp: -5,
+              jail: 0,
+              soc: -30,
+              title: "Брошенная невеста Галя в Москве",
+              desc: "Тяжелейшая психологическая травма и гарантированный черный список у всех общих знакомых.",
+            },
+          ],
+        },
+        Морозко: {
+          verdict:
+            "Итог: обморожение IV степени, жестокое обращение с детьми и телесные повреждения от падающих с неба дубин.",
+          events: [
+            {
+              pct: 20,
+              type: "health",
+              part: "head",
+              hp: -35,
+              jail: 2,
+              soc: -10,
+              title: "Прилет дубинок из стратосферы",
+              desc: "Иван подкинул дубинки разбойников в воздух. Падение бревна с высоты 100 метров — открытая ЧМТ без шансов выжить.",
+            },
+            {
+              pct: 48,
+              type: "law",
+              part: "torso",
+              hp: -40,
+              jail: 5,
+              soc: -25,
+              title: "Настеньку оставили замерзать в лесу",
+              desc: "Статья 125 УК РФ «Оставление в опасности» и ст. 105 (покушение на убийство) со стороны мачехи.",
+            },
+            {
+              pct: 75,
+              type: "health",
+              part: "head",
+              hp: -15,
+              jail: 0,
+              soc: -30,
+              title: "Трансформация головы Ивана в медвежью",
+              desc: "Острый психоз на фоне переохлаждения в лесу либо тяжелейшая генетическая мутация.",
+            },
+          ],
+        },
+        Чародеи: {
+          verdict:
+            "Итог: нарушение ТБ на режимном объекте НУИНУ, кража госимущества и массовый гипноз.",
+          events: [
+            {
+              pct: 25,
+              type: "law",
+              part: "arms",
+              hp: -10,
+              jail: 3,
+              soc: -15,
+              title: "Хищение волшебной палочки",
+              desc: "Статья 158 УК РФ: кража секретной разработки НИИ с проникновением в хранилище.",
+            },
+            {
+              pct: 55,
+              type: "health",
+              part: "head",
+              hp: -45,
+              jail: 0,
+              soc: -10,
+              title: "Удар лбом о бетонную стену",
+              desc: "Попытка пройти сквозь стену по методу «вижу цель, не вижу препятствий». Итог: перелом лобной кости и сотрясение.",
+            },
+            {
+              pct: 82,
+              type: "social",
+              part: "heart",
+              hp: -15,
+              jail: 0,
+              soc: -40,
+              title: "Снятие заклятия «Зимнего сердца»",
+              desc: "Эмоциональные качели и абьюз в стенах госучреждения. Полное выгорание всего коллектива перед сдачей проекта.",
+            },
+          ],
+        },
+        Ёлки: {
+          verdict:
+            "Итог: 14 ДТП по всей стране, халатность в детдоме и превышение должностных полномочий.",
+          events: [
+            {
+              pct: 22,
+              type: "law",
+              part: "heart",
+              hp: 0,
+              jail: 2,
+              soc: -25,
+              title: "Фейковая дочь президента в детдоме",
+              desc: "Халатность воспитателей (ст. 293 УК РФ) и массовое введение в заблуждение граждан РФ.",
+            },
+            {
+              pct: 50,
+              type: "health",
+              part: "legs",
+              hp: -40,
+              jail: 1,
+              soc: -15,
+              title: "Спуск на сноуборде по лестнице подъезда",
+              desc: "Множественные переломы ног, выбитые зубы и повреждение общедомового имущества.",
+            },
+            {
+              pct: 78,
+              type: "law",
+              part: "torso",
+              hp: -20,
+              jail: 3,
+              soc: -20,
+              title: "Гонки по встречке в новогоднюю ночь",
+              desc: "Лишение водительских прав, создание аварийной ситуации и риск лобового столкновения.",
+            },
+          ],
+        },
+        "Операция «С новым годом»": {
+          verdict:
+            "Итог: вся больница переведена в реанимацию с циррозом, но охота на медведя прошла успешно.",
+          events: [
+            {
+              pct: 20,
+              type: "health",
+              part: "legs",
+              hp: -30,
+              jail: 0,
+              soc: -10,
+              title: "Поступление VIP-пациентов в травматологию",
+              desc: "Исходный уровень здоровья уже на нуле: гипсы, костыли и свежесросшиеся переломы.",
+            },
+            {
+              pct: 55,
+              type: "health",
+              part: "liver",
+              hp: -45,
+              jail: 0,
+              soc: -25,
+              title: "Ящики водки в палате интенсивной терапии",
+              desc: "Несовместимость этанола с обезболивающими и антибиотиками. Остановка дыхания.",
+            },
+            {
+              pct: 85,
+              type: "law",
+              part: "arms",
+              hp: -15,
+              jail: 4,
+              soc: -20,
+              title: "Браконьерство и стрельба в черте города",
+              desc: "Статья 258 УК РФ «Незаконная охота» и ст. 213 «Хулиганство с применением оружия».",
+            },
+          ],
+        },
+        "Карнавальная ночь": {
+          verdict:
+            "Итог: срыв госзаказа, доведение руководителя до нервного тика и распитие на рабочем месте.",
+          events: [
+            {
+              pct: 30,
+              type: "social",
+              part: "heart",
+              hp: -10,
+              jail: 0,
+              soc: -30,
+              title: "Саботаж указаний товарища Огурцова",
+              desc: "Увольнение по статье за неисполнение трудовых обязанностей и публичное унижение начальства.",
+            },
+            {
+              pct: 65,
+              type: "health",
+              part: "liver",
+              hp: -25,
+              jail: 0,
+              soc: -15,
+              title: "Лектор: «Есть ли жизнь на Марсе?»",
+              desc: "Выпитые за кулисами 0.5 коньяка за 10 минут. Острый гипертонический криз прямо на трибуне.",
+            },
+            {
+              pct: 90,
+              type: "law",
+              part: "torso",
+              hp: -5,
+              jail: 1,
+              soc: -25,
+              title: "Незаконное удержание Огурцова в лифте",
+              desc: "Статья 127 УК РФ «Незаконное лишение свободы» должностного лица при исполнении.",
+            },
+          ],
+        },
+        "О чём ещё говорят мужчины": {
+          verdict:
+            "Итог: хронический гастрит от ресторанов, три разрушенных брака и ночевка в офисе.",
+          events: [
+            {
+              pct: 25,
+              type: "social",
+              part: "heart",
+              hp: -5,
+              jail: 0,
+              soc: -35,
+              title: "Забытый телефон и переписка с любовницей",
+              desc: "Моментальный развод, раздел имущества и запрет на общение с детьми по выходным.",
+            },
+            {
+              pct: 60,
+              type: "health",
+              part: "liver",
+              hp: -30,
+              jail: 0,
+              soc: -20,
+              title: "Дегустация элитного алкоголя до утра",
+              desc: "Тяжелейшее похмелье 1 января, обострение панкреатита и провалы в памяти.",
+            },
+            {
+              pct: 85,
+              type: "social",
+              part: "head",
+              hp: -10,
+              jail: 0,
+              soc: -25,
+              title: "Философские споры вместо подготовки к празднику",
+              desc: "Экзистенциальный кризис среднего возраста, переходящий в затяжную депрессию.",
+            },
+          ],
+        },
+        "Бедная Саша": {
+          verdict:
+            "Итог: вооруженное ограбление банка с привлечением несовершеннолетних.",
+          events: [
+            {
+              pct: 25,
+              type: "law",
+              part: "arms",
+              hp: -15,
+              jail: 6,
+              soc: -20,
+              title: "Изготовление взрывного устройства дома",
+              desc: "Статья 223.1 УК РФ «Незаконное изготовление взрывчатых веществ». От 6 до 10 лет лишения свободы.",
+            },
+            {
+              pct: 60,
+              type: "law",
+              part: "torso",
+              hp: -20,
+              jail: 8,
+              soc: -20,
+              title: "Ограбление банка мамы-банкирши",
+              desc: "Статья 162 УК РФ «Разбой» в составе организованной группы + вовлечение ребенка (ст. 150 УК РФ).",
+            },
+            {
+              pct: 88,
+              type: "health",
+              part: "head",
+              hp: -25,
+              jail: 0,
+              soc: -15,
+              title: "Перестрелка и падения в сугробы",
+              desc: "Ушибы мягких тканей, обморожение и посттравматическое стрессовое расстройство.",
+            },
+          ],
+        },
+      };
+      function auditScenario(f) {
+        const custom = AUDIT_SCENARIOS[f.t];
+        if (custom) return custom;
+        const g = f.g,
+          events = [];
+        if (g === "фэнтези" || g === "мюзикл") {
+          events.push(
+            {
+              pct: 22,
+              type: "health",
+              part: "torso",
+              hp: -25,
+              jail: 0,
+              soc: -15,
+              title: "Нарушение температурного режима",
+              desc: "Длительное пребывание на морозе без защиты. Риск гипотермии и обморожения.",
+            },
+            {
+              pct: 54,
+              type: "law",
+              part: "head",
+              hp: -15,
+              jail: 3,
+              soc: -20,
+              title: "Применение несертифицированной магии",
+              desc: "Сказочное вмешательство в частную жизнь и безопасность окружающих. Условная юридическая квалификация.",
+            },
+            {
+              pct: 84,
+              type: "social",
+              part: "heart",
+              hp: -10,
+              jail: 0,
+              soc: -30,
+              title: "Скоропалительное решение под бой курантов",
+              desc: "Романтический финал проверяем на прочность после исчезновения праздничной магии.",
+            },
+          );
+        } else if (g === "комедия") {
+          events.push(
+            {
+              pct: 20,
+              type: "health",
+              part: "liver",
+              hp: -25,
+              jail: 0,
+              soc: -15,
+              title: "Праздничный коктейль без тормозов",
+              desc: "Смешивание алкоголя и отсутствие контроля. Условный риск острой интоксикации.",
+            },
+            {
+              pct: 52,
+              type: "law",
+              part: "arms",
+              hp: -10,
+              jail: 2,
+              soc: -25,
+              title: "Путаница с адресами и чужим имуществом",
+              desc: "Проникновение в чужое пространство и повреждение вещей — повод для юридического аудита.",
+            },
+            {
+              pct: 82,
+              type: "health",
+              part: "head",
+              hp: -30,
+              jail: 1,
+              soc: -15,
+              title: "Пиротехника рядом с людьми",
+              desc: "Риск ожогов, травм и административной ответственности.",
+            },
+          );
+        } else {
+          events.push(
+            {
+              pct: 25,
+              type: "social",
+              part: "heart",
+              hp: -10,
+              jail: 0,
+              soc: -35,
+              title: "Эмоциональный шантаж под куранты",
+              desc: "Острый стресс и последствия для отношений.",
+            },
+            {
+              pct: 58,
+              type: "health",
+              part: "liver",
+              hp: -25,
+              jail: 0,
+              soc: -10,
+              title: "Праздничное переедание",
+              desc: "Нагрузка на пищеварительную систему после длинного застолья.",
+            },
+            {
+              pct: 86,
+              type: "law",
+              part: "legs",
+              hp: -15,
+              jail: 1.5,
+              soc: -20,
+              title: "Рискованная поездка по гололёду",
+              desc: "Травмы и возможные дорожные нарушения.",
+            },
+          );
+        }
+        return {
+          verdict:
+            "Условный вердикт комиссии: герою рекомендованы травмпункт, консультация юриста и разговор с близкими после праздников.",
+          events,
+        };
+      }
+      let auditMovie = null,
+        auditTimer = null,
+        auditLast = -1;
+      function auditFormat(mins) {
+        return (
+          String(Math.floor(mins / 60)).padStart(2, "0") +
+          ":" +
+          String(Math.floor(mins % 60)).padStart(2, "0")
+        );
+      }
+      function auditOpen(i) {
+        sel = i;
+        auditMovie = F[i];
+        auditLast = -1;
+        const f = auditMovie,
+          sc = auditScenario(f);
+        P.innerHTML = `
+  <button id="closeDossier" class="off" aria-label="Закрыть досье" style="float:right;margin:0 0 8px 10px;padding:7px 12px;min-height:36px">✕</button>
+  <div class="eyebrow">Досье №${String(i + 1).padStart(2, "0")} / праздничный аудит</div>
+  <div class="case-top"><h2>${f.t}</h2><span style="color:#ff8f84;font-size:11px">${f.y}</span></div>
+  <div class="case-meta">${f.c} · ${f.g} · ${f.dr}<br>В ролях: ${f.ac.join(", ")}<br>Хронометраж: ${Math.floor(f.d / 60)} ч ${f.d % 60} мин · ${f.r ? "КП " + f.r.toFixed(1) : "рейтинг не указан"} · ${f.v.toLocaleString("ru-RU")} оценок</div>
+  ${f.synopsis ? `<div class="synopsis">${f.synopsis}</div>` : ""}
+  <button id="addAuditMovie" style="margin:0 0 10px">＋ В новогодний марафон</button>
+  <div class="case-stats">
+    <div class="stat"><small>Больница</small><b id="aHealth">100%</b><div class="meter"><i id="aHealthBar" style="width:100%"></i></div></div>
+    <div class="stat"><small>Условный срок</small><b id="aJail">0 лет</b><div class="meter"><i id="aJailBar" style="width:0"></i></div></div>
+    <div class="stat"><small>Социальный ущерб</small><b id="aSocial">100%</b><div class="meter"><i id="aSocialBar" style="width:100%"></i></div></div>
+  </div>
+  <div class="audit-arena">
+    <div style="position:absolute;top:9px;left:10px;font-size:9px;letter-spacing:.12em;color:#9aa4aa">МАНЕКЕН / СХЕМА УРОНА</div>
+    <svg id="auditDummy" viewBox="0 0 120 220" aria-label="Манекен с подсветкой повреждений">
+      <circle class="body-part" id="ap-head" cx="60" cy="24" r="17"/>
+      <rect class="body-part" id="ap-torso" x="43" y="46" width="34" height="58" rx="9"/>
+      <rect class="body-part" id="ap-liver" x="47" y="67" width="25" height="12" rx="4"/>
+      <circle class="body-part" id="ap-heart" cx="55" cy="61" r="5"/>
+      <rect class="body-part" id="ap-arms" x="24" y="49" width="12" height="52" rx="6"/>
+      <rect class="body-part" id="ap-arms-r" x="84" y="49" width="12" height="52" rx="6"/>
+      <rect class="body-part" id="ap-legs" x="45" y="108" width="12" height="75" rx="6"/>
+      <rect class="body-part" id="ap-legs-r" x="63" y="108" width="12" height="75" rx="6"/>
+    </svg>
+    <div id="auditHit" style="position:absolute;inset:0;pointer-events:none"></div>
+  </div>
+  <div class="audit-controls">
+    <button id="auditPlay">▶ Симуляция</button><button id="auditReset" class="off">↺ Сброс</button>
+    <span class="audit-time" id="auditTime">00:00 / ${auditFormat(f.d)}</span>
+  </div>
+  <input id="auditSlider" type="range" min="0" max="100" value="0" aria-label="Время фильма">
+  <div style="display:flex;justify-content:space-between;color:#737d86;font-size:9px"><span>НАЧАЛО ФИЛЬМА</span><span>ТИТРЫ</span></div>
+  <div id="auditEvents"></div>
+  <div class="note">Модель — сатирическая интерпретация сюжетных событий, а не медицинское заключение или юридическая консультация. Для части фильмов сценарии оценочные и жанровые.</div>`;
+        document.getElementById("closeDossier").onclick = () =>
+          P.classList.remove("on");
+        const addBtn = document.getElementById("addAuditMovie");
+        const syncBasket = () => {
+          addBtn.textContent = basket.has(i)
+            ? "✓ В марафоне · убрать"
+            : "＋ В новогодний марафон";
+        };
+        addBtn.onclick = () => {
+          basket.has(i) ? basket.delete(i) : basket.add(i);
+          syncBasket();
+          hud();
+        };
+        syncBasket();
+        const slider = document.getElementById("auditSlider");
+        const update = (animate = true) => {
+          const pct = +slider.value,
+            mins = Math.round((f.d * pct) / 100),
+            events = sc.events.filter((e) => pct >= e.pct);
+          let hp = 100,
+            jail = 0,
+            soc = 100;
+          const dmg = {};
+          events.forEach((e) => {
+            hp = Math.max(0, hp + e.hp);
+            jail += e.jail;
+            soc = Math.max(0, soc + e.soc);
+            dmg[e.part] = (dmg[e.part] || 0) + Math.abs(e.hp) + Math.abs(e.soc);
+          });
+          document.getElementById("auditTime").textContent =
+            auditFormat(mins) + " / " + auditFormat(f.d);
+          document.getElementById("aHealth").textContent = hp + "%";
+          document.getElementById("aJail").textContent = jail + " лет";
+          document.getElementById("aSocial").textContent = soc + "%";
+          document.getElementById("aHealthBar").style.width = hp + "%";
+          document.getElementById("aJailBar").style.width =
+            Math.min(100, jail * 10) + "%";
+          document.getElementById("aSocialBar").style.width = soc + "%";
+          ["head", "torso", "liver", "heart", "arms", "legs"].forEach((p) => {
+            const el = document.getElementById("ap-" + p),
+              er = document.getElementById("ap-" + p + "-r"),
+              v = dmg[p] || 0,
+              cl = "body-part" + (v >= 35 ? " crit" : v > 0 ? " warn" : "");
+            if (el) el.setAttribute("class", cl);
+            if (er) er.setAttribute("class", cl);
+          });
+          const stamp = document.getElementById("auditHit");
+          if (animate && events.length - 1 > auditLast && events.length) {
+            const e = events[events.length - 1];
+            stamp.innerHTML =
+              '<div style="position:absolute;left:50%;top:46%;font-size:30px;animation:hit .7s ease-out forwards">' +
+              e.title.split(" ")[0] +
+              "</div>";
+            document
+              .getElementById("auditDummy")
+              .animate(
+                [
+                  { transform: "rotate(0)" },
+                  { transform: "rotate(-4deg)" },
+                  { transform: "rotate(4deg)" },
+                  { transform: "rotate(0)" },
+                ],
+                { duration: 360 },
+              );
+          }
+          auditLast = events.length - 1;
+          const log = document.getElementById("auditEvents");
+          log.innerHTML = events.length
+            ? events
+                .map(
+                  (e) =>
+                    `<div class="event ${e.type}"><small>${auditFormat(Math.round((f.d * e.pct) / 100))} фильма · ${e.type === "health" ? "МЕДИЦИНА" : e.type === "law" ? "ЮРИДИЧЕСКИЙ РИСК" : "СОЦИАЛЬНЫЙ УЩЕРБ"}</small><b>${e.title}</b>${e.desc}</div>`,
+                )
+                .join("")
+            : '<div class="note" style="padding:12px;background:#202831;border-radius:7px">Пока чисто. Но сценарий только начинается…</div>';
+          if (pct >= 95)
+            log.innerHTML += `<div class="verdict"><strong>ВЕРДИКТ ПРАЗДНИЧНОЙ КОМИССИИ</strong>${sc.verdict}</div>`;
+        };
+        const stop = () => {
+          if (auditTimer) {
+            clearInterval(auditTimer);
+            auditTimer = null;
+          }
+          const b = document.getElementById("auditPlay");
+          if (b) b.textContent = "▶ Симуляция";
+        };
+        document.getElementById("auditPlay").onclick = () => {
+          if (auditTimer) {
+            stop();
+            return;
+          }
+          if (+slider.value >= 100) {
+            slider.value = 0;
+            auditLast = -1;
+          }
+          document.getElementById("auditPlay").textContent = "Ⅱ Пауза";
+          auditTimer = setInterval(() => {
+            slider.value = Math.min(100, +slider.value + 1);
+            update(true);
+            if (+slider.value >= 100) stop();
+          }, 95);
+        };
+        document.getElementById("auditReset").onclick = () => {
+          stop();
+          slider.value = 0;
+          auditLast = -1;
+          update(false);
+        };
+        slider.oninput = () => {
+          stop();
+          update(true);
+        };
+        P.classList.add("on");
+        update(false);
+      }
+      const originalAuditOpen = auditOpen;
+      open = function (i) {
+        P.dataset.view = "dossier";
+        originalAuditOpen(i);
+      };
+    </script>
+    <style>
+      @keyframes hit {
+        0% {
+          opacity: 0;
+          transform: translate(-80px, -30px) scale(0.4);
+        }
+        45% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1.25);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(45px, 40px) scale(0.8);
+        }
+      }
+    </style>
+  </body>
+</html>
