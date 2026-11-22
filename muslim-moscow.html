@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>MARIANNA - Muslim Moscow: Data-Driven Research & Product Design</title>
+  <title data-key="page_title">MARIANNA - Muslim Moscow: Data-Driven Research & Product Design</title>
   <meta name="description" content="Кейс Muslim Moscow: как результаты глубинных интервью и количественного опроса (67 респондентов) превратились в конкретные решения продукта. UX/UI и фронтенд.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   
   <style>
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --bg: #ffffff;
@@ -19,7 +18,7 @@
       --fg-dim: #666666;
       --line: rgba(0, 0, 0, 0.15);
       --card-bg: #f5f5f5;
-      --accent: #2d5a4c; /* Изумрудный */
+      --accent: #2d5a4c;
     }
     html { scroll-behavior: smooth; }
     body {
@@ -46,6 +45,14 @@
       text-transform: uppercase; transition: opacity 0.2s; opacity: 0.7;
     }
     .header nav a:hover, .back-link:hover { opacity: 1; }
+
+    .lang-switch {
+      background: none; border: 1px solid var(--fg);
+      padding: 0.3rem 0.8rem; border-radius: 2px; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      color: var(--fg); font-family: inherit; transition: 0.2s;
+    }
+    .lang-switch:hover { background: var(--fg); color: var(--bg); }
 
     .page-container {
       max-width: 1000px;
@@ -242,17 +249,18 @@
       .section-block h2 { font-size: 20px; }
       .stats-grid { grid-template-columns: 1fr; }
       .flow-branch { flex-direction: column; gap: 1rem; }
-      .phone-frame { height: 550px; border-width: 8px; border-radius: 30px; } /* Чуть меньше на телефонах */
+      .phone-frame { height: 550px; border-width: 8px; border-radius: 30px; }
     }
   </style>
 </head>
 <body>
 
 <header class="header">
-  <a href="index.html" class="back-link">← НАЗАД</a>
+  <a href="index.html" class="back-link" data-key="back_btn">← НАЗАД</a>
   <nav>
-    <a href="index.html#projects">ПРОЕКТЫ</a>
-    <a href="index.html#contacts">КОНТАКТ</a>
+    <a href="index.html#projects" data-key="nav_projects">ПРОЕКТЫ</a>
+    <a href="index.html#contacts" data-key="nav_contact">КОНТАКТ</a>
+    <button class="lang-switch" id="langToggle">EN</button>
   </nav>
 </header>
 
@@ -260,23 +268,23 @@
 
   <section class="project-hero">
     <h1>MUSLIM MOSCOW</h1>
-    <div class="sub">RESEARCH · PRODUCT DESIGN · UX RESEARCH · 2026</div>
+    <div class="sub" data-key="hero_sub">RESEARCH · PRODUCT DESIGN · UX RESEARCH · 2026</div>
     <div class="project-meta">
-      <span>67 РЕСПОНДЕНТОВ</span>
-      <span>DATA-DRIVEN ПОДХОД</span>
-      <a href="https://muslim-moscow.ru/" target="_blank" rel="noopener noreferrer">ОТКРЫТЬ MVP →</a>
+      <span data-key="meta_resp">67 РЕСПОНДЕНТОВ</span>
+      <span data-key="meta_data">DATA-DRIVEN ПОДХОД</span>
+      <a href="https://muslim-moscow.ru/" target="_blank" rel="noopener noreferrer" data-key="meta_mvp">ОТКРЫТЬ MVP →</a>
     </div>
   </section>
 
   <div class="section-block">
-    <p style="font-size: 16px; color: var(--fg); max-width: 800px;">
+    <p style="font-size: 16px; color: var(--fg); max-width: 800px;" data-key="intro_text">
       Muslim Moscow — городской гид для мусульман в Москве: интерактивная карта мечетей, халяльной еды и базовых сервисов, а также сценарий адаптации на первые 22 дня для тех, кто приехал в город впервые. Этот кейс о том, как результаты исследования превратились в конкретные решения продукта.
     </p>
   </div>
 
   <div class="section-block">
-    <h2>Посмотреть вживую</h2>
-    <p>Попробуйте интерактивный прототип прямо на этой странице. Вы можете кликать по карте, искать места и открывать карточки.</p>
+    <h2 data-key="sec_live_title">Посмотреть вживую</h2>
+    <p data-key="sec_live_desc">Попробуйте интерактивный прототип прямо на этой странице. Вы можете кликать по карте, искать места и открывать карточки.</p>
     
     <div class="live-preview-container">
       <div class="phone-frame">
@@ -285,126 +293,126 @@
       </div>
     </div>
     <div style="margin-top: 1.5rem; text-align: center;">
-      <a href="https://muslim-moscow.ru/" target="_blank" style="display: inline-block; border: 1px solid var(--fg); padding: 0.8rem 2rem; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.2s;">Открыть сайт в новой вкладке ↗</a>
+      <a href="https://muslim-moscow.ru/" target="_blank" style="display: inline-block; border: 1px solid var(--fg); padding: 0.8rem 2rem; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.2s;" data-key="btn_open_site">Открыть сайт в новой вкладке ↗</a>
     </div>
   </div>
 
   <div class="section-block">
-    <h2>Исследования и инсайты</h2>
-    <p>Перед проектированием интерфейса я провела серию глубинных интервью (CustDev) и количественный опрос среди 67 мусульман, живущих в Москве или приезжающих в город (35 женщин и 32 мужчины).</p>
+    <h2 data-key="sec_research_title">Исследования и инсайты</h2>
+    <p data-key="sec_research_desc">Перед проектированием интерфейса я провела серию глубинных интервью (CustDev) и количественный опрос среди 67 мусульман, живущих в Москве или приезжающих в город (35 женщин и 32 мужчины).</p>
     
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-number">72%</div>
-        <div class="stat-text">не всегда понятно, насколько можно доверять информации о статусе halal</div>
+        <div class="stat-text" data-key="stat1">не всегда понятно, насколько можно доверять информации о статусе halal</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">84%</div>
-        <div class="stat-text">подтвердили, что персональная подборка базовых мест в первые недели была бы им полезна</div>
+        <div class="stat-text" data-key="stat2">подтвердили, что персональная подборка базовых мест в первые недели была бы им полезна</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">37%</div>
-        <div class="stat-text">сталкиваются с разрозненностью информации по разным площадкам</div>
+        <div class="stat-text" data-key="stat3">сталкиваются с разрозненностью информации по разным площадкам</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">30%</div>
-        <div class="stat-text">жалуются на устаревшие данные в существующих сервисах</div>
+        <div class="stat-text" data-key="stat4">жалуются на устаревшие данные в существующих сервисах</div>
       </div>
     </div>
 
     <p style="font-size: 12px; color: var(--fg-dim); max-width: 800px; margin-bottom: 3rem;">
-      <strong style="color: var(--fg);">Женские сценарии:</strong> для большинства опрошенных женщин критически важны закрытые помещения, отсутствие мужчин и мастера-женщины при выборе бьюти- и медицинских услуг.
+      <strong style="color: var(--fg);" data-key="women_title">Женские сценарии:</strong> <span data-key="women_desc">для большинства опрошенных женщин критически важны закрытые помещения, отсутствие мужчин и мастера-женщины при выборе бьюти- и медицинских услуг.</span>
     </p>
 
-    <h2 style="margin-top: 3rem;">От инсайтов к решениям</h2>
+    <h2 style="margin-top: 3rem;" data-key="sec_insights_title">От инсайтов к решениям</h2>
     <div style="text-align: left; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem;">
-        <div style="font-weight: 500;">Нет доверия к информации о halal</div>
-        <div style="color: var(--fg-dim); font-size: 13px;">→ в карточке места показаны проверяемые признаки: закрытые комнаты и место для намаза. Статус сертификации и верификация через профильные организации запланированы как следующий этап.</div>
+        <div style="font-weight: 500;" data-key="ins1_t">Нет доверия к информации о halal</div>
+        <div style="color: var(--fg-dim); font-size: 13px;" data-key="ins1_d">→ в карточке места показаны проверяемые признаки: закрытые комнаты и место для намаза. Статус сертификации и верификация через профильные организации запланированы как следующий этап.</div>
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem;">
-        <div style="font-weight: 500;">Подборка на первые недели нужна почти всем</div>
-        <div style="color: var(--fg-dim); font-size: 13px;">→ режим адаптации «Чеклист на первые 22 дня»: ближайшие точки, экстренные номера и ссылки на базовые российские сервисы в одном окне.</div>
+        <div style="font-weight: 500;" data-key="ins2_t">Подборка на первые недели нужна почти всем</div>
+        <div style="color: var(--fg-dim); font-size: 13px;" data-key="ins2_d">→ режим адаптации «Чеклист на первые 22 дня»: ближайшие точки, экстренные номера и ссылки на базовые российские сервисы в одном окне.</div>
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem;">
-        <div style="font-weight: 500;">Информация разрознена и устаревает</div>
-        <div style="color: var(--fg-dim); font-size: 13px;">→ единая карта с категориями вместо чатов и разных площадок; у каждого места в данных есть отметка о проверке координат.</div>
+        <div style="font-weight: 500;" data-key="ins3_t">Информация разрознена и устаревает</div>
+        <div style="color: var(--fg-dim); font-size: 13px;" data-key="ins3_d">→ единая карта с категориями вместо чатов и разных площадок; у каждого места в данных есть отметка о проверке координат.</div>
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding-bottom: 1rem;">
-        <div style="font-weight: 500;">Особые женские сценарии</div>
-        <div style="color: var(--fg-dim); font-size: 13px;">→ вопрос о поле при настройке: для мужчин скрыта категория бьюти-услуг, а признак «закрытые комнаты» вынесен в карточку места. Интерфейс бьюти-категории готов, наполнение данными в работе.</div>
+        <div style="font-weight: 500;" data-key="ins4_t">Особые женские сценарии</div>
+        <div style="color: var(--fg-dim); font-size: 13px;" data-key="ins4_d">→ вопрос о поле при настройке: для мужчин скрыта категория бьюти-услуг, а признак «закрытые комнаты» вынесен в карточку места. Интерфейс бьюти-категории готов, наполнение данными в работе.</div>
       </div>
     </div>
   </div>
 
   <div class="section-block">
-    <h2>Ключевые продуктовые и UX-решения</h2>
+    <h2 data-key="sec_solutions_title">Ключевые продуктовые и UX-решения</h2>
     
     <div style="text-align: left; max-width: 800px; margin: 0 auto;">
-      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);">1. Адаптивный онбординг без лишних барьеров</h3>
-      <p style="margin-bottom: 2rem;">Вместо регистрации приложение задаёт два коротких вопроса при первом входе. Они появляются как сообщения в чате поверх размытого приложения, а варианты ответа выглядят как реплики пользователя, поэтому прохождение занимает несколько секунд. Сценарий «Впервые в Москве» и «Живу здесь»: для новичков включается режим адаптации, для постоянных жителей — быстрый доступ к карте и поиску.</p>
+      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);" data-key="sol1_t">1. Адаптивный онбординг без лишних барьеров</h3>
+      <p style="margin-bottom: 2rem;" data-key="sol1_d">Вместо регистрации приложение задаёт два коротких вопроса при первом входе. Они появляются как сообщения в чате поверх размытого приложения, а варианты ответа выглядят как реплики пользователя, поэтому прохождение занимает несколько секунд. Сценарий «Впервые в Москве» и «Живу здесь»: для новичков включается режим адаптации, для постоянных жителей — быстрый доступ к карте и поиску.</p>
 
-      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);">2. Чеклист на первые 22 дня</h3>
-      <p style="margin-bottom: 2rem;">Чтобы снизить стресс от переезда или поездки, я спроектировала временный режим сопровождения. Тем, кто впервые в Москве, после опроса сообщают о чеклисте и анимацией показывают, где находится его кнопка. Кнопка отсчитывает дни пребывания («День N из 22») и исчезает по окончании периода адаптации. Окно чеклиста состоит из трёх вкладок: Рядом, Номера, Приложения.</p>
+      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);" data-key="sol2_t">2. Чеклист на первые 22 дня</h3>
+      <p style="margin-bottom: 2rem;" data-key="sol2_d">Чтобы снизить стресс от переезда или поездки, я спроектировала временный режим сопровождения. Тем, кто впервые в Москве, после опроса сообщают о чеклисте и анимацией показывают, где находится его кнопка. Кнопка отсчитывает дни пребывания («День N из 22») и исчезает по окончании периода адаптации. Окно чеклиста состоит из трёх вкладок: Рядом, Номера, Приложения.</p>
 
-      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);">3. Информативный главный экран</h3>
-      <p style="margin-bottom: 2rem;">Главный экран построен по принципу «польза с первой секунды»: быстрые виджеты (время ближайшего намаза, погода в Москве и расстояние до ближайшей мечети), интерактивная карта и фильтры, крупные карточки категорий для быстрого перехода.</p>
+      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);" data-key="sol3_t">3. Информативный главный экран</h3>
+      <p style="margin-bottom: 2rem;" data-key="sol3_d">Главный экран построен по принципу «польза с первой секунды»: быстрые виджеты (время ближайшего намаза, погода в Москве и расстояние до ближайшей мечети), интерактивная карта и фильтры, крупные карточки категорий для быстрого перехода.</p>
 
-      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);">4. Доверие и верификация (Trust Layer)</h3>
-      <p style="margin-bottom: 2rem;">В архитектуру карточек заложены параметры, которые отвечают на главную боль аудитории из опроса: наличие закрытых помещений и места для намаза, отметка о проверке данных. В планах: статус сертификации halal, актуальное расписание, информация о комнатах для омовения и процесс верификации.</p>
+      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);" data-key="sol4_t">4. Доверие и верификация (Trust Layer)</h3>
+      <p style="margin-bottom: 2rem;" data-key="sol4_d">В архитектуру карточек заложены параметры, которые отвечают на главную боль аудитории из опроса: наличие закрытых помещений и места для намаза, отметка о проверке данных. В планах: статус сертификации halal, актуальное расписание, информация о комнатах для омовения и процесс верификации.</p>
     </div>
   </div>
 
   <div class="section-block">
-    <h2>Мокап приложения</h2>
+    <h2 data-key="sec_mockup_title">Мокап приложения</h2>
     <div class="mockup-image">
       <img src="imgs/muslim_mockup.jpg" alt="Мокап Muslim Moscow" style="width: 100%; display: block;" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:4rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Мокап Muslim Moscow ]</div>';">
     </div>
-    <div class="mockup-caption">Главный экран и интерактивная карта с фильтрами</div>
+    <div class="mockup-caption" data-key="mockup_caption">Главный экран и интерактивная карта с фильтрами</div>
   </div>
 
   <div class="section-block">
-    <h2>Пользовательские сценарии</h2>
-    <p>Схемы показывают все пути пользователя в приложении: от первого входа до чеклиста и профиля.</p>
+    <h2 data-key="sec_flows_title">Пользовательские сценарии</h2>
+    <p data-key="sec_flows_desc">Схемы показывают все пути пользователя в приложении: от первого входа до чеклиста и профиля.</p>
     
     <div class="accordion">
       <div class="accordion-header" onclick="toggleAccordion(this)">
-        <span>Онбординг · 2 вопроса, 2 ветки</span>
+        <span data-key="flow1_header">Онбординг · 2 вопроса, 2 ветки</span>
       </div>
       <div class="accordion-content">
-        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);">Блоки с акцентной рамкой видны только тем, кто впервые в Москве. Кнопка «Пропустить» на любом шаге ведёт на главный экран.</p>
+        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);" data-key="flow1_desc">Блоки с акцентной рамкой видны только тем, кто впервые в Москве. Кнопка «Пропустить» на любом шаге ведёт на главный экран.</p>
         <div class="flowchart">
-          <div class="flow-node">Первый заход</div>
+          <div class="flow-node" data-key="f1_n1">Первый заход</div>
           <div class="flow-arrow">↓</div>
-          <div class="flow-node">Приветствие-бабл</div>
+          <div class="flow-node" data-key="f1_n2">Приветствие-бабл</div>
           <div class="flow-arrow">↓</div>
           <div class="flow-branch">
             <div class="flow-col">
-              <div class="flow-node">Перейти в приложение</div>
+              <div class="flow-node" data-key="f1_n3">Перейти в приложение</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Главный экран</div>
+              <div class="flow-node" data-key="f1_n4">Главный экран</div>
             </div>
             <div class="flow-col">
-              <div class="flow-node">Настроить под себя</div>
+              <div class="flow-node" data-key="f1_n5">Настроить под себя</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Вопрос: впервые в Москве?</div>
+              <div class="flow-node" data-key="f1_n6">Вопрос: впервые в Москве?</div>
               <div class="flow-arrow">↓</div>
               <div class="flow-branch">
                 <div class="flow-col">
-                  <div class="flow-node">Живу здесь</div>
+                  <div class="flow-node" data-key="f1_n7">Живу здесь</div>
                   <div class="flow-arrow">↓</div>
-                  <div class="flow-node">Главный экран</div>
+                  <div class="flow-node" data-key="f1_n4">Главный экран</div>
                 </div>
                 <div class="flow-col">
-                  <div class="flow-node accent">Впервые</div>
+                  <div class="flow-node accent" data-key="f1_n8">Впервые</div>
                   <div class="flow-arrow">↓</div>
-                  <div class="flow-node">Вопрос: пол</div>
+                  <div class="flow-node" data-key="f1_n9">Вопрос: пол</div>
                   <div class="flow-arrow">↓</div>
-                  <div class="flow-node accent">Баббл про чеклист</div>
+                  <div class="flow-node accent" data-key="f1_n10">Баббл про чеклист</div>
                   <div class="flow-arrow">↓</div>
-                  <div class="flow-node accent">Подсветка кнопки</div>
+                  <div class="flow-node accent" data-key="f1_n11">Подсветка кнопки</div>
                   <div class="flow-arrow">↓</div>
-                  <div class="flow-node">Главный экран</div>
+                  <div class="flow-node" data-key="f1_n4">Главный экран</div>
                 </div>
               </div>
             </div>
@@ -415,39 +423,39 @@
 
     <div class="accordion">
       <div class="accordion-header" onclick="toggleAccordion(this)">
-        <span>Главный экран и места · 3 входа, одно окно места</span>
+        <span data-key="flow2_header">Главный экран и места · 3 входа, одно окно места</span>
       </div>
       <div class="accordion-content">
-        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);">Поиск, карта и избранное ведут в одно окно места, откуда можно построить маршрут или добавить место в избранное.</p>
+        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);" data-key="flow2_desc">Поиск, карта и избранное ведут в одно окно места, откуда можно построить маршрут или добавить место в избранное.</p>
         <div class="flowchart">
-          <div class="flow-node">Главный экран</div>
+          <div class="flow-node" data-key="f1_n4">Главный экран</div>
           <div class="flow-arrow">↓</div>
           <div class="flow-branch">
             <div class="flow-col">
-              <div class="flow-node">Поиск и категории</div>
+              <div class="flow-node" data-key="f2_n1">Поиск и категории</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Список мест</div>
+              <div class="flow-node" data-key="f2_n2">Список мест</div>
             </div>
             <div class="flow-col">
-              <div class="flow-node">Карта</div>
+              <div class="flow-node" data-key="f2_n3">Карта</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Пии и карточка</div>
+              <div class="flow-node" data-key="f2_n4">Пии и карточка</div>
             </div>
             <div class="flow-col">
-              <div class="flow-node">Избранное</div>
+              <div class="flow-node" data-key="f2_n5">Избранное</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Список избранного</div>
+              <div class="flow-node" data-key="f2_n6">Список избранного</div>
             </div>
           </div>
           <div class="flow-arrow" style="margin-top: 1rem;">↓</div>
-          <div class="flow-node accent" style="width: 300px;">Окно места (адрес, признаки, ссылки)</div>
+          <div class="flow-node accent" style="width: 300px;" data-key="f2_n7">Окно места (адрес, признаки, ссылки)</div>
           <div class="flow-arrow">↓</div>
           <div class="flow-branch">
             <div class="flow-col">
-              <div class="flow-node">Маршрут</div>
+              <div class="flow-node" data-key="f2_n8">Маршрут</div>
             </div>
             <div class="flow-col">
-              <div class="flow-node">Избранное (добавить/убрать)</div>
+              <div class="flow-node" data-key="f2_n9">Избранное (добавить/убрать)</div>
             </div>
           </div>
         </div>
@@ -456,33 +464,33 @@
 
     <div class="accordion">
       <div class="accordion-header" onclick="toggleAccordion(this)">
-        <span>Профиль и чеклист · 2 ветки по 4 действия</span>
+        <span data-key="flow3_header">Профиль и чеклист · 2 ветки по 4 действия</span>
       </div>
       <div class="accordion-content">
-        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);">Пункт «Номера и приложения» в профиле открывает то же окно, что и кнопка чеклиста, поэтому экстренные номера остаются под рукой и после 22 дней.</p>
+        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);" data-key="flow3_desc">Пункт «Номера и приложения» в профиле открывает то же окно, что и кнопка чеклиста, поэтому экстренные номера остаются под рукой и после 22 дней.</p>
         <div class="flowchart">
           <div class="flow-branch">
             <div class="flow-col">
-              <div class="flow-node">Профиль</div>
+              <div class="flow-node" data-key="f3_n1">Профиль</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Имя и фото профиля</div>
+              <div class="flow-node" data-key="f3_n2">Имя и фото профиля</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Язык: RU / EN</div>
+              <div class="flow-node" data-key="f3_n3">Язык: RU / EN</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node accent">Номера и приложения</div>
+              <div class="flow-node accent" data-key="f3_n4">Номера и приложения</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Пройти опрос заново</div>
+              <div class="flow-node" data-key="f3_n5">Пройти опрос заново</div>
             </div>
             <div class="flow-col">
-              <div class="flow-node">Чеклист: кнопка на 22 дня</div>
+              <div class="flow-node" data-key="f3_n6">Чеклист: кнопка на 22 дня</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Рядом: 7 ближайших мест</div>
+              <div class="flow-node" data-key="f3_n7">Рядом: 7 ближайших мест</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node accent">Номера: 112, справочная</div>
+              <div class="flow-node accent" data-key="f3_n8">Номера: 112, справочная</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">Приложения и ссылки</div>
+              <div class="flow-node" data-key="f3_n9">Приложения и ссылки</div>
               <div class="flow-arrow">↓</div>
-              <div class="flow-node">На карте или галочка</div>
+              <div class="flow-node" data-key="f3_n10">На карте или галочка</div>
             </div>
           </div>
         </div>
@@ -491,38 +499,33 @@
   </div>
 
   <div class="section-block">
-    <h2>Сырые данные (Data-Driven)</h2>
-    <p>Ниже представлены обезличенные ответы респондентов, которые легли в основу продуктовых решений.</p>
+    <h2 data-key="sec_data_title">Сырые данные (Data-Driven)</h2>
+    <p data-key="sec_data_desc">Ниже представлены обезличенные ответы респондентов, которые легли в основу продуктовых решений.</p>
     
     <div class="accordion">
       <div class="accordion-header" onclick="toggleAccordion(this)">
-        <span>Посмотреть таблицу ответов (67 респондентов)</span>
+        <span data-key="table_header">Посмотреть таблицу ответов (67 респондентов)</span>
       </div>
       <div class="accordion-content">
         <div class="table-wrapper">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Пол</th>
-                <th>Как давно в Москве?</th>
-                <th>Как часто ищете места?</th>
-                <th>Где ищете?</th>
-                <th>Что сложно?</th>
-                <th>Что сложнее всего найти?</th>
-                <th>Важность Muslim-friendly салонов</th>
-                <th>Что важно при выборе салона?</th>
-                <th>Что полезно в первые недели?</th>
-                <th>Насколько полезна подборка?</th>
-                <th>Какими функциями пользовались бы?</th>
-                <th>Что хотели бы видеть?</th>
+                <th data-key="th_gender">Пол</th>
+                <th data-key="th_time">Как давно в Москве?</th>
+                <th data-key="th_freq">Как часто ищете места?</th>
+                <th data-key="th_where">Где ищете?</th>
+                <th data-key="th_hard">Что сложно?</th>
+                <th data-key="th_hardest">Что сложнее всего найти?</th>
+                <th data-key="th_beauty">Важность Muslim-friendly салонов</th>
+                <th data-key="th_salon">Что важно при выборе салона?</th>
+                <th data-key="th_useful">Что полезно в первые недели?</th>
+                <th data-key="th_helpful">Насколько полезна подборка?</th>
+                <th data-key="th_features">Какими функциями пользовались бы?</th>
+                <th data-key="th_wish">Что хотели бы видеть?</th>
               </tr>
             </thead>
-            <tbody>
-              <tr><td>Женщина</td><td>От 1 года до 5 лет</td><td>Несколько раз в неделю</td><td>Спрашиваю у знакомых / родственников, Ищу вывески глазами на улице</td><td>Информация находится на разных площадках, Не всегда понятно, насколько можно доверять информации о halal</td><td>Мечети / места для молитвы, Halal-рестораны и кафе</td><td>Очень важно</td><td>Только женщины среди мастеров, Отсутствие мужчин среди посетителей, Возможность закрытого помещения, Возможность снять хиджаб, Женщина-мастер</td><td>Где находятся мечети, Где поесть halal, Где купить продукты</td><td>Очень полезна</td><td>Найти мечеть / место для молитвы, Найти halal-ресторан или кафе, Найти Muslim-friendly бьюти-салоны</td><td>.</td></tr>
-              <tr><td>Женщина</td><td>От 1 года до 5 лет</td><td>Несколько раз в месяц</td><td>Яндекс.Карты / 2ГИС, Telegram-каналы, чаты, WhatsApp-группы, Социальные сети (Instagram, TikTok), Спрашиваю у знакомых / родственников, Поисковики / обычный поиск в интернете</td><td>Не знаю, где искать информацию, Информация бывает устаревшей, Не всегда понятно, насколько можно доверять информации о halal, Не хватает подробной информации о месте, Неудобно сравнивать разные варианты</td><td>Мечети / места для молитвы, Halal-рестораны и кафе</td><td>Не имеет значения</td><td>Удобное расположение, Отзывы других мусульманок</td><td>Где поесть halal, Где купить продукты, Где получить медицинскую помощь, Какие места стоит посетить</td><td>Очень полезна</td><td>Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет, Информация о halal и её подтверждении</td><td>Мечети, кафе/рестораны халяль, магазины с халяль продукцией (и какой именно продукцией), место совершения молитвы</td></tr>
-              <tr><td>Мужчина</td><td>От 1 года до 5 лет</td><td>Несколько раз в неделю</td><td>Яндекс.Карты / 2ГИС, Спрашиваю у знакомых / родственников</td><td>Не знаю, где искать информацию, Информация находится на разных площадках, Не хватает подробной информации о месте</td><td>Halal-рестораны и кафе</td><td>Не посещаю бьюти-салоны</td><td>Не посещаю бьюти-салоны</td><td>Где поесть halal, Где купить продукты, Где получить медицинскую помощь, Какие места стоит посетить</td><td>Не знаю</td><td>Найти мечеть / место для молитвы, Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет</td><td>.</td></tr>
-              <tr><td>Женщина</td><td>От 1 года до 5 лет</td><td>Примерно раз в месяц</td><td>Яндекс.Карты / 2ГИС, Telegram-каналы, чаты, WhatsApp-группы, Социальные сети (Instagram, TikTok), Поисковики / обычный поиск в интернете</td><td>Не всегда понятно, насколько можно доверять информации о halal, Не хватает подробной информации о месте</td><td>Halal-рестораны и кафе, Женские салоны, Исламские товары / одежду</td><td>Не имеет значения</td><td>Отсутствие мужчин среди посетителей, Возможность закрытого помещения, Женщина-мастер</td><td>Где поесть halal, Где купить продукты, Как пользоваться транспортом, Какие места стоит посетить</td><td>Очень полезна</td><td>Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет</td><td>Разделение на категории мест</td></tr>
-              <tr><td>Мужчина</td><td>От 1 года до 5 лет</td><td>Практически никогда</td><td>Ничего специально не ищу / уже знаю проверенные места</td><td>Обычно быстро нахожу всё необходимое</td><td>Мероприятия / сообщества</td><td>Не посещаю бьюти-салоны</td><td>Не посещаю бьюти-салоны</td><td>Мне такая информация не нужна</td><td>Совсем не нужна</td><td>Интерактивная карта, Информация о halal и её подтверждении, Гид для тех, кто впервые в Москве</td><td>Нет</td></tr>
+            <tbody id="tableBody">
             </tbody>
           </table>
         </div>
@@ -531,27 +534,171 @@
   </div>
 
   <div class="section-block">
-    <h2>Моя роль</h2>
+    <h2 data-key="sec_role_title">Моя роль</h2>
     <p>
-      <span class="role-tag">Product Management</span>
-      <span class="role-tag">UX-исследования (CustDev)</span>
-      <span class="role-tag">Информационная архитектура</span>
-      <span class="role-tag">UI/UX-дизайн</span>
-      <span class="role-tag">Фронтенд-разработка MVP</span>
+      <span class="role-tag" data-key="role1">Product Management</span>
+      <span class="role-tag" data-key="role2">UX-исследования (CustDev)</span>
+      <span class="role-tag" data-key="role3">Информационная архитектура</span>
+      <span class="role-tag" data-key="role4">UI/UX-дизайн</span>
+      <span class="role-tag" data-key="role5">Фронтенд-разработка MVP</span>
     </p>
   </div>
 
   <div class="page-footer">
-    <a href="index.html">В начало →</a>
+    <a href="index.html" data-key="footer_next">В начало →</a>
   </div>
 
 </div>
 
 <script>
+  const translations = {
+    ru: {
+      page_title: 'MARIANNA - Muslim Moscow: Data-Driven Research & Product Design',
+      back_btn: '← НАЗАД', nav_projects: 'ПРОЕКТЫ', nav_contact: 'КОНТАКТ',
+      hero_sub: 'RESEARCH · PRODUCT DESIGN · UX RESEARCH · 2026',
+      meta_resp: '67 РЕСПОНДЕНТОВ', meta_data: 'DATA-DRIVEN ПОДХОД', meta_mvp: 'ОТКРЫТЬ MVP →',
+      intro_text: 'Muslim Moscow — городской гид для мусульман в Москве: интерактивная карта мечетей, халяльной еды и базовых сервисов, а также сценарий адаптации на первые 22 дня для тех, кто приехал в город впервые. Этот кейс о том, как результаты исследования превратились в конкретные решения продукта.',
+      sec_live_title: 'Посмотреть вживую',
+      sec_live_desc: 'Попробуйте интерактивный прототип прямо на этой странице. Вы можете кликать по карте, искать места и открывать карточки.',
+      btn_open_site: 'Открыть сайт в новой вкладке ↗',
+      sec_research_title: 'Исследования и инсайты',
+      sec_research_desc: 'Перед проектированием интерфейса я провела серию глубинных интервью (CustDev) и количественный опрос среди 67 мусульман, живущих в Москве или приезжающих в город (35 женщин и 32 мужчины).',
+      stat1: 'не всегда понятно, насколько можно доверять информации о статусе halal',
+      stat2: 'подтвердили, что персональная подборка базовых мест в первые недели была бы им полезна',
+      stat3: 'сталкиваются с разрозненностью информации по разным площадкам',
+      stat4: 'жалуются на устаревшие данные в существующих сервисах',
+      women_title: 'Женские сценарии:',
+      women_desc: 'для большинства опрошенных женщин критически важны закрытые помещения, отсутствие мужчин и мастера-женщины при выборе бьюти- и медицинских услуг.',
+      sec_insights_title: 'От инсайтов к решениям',
+      ins1_t: 'Нет доверия к информации о halal', ins1_d: '→ в карточке места показаны проверяемые признаки: закрытые комнаты и место для намаза. Статус сертификации и верификация через профильные организации запланированы как следующий этап.',
+      ins2_t: 'Подборка на первые недели нужна почти всем', ins2_d: '→ режим адаптации «Чеклист на первые 22 дня»: ближайшие точки, экстренные номера и ссылки на базовые российские сервисы в одном окне.',
+      ins3_t: 'Информация разрознена и устаревает', ins3_d: '→ единая карта с категориями вместо чатов и разных площадок; у каждого места в данных есть отметка о проверке координат.',
+      ins4_t: 'Особые женские сценарии', ins4_d: '→ вопрос о поле при настройке: для мужчин скрыта категория бьюти-услуг, а признак «закрытые комнаты» вынесен в карточку места. Интерфейс бьюти-категории готов, наполнение данными в работе.',
+      sec_solutions_title: 'Ключевые продуктовые и UX-решения',
+      sol1_t: '1. Адаптивный онбординг без лишних барьеров', sol1_d: 'Вместо регистрации приложение задаёт два коротких вопроса при первом входе. Они появляются как сообщения в чате поверх размытого приложения, а варианты ответа выглядят как реплики пользователя, поэтому прохождение занимает несколько секунд. Сценарий «Впервые в Москве» и «Живу здесь»: для новичков включается режим адаптации, для постоянных жителей — быстрый доступ к карте и поиску.',
+      sol2_t: '2. Чеклист на первые 22 дня', sol2_d: 'Чтобы снизить стресс от переезда или поездки, я спроектировала временный режим сопровождения. Тем, кто впервые в Москве, после опроса сообщают о чеклисте и анимацией показывают, где находится его кнопка. Кнопка отсчитывает дни пребывания («День N из 22») и исчезает по окончании периода адаптации. Окно чеклиста состоит из трёх вкладок: Рядом, Номера, Приложения.',
+      sol3_t: '3. Информативный главный экран', sol3_d: 'Главный экран построен по принципу «польза с первой секунды»: быстрые виджеты (время ближайшего намаза, погода в Москве и расстояние до ближайшей мечети), интерактивная карта и фильтры, крупные карточки категорий для быстрого перехода.',
+      sol4_t: '4. Доверие и верификация (Trust Layer)', sol4_d: 'В архитектуру карточек заложены параметры, которые отвечают на главную боль аудитории из опроса: наличие закрытых помещений и места для намаза, отметка о проверке данных. В планах: статус сертификации halal, актуальное расписание, информация о комнатах для омовения и процесс верификации.',
+      sec_mockup_title: 'Мокап приложения', mockup_caption: 'Главный экран и интерактивная карта с фильтрами',
+      sec_flows_title: 'Пользовательские сценарии', sec_flows_desc: 'Схемы показывают все пути пользователя в приложении: от первого входа до чеклиста и профиля.',
+      flow1_header: 'Онбординг · 2 вопроса, 2 ветки', flow1_desc: 'Блоки с акцентной рамкой видны только тем, кто впервые в Москве. Кнопка «Пропустить» на любом шаге ведёт на главный экран.',
+      f1_n1: 'Первый заход', f1_n2: 'Приветствие-бабл', f1_n3: 'Перейти в приложение', f1_n4: 'Главный экран', f1_n5: 'Настроить под себя', f1_n6: 'Вопрос: впервые в Москве?', f1_n7: 'Живу здесь', f1_n8: 'Впервые', f1_n9: 'Вопрос: пол', f1_n10: 'Баббл про чеклист', f1_n11: 'Подсветка кнопки',
+      flow2_header: 'Главный экран и места · 3 входа, одно окно места', flow2_desc: 'Поиск, карта и избранное ведут в одно окно места, откуда можно построить маршрут или добавить место в избранное.',
+      f2_n1: 'Поиск и категории', f2_n2: 'Список мест', f2_n3: 'Карта', f2_n4: 'Пии и карточка', f2_n5: 'Избранное', f2_n6: 'Список избранного', f2_n7: 'Окно места (адрес, признаки, ссылки)', f2_n8: 'Маршрут', f2_n9: 'Избранное (добавить/убрать)',
+      flow3_header: 'Профиль и чеклист · 2 ветки по 4 действия', flow3_desc: 'Пункт «Номера и приложения» в профиле открывает то же окно, что и кнопка чеклиста, поэтому экстренные номера остаются под рукой и после 22 дней.',
+      f3_n1: 'Профиль', f3_n2: 'Имя и фото профиля', f3_n3: 'Язык: RU / EN', f3_n4: 'Номера и приложения', f3_n5: 'Пройти опрос заново', f3_n6: 'Чеклист: кнопка на 22 дня', f3_n7: 'Рядом: 7 ближайших мест', f3_n8: 'Номера: 112, справочная', f3_n9: 'Приложения и ссылки', f3_n10: 'На карте или галочка',
+      sec_data_title: 'Сырые данные (Data-Driven)', sec_data_desc: 'Ниже представлены обезличенные ответы респондентов, которые легли в основу продуктовых решений.',
+      table_header: 'Посмотреть таблицу ответов (67 респондентов)',
+      th_gender: 'Пол', th_time: 'Как давно в Москве?', th_freq: 'Как часто ищете места?', th_where: 'Где ищете?', th_hard: 'Что сложно?', th_hardest: 'Что сложнее всего найти?', th_beauty: 'Важность Muslim-friendly салонов', th_salon: 'Что важно при выборе салона?', th_useful: 'Что полезно в первые недели?', th_helpful: 'Насколько полезна подборка?', th_features: 'Какими функциями пользовались бы?', th_wish: 'Что хотели бы видеть?',
+      sec_role_title: 'Моя роль',
+      role1: 'Product Management', role2: 'UX-исследования (CustDev)', role3: 'Информационная архитектура', role4: 'UI/UX-дизайн', role5: 'Фронтенд-разработка MVP',
+      footer_next: 'В начало →'
+    },
+    en: {
+      page_title: 'MARIANNA - Muslim Moscow: Data-Driven Research & Product Design',
+      back_btn: '← BACK', nav_projects: 'PROJECTS', nav_contact: 'CONTACT',
+      hero_sub: 'RESEARCH · PRODUCT DESIGN · UX RESEARCH · 2026',
+      meta_resp: '67 RESPONDENTS', meta_data: 'DATA-DRIVEN APPROACH', meta_mvp: 'OPEN MVP →',
+      intro_text: 'Muslim Moscow is an urban guide for Muslims in Moscow: an interactive map of mosques, halal food, and basic services, as well as an adaptation scenario for the first 22 days for those who have just arrived in the city. This case is about how research results turned into specific product decisions.',
+      sec_live_title: 'Live Preview',
+      sec_live_desc: 'Try the interactive prototype right on this page. You can click on the map, search for places, and open cards.',
+      btn_open_site: 'Open site in a new tab ↗',
+      sec_research_title: 'Research & Insights',
+      sec_research_desc: 'Before designing the interface, I conducted a series of in-depth interviews (CustDev) and a quantitative survey among 67 Muslims living in or visiting Moscow (35 women and 32 men).',
+      stat1: 'are not always sure how much to trust information about halal status',
+      stat2: 'confirmed that a personalized selection of basic places in the first weeks would be "very" or "rather" useful',
+      stat3: 'face fragmented information across different platforms',
+      stat4: 'complain about outdated data in existing services',
+      women_title: 'Women\'s scenarios:',
+      women_desc: 'for the majority of surveyed women, closed rooms, the absence of men, and female specialists are critically important when choosing beauty and medical services.',
+      sec_insights_title: 'From Insights to Solutions',
+      ins1_t: 'Lack of trust in halal information', ins1_d: '→ the place card shows verifiable features: closed rooms and a prayer space. Certification status and verification through specialized organizations are planned as the next step.',
+      ins2_t: 'A selection for the first weeks is needed by almost everyone', ins2_d: '→ adaptation mode "Checklist for the first 22 days": nearest points, emergency numbers, and links to basic Russian services in one window.',
+      ins3_t: 'Information is fragmented and outdated', ins3_d: '→ a unified map with categories instead of chats and different platforms; each place in the data has a coordinate verification mark.',
+      ins4_t: 'Special women\'s scenarios', ins4_d: '→ gender question at setup: the beauty services category is hidden for men, and the "closed rooms" feature is highlighted on the place card. The beauty category interface is ready, data filling is in progress.',
+      sec_solutions_title: 'Key Product & UX Decisions',
+      sol1_t: '1. Seamless onboarding without extra barriers', sol1_d: 'Instead of registration, the app asks two short questions on the first login. They appear as chat messages over a blurred app, and the answer options look like user replies, so it takes a few seconds. "First time in Moscow" and "I live here" scenarios: adaptation mode is enabled for newcomers, quick access to the map and search for permanent residents.',
+      sol2_t: '2. Checklist for the first 22 days', sol2_d: 'To reduce the stress of moving or traveling, I designed a temporary support mode. Those who are in Moscow for the first time are notified about the checklist after the survey, and an animation shows where its button is. The button counts the days of stay ("Day N of 22") and disappears at the end of the adaptation period. The checklist window consists of three tabs: Nearby, Numbers, Apps.',
+      sol3_t: '3. Informative main screen', sol3_d: 'The main screen is built on the principle of "benefit from the first second": quick widgets (time of the nearest prayer, weather in Moscow, and distance to the nearest mosque), interactive map and filters, large category cards for quick navigation.',
+      sol4_t: '4. Trust Layer', sol4_d: 'The architecture of the cards includes parameters that address the main pain of the audience from the survey: the presence of closed rooms and a place for prayer, a data verification mark. Plans include: halal certification status, current schedule, information about ablution rooms, and the verification process.',
+      sec_mockup_title: 'App Mockup', mockup_caption: 'Main screen and interactive map with filters',
+      sec_flows_title: 'User Flows', sec_flows_desc: 'The schemes show all user paths in the app: from first login to the checklist and profile.',
+      flow1_header: 'Onboarding · 2 questions, 2 branches', flow1_desc: 'Blocks with an accent frame are visible only to those who are in Moscow for the first time. The "Skip" button at any step leads to the main screen.',
+      f1_n1: 'First login', f1_n2: 'Greeting bubble', f1_n3: 'Go to app', f1_n4: 'Main screen', f1_n5: 'Set up for myself', f1_n6: 'Question: first time in Moscow?', f1_n7: 'I live here', f1_n8: 'First time', f1_n9: 'Question: gender', f1_n10: 'Checklist bubble', f1_n11: 'Button highlight',
+      flow2_header: 'Main screen & places · 3 entries, one place window', flow2_desc: 'Search, map, and favorites lead to a single place window, from where you can build a route or add a place to favorites.',
+      f2_n1: 'Search & categories', f2_n2: 'List of places', f2_n3: 'Map', f2_n4: 'Pins and card', f2_n5: 'Favorites', f2_n6: 'Favorites list', f2_n7: 'Place window (address, features, links)', f2_n8: 'Route', f2_n9: 'Favorites (add/remove)',
+      flow3_header: 'Profile & checklist · 2 branches of 4 actions', flow3_desc: 'The "Numbers and apps" item in the profile opens the same window as the checklist button, so emergency numbers remain at hand even after 22 days.',
+      f3_n1: 'Profile', f3_n2: 'Name and profile photo', f3_n3: 'Language: RU / EN', f3_n4: 'Numbers and apps', f3_n5: 'Retake survey', f3_n6: 'Checklist: button for 22 days', f3_n7: 'Nearby: 7 closest places', f3_n8: 'Numbers: 112, directory', f3_n9: 'Apps and links', f3_n10: 'On map or checkmark',
+      sec_data_title: 'Raw Data (Data-Driven)', sec_data_desc: 'Below are anonymized responses from respondents that formed the basis of product decisions.',
+      table_header: 'View response table (67 respondents)',
+      th_gender: 'Gender', th_time: 'How long in Moscow?', th_freq: 'How often do you search for places?', th_where: 'Where do you search?', th_hard: 'What is difficult?', th_hardest: 'What is hardest to find?', th_beauty: 'Importance of Muslim-friendly salons', th_salon: 'What is important when choosing a salon?', th_useful: 'What is useful in the first weeks?', th_helpful: 'How useful is the selection?', th_features: 'Which features would you use?', th_wish: 'What would you like to see?',
+      sec_role_title: 'My Role',
+      role1: 'Product Management', role2: 'UX Research (CustDev)', role3: 'Information Architecture', role4: 'UI/UX Design', role5: 'Frontend Development MVP',
+      footer_next: 'Back to start →'
+    }
+  };
+
+  const tableData = {
+    ru: [
+      ['Женщина', 'От 1 года до 5 лет', 'Несколько раз в неделю', 'Спрашиваю у знакомых / родственников, Ищу вывески глазами на улице', 'Информация находится на разных площадках, Не всегда понятно, насколько можно доверять информации о halal', 'Мечети / места для молитвы, Halal-рестораны и кафе', 'Очень важно', 'Только женщины среди мастеров, Отсутствие мужчин среди посетителей, Возможность закрытого помещения, Возможность снять хиджаб, Женщина-мастер', 'Где находятся мечети, Где поесть halal, Где купить продукты', 'Очень полезна', 'Найти мечеть / место для молитвы, Найти halal-ресторан или кафе, Найти Muslim-friendly бьюти-салоны', '.'],
+      ['Женщина', 'От 1 года до 5 лет', 'Несколько раз в месяц', 'Яндекс.Карты / 2ГИС, Telegram-каналы, чаты, WhatsApp-группы, Социальные сети (Instagram, TikTok), Спрашиваю у знакомых / родственников, Поисковики / обычный поиск в интернете', 'Не знаю, где искать информацию, Информация бывает устаревшей, Не всегда понятно, насколько можно доверять информации о halal, Не хватает подробной информации о месте, Неудобно сравнивать разные варианты', 'Мечети / места для молитвы, Halal-рестораны и кафе', 'Не имеет значения', 'Удобное расположение, Отзывы других мусульманок', 'Где поесть halal, Где купить продукты, Где получить медицинскую помощь, Какие места стоит посетить', 'Очень полезна', 'Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет, Информация о halal и её подтверждении', 'Мечети, кафе/рестораны халяль, магазины с халяль продукцией (и какой именно продукцией), место совершения молитвы'],
+      ['Мужчина', 'От 1 года до 5 лет', 'Несколько раз в неделю', 'Яндекс.Карты / 2ГИС, Спрашиваю у знакомых / родственников', 'Не знаю, где искать информацию, Информация находится на разных площадках, Не хватает подробной информации о месте', 'Halal-рестораны и кафе', 'Не посещаю бьюти-салоны', 'Не посещаю бьюти-салоны', 'Где поесть halal, Где купить продукты, Где получить медицинскую помощь, Какие места стоит посетить', 'Не знаю', 'Найти мечеть / место для молитвы, Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет', '.'],
+      ['Женщина', 'От 1 года до 5 лет', 'Примерно раз в месяц', 'Яндекс.Карты / 2ГИС, Telegram-каналы, чаты, WhatsApp-группы, Социальные сети (Instagram, TikTok), Поисковики / обычный поиск в интернете', 'Не всегда понятно, насколько можно доверять информации о halal, Не хватает подробной информации о месте', 'Halal-рестораны и кафе, Женские салоны, Исламские товары / одежду', 'Не имеет значения', 'Отсутствие мужчин среди посетителей, Возможность закрытого помещения, Женщина-мастер', 'Где поесть halal, Где купить продукты, Как пользоваться транспортом, Какие места стоит посетить', 'Очень полезна', 'Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет', 'Разделение на категории мест'],
+      ['Мужчина', 'От 1 года до 5 лет', 'Практически никогда', 'Ничего специально не ищу / уже знаю проверенные места', 'Обычно быстро нахожу всё необходимое', 'Мероприятия / сообщества', 'Не посещаю бьюти-салоны', 'Не посещаю бьюти-салоны', 'Мне такая информация не нужна', 'Совсем не нужна', 'Интерактивная карта, Информация о halal и её подтверждении, Гид для тех, кто впервые в Москве', 'Нет']
+    ],
+    en: [
+      ['Woman', '1 to 5 years', 'Several times a week', 'Ask friends / relatives, Look for signs on the street', 'Information is on different platforms, Not always clear how much to trust halal info', 'Mosques / prayer spaces, Halal restaurants and cafes', 'Very important', 'Only women among specialists, No men among visitors, Closed room available, Can take off hijab, Female specialist', 'Where mosques are, Where to eat halal, Where to buy groceries', 'Very useful', 'Find a mosque / prayer space, Find a halal restaurant or cafe, Find Muslim-friendly beauty salons', '.'],
+      ['Woman', '1 to 5 years', 'Several times a month', 'Yandex.Maps / 2GIS, Telegram channels, chats, WhatsApp groups, Social media (Instagram, TikTok), Ask friends / relatives, Search engines / regular internet search', 'Don\'t know where to look, Info can be outdated, Not always clear how much to trust halal info, Lack of detailed info about the place, Inconvenient to compare options', 'Mosques / prayer spaces, Halal restaurants and cafes', 'Doesn\'t matter', 'Convenient location, Reviews from other Muslim women', 'Where to eat halal, Where to buy groceries, Where to get medical help, Which places to visit', 'Very useful', 'Find a halal restaurant or cafe, Find a halal store / supermarket, Info about halal and its confirmation', 'Mosques, halal cafes/restaurants, stores with halal products (and which specific products), place for prayer'],
+      ['Man', '1 to 5 years', 'Several times a week', 'Yandex.Maps / 2GIS, Ask friends / relatives', 'Don\'t know where to look, Info is on different platforms, Lack of detailed info about the place', 'Halal restaurants and cafes', 'Don\'t visit beauty salons', 'Don\'t visit beauty salons', 'Where to eat halal, Where to buy groceries, Where to get medical help, Which places to visit', 'Don\'t know', 'Find a mosque / prayer space, Find a halal restaurant or cafe, Find a halal store / supermarket', '.'],
+      ['Woman', '1 to 5 years', 'About once a month', 'Yandex.Maps / 2GIS, Telegram channels, chats, WhatsApp groups, Social media (Instagram, TikTok), Search engines / regular internet search', 'Not always clear how much to trust halal info, Lack of detailed info about the place', 'Halal restaurants and cafes, Women\'s salons, Islamic goods / clothing', 'Doesn\'t matter', 'No men among visitors, Closed room available, Female specialist', 'Where to eat halal, Where to buy groceries, How to use transport, Which places to visit', 'Very useful', 'Find a halal restaurant or cafe, Find a halal store / supermarket', 'Separation by place categories'],
+      ['Man', '1 to 5 years', 'Almost never', 'Don\'t search specifically / already know trusted places', 'Usually find everything quickly', 'Events / communities', 'Don\'t visit beauty salons', 'Don\'t visit beauty salons', 'I don\'t need this info', 'Not useful at all', 'Interactive map, Info about halal and its confirmation, Guide for first-timers in Moscow', 'No']
+    ]
+  };
+
   function toggleAccordion(header) {
     const accordion = header.parentElement;
     accordion.classList.toggle('active');
   }
+
+  function renderTable(lang) {
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    tableData[lang].forEach(row => {
+      const tr = document.createElement('tr');
+      row.forEach(cell => {
+        const td = document.createElement('td');
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }
+
+  function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (translations[lang] && translations[lang][key]) {
+        el.innerHTML = translations[lang][key];
+      }
+    });
+
+    document.getElementById('langToggle').textContent = lang === 'ru' ? 'EN' : 'RU';
+    localStorage.setItem('preferredLanguage', lang);
+    
+    renderTable(lang);
+  }
+
+  const userLang = localStorage.getItem('preferredLanguage') || navigator.language.slice(0, 2);
+  const initialLang = (userLang === 'ru') ? 'ru' : 'en';
+  setLanguage(initialLang);
+
+  document.getElementById('langToggle').addEventListener('click', () => {
+    const currentLang = document.documentElement.lang;
+    const nextLang = currentLang === 'ru' ? 'en' : 'ru';
+    setLanguage(nextLang);
+  });
 </script>
 
 </body>
