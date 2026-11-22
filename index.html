@@ -46,6 +46,7 @@
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       position: relative;
+      overflow-x: hidden;
     }
 
     .lang-switch {
@@ -63,7 +64,7 @@
       color: #1a1a1a;
       font-family: 'Playfair Display', serif;
       transition: 0.2s;
-      z-index: 10;
+      z-index: 100;
     }
 
     .lang-switch:hover {
@@ -184,17 +185,22 @@
     .works-section {
       margin: 0 0 250px 0;
       text-align: center;
+      position: relative;
     }
 
     .works-section .section-title {
       margin-bottom: 60px;
+      position: relative;
+      z-index: 2;
     }
 
     .works-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      text-align: left;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 30px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
     }
 
     .work-card {
@@ -203,11 +209,38 @@
       gap: 15px;
       text-decoration: none;
       color: inherit;
-      transition: opacity 0.3s;
+      transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease;
+      position: relative;
+      z-index: 10;
     }
-    
-    .work-card:hover {
-      opacity: 0.8;
+
+    .work-card.featured {
+      transform: scale(1.05);
+      z-index: 20;
+    }
+
+    .works-grid:hover .work-card:not(.featured) {
+      opacity: 0.4;
+      filter: grayscale(100%);
+    }
+
+    .works-grid .work-card:hover {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: scale(1.08) !important;
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 9px;
+      padding: 4px 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      z-index: 5;
     }
 
     .work-image {
@@ -215,6 +248,7 @@
       aspect-ratio: 1 / 1;
       background-color: #8c8c8c;
       overflow: hidden;
+      position: relative;
     }
     
     .work-image img {
@@ -222,6 +256,11 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .work-card:hover .work-image img {
+      transform: scale(1.03);
     }
 
     .work-title {
@@ -236,12 +275,31 @@
       line-height: 1.4;
     }
 
+    #flashlight {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.15) 60%, rgba(0, 0, 0, 0.4) 100%);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .flashlight-active #flashlight {
+      opacity: 1;
+    }
+
     .contact-section {
       margin: 0 0 80px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
+      position: relative;
+      z-index: 10;
     }
 
     .contact-heading {
@@ -325,6 +383,26 @@
       color: #666;
       margin-top: 80px;
       padding-bottom: 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    @media (max-width: 900px) {
+      .works-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+      .work-card.featured {
+        order: -1;
+        transform: scale(1);
+      }
+      .works-grid:hover .work-card:not(.featured) {
+        opacity: 1;
+        filter: none;
+      }
+      #flashlight {
+        display: none;
+      }
     }
 
     @media (max-width: 768px) {
@@ -353,15 +431,13 @@
       .works-section {
         margin: 0 0 120px 0;
       }
-      .works-grid {
-        grid-template-columns: 1fr;
-      }
     }
   </style>
 </head>
 <body>
 
   <button class="lang-switch" id="langToggle">EN</button>
+  <div id="flashlight"></div>
 
   <div class="page-container">
 
@@ -397,24 +473,26 @@
       </div>
     </section>
 
-    <section class="works-section">
+    <section class="works-section" id="worksSection">
       <h2 class="section-title" data-key="works_title">MY WORKS</h2>
       
       <div class="works-grid">
-        <a href="muslim-moscow.html" class="work-card">
-          <div class="work-image">
-            <img src="imgs/muslim_cover.jpg" alt="Muslim Moscow" onerror="this.style.display='none';">
-          </div>
-          <h3 class="work-title">Muslim Moscow</h3>
-          <p class="work-description" data-key="work1_desc">A personalized city navigator for verified Muslim infrastructure in Moscow (mosques, prayer rooms, and halal establishments) with an adaptation scenario for the first 22 days for residents and visitors of the city.</p>
-        </a>
-
+        
         <a href="web-app.html" class="work-card">
           <div class="work-image">
             <img src="imgs/YAT_cover.jpg" alt="YAT mini-app" onerror="this.style.display='none';">
           </div>
           <h3 class="work-title" data-key="work2_title">"YAT" mini-app</h3>
           <p class="work-description" data-key="work2_desc">Telegram Mini App for the Center for Russian History and Culture at HSE University, which allows students to view the schedule, sign up for events in one click, and accumulate bonus coins for attending.</p>
+        </a>
+
+        <a href="muslim-moscow.html" class="work-card featured">
+          <div class="badge">Featured</div>
+          <div class="work-image">
+            <img src="imgs/muslim_cover.jpg" alt="Muslim Moscow" onerror="this.style.display='none';">
+          </div>
+          <h3 class="work-title">Muslim Moscow</h3>
+          <p class="work-description" data-key="work1_desc">A personalized city navigator for verified Muslim infrastructure in Moscow (mosques, prayer rooms, and halal establishments) with an adaptation scenario for the first 22 days for residents and visitors of the city.</p>
         </a>
 
         <a href="zoo.html" class="work-card">
@@ -424,6 +502,7 @@
           <h3 class="work-title" data-key="work3_title">Kaliningrad Zoo. Rebranding</h3>
           <p class="work-description" data-key="work3_desc">Conceptual rebranding, from the website to the children's souvenir line.</p>
         </a>
+
       </div>
     </section>
 
@@ -525,6 +604,47 @@
       const nextLang = currentLang === 'ru' ? 'en' : 'ru';
       setLanguage(nextLang);
     });
+
+    const flashlight = document.getElementById('flashlight');
+    const featuredCard = document.querySelector('.work-card.featured');
+    let isMobile = window.matchMedia("(max-width: 900px)").matches;
+
+    if (!isMobile && featuredCard) {
+      const rect = featuredCard.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2 + window.scrollX;
+      const centerY = rect.top + rect.height / 2 + window.scrollY;
+      
+      flashlight.style.setProperty('--x', `${centerX}px`);
+      flashlight.style.setProperty('--y', `${centerY}px`);
+
+      document.addEventListener('mousemove', (e) => {
+        flashlight.style.setProperty('--x', `${e.clientX + window.scrollX}px`);
+        flashlight.style.setProperty('--y', `${e.clientY + window.scrollY}px`);
+      });
+    }
+
+    const worksSection = document.getElementById('worksSection');
+    
+    if (!isMobile) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            document.body.classList.add('flashlight-active');
+            if (featuredCard) {
+              const rect = featuredCard.getBoundingClientRect();
+              const centerX = rect.left + rect.width / 2 + window.scrollX;
+              const centerY = rect.top + rect.height / 2 + window.scrollY;
+              flashlight.style.setProperty('--x', `${centerX}px`);
+              flashlight.style.setProperty('--y', `${centerY}px`);
+            }
+          } else {
+            document.body.classList.remove('flashlight-active');
+          }
+        });
+      }, { threshold: 0.2 });
+      
+      observer.observe(worksSection);
+    }
   </script>
 
 </body>
