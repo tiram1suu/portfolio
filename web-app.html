@@ -1,161 +1,175 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DM65F50FVL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-DM65F50FVL');
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>MARIANNA - Веб-приложение для центра культуры</title>
-  <meta name="description" content="Проект портфолио MARIANNA. UX/UI дизайн и frontend-разработка веб-приложения для Центра российской истории и культуры ВШЭ. Telegram Web App.">
-  <meta name="keywords" content="UX/UI дизайн, frontend-разработка, веб-приложение, Telegram Web App, дизайн интерфейса, геймификация, культурный центр, портфолио дизайнера, MARIANNA, Марианна Сумина, Сумина Марианна, Дизайнер Марианна">
+  <title>MARIANNA - Telegram Mini App для Центра российской истории и культуры НИУ ВШЭ</title>
+  <meta name="description" content="Сервис для анонсирования мероприятий и быстрой регистрации студентов без необходимости скачивать отдельное приложение. Спроектировала интерфейс с нуля и реализовала фронтенд за 30 дней.">
+  <meta name="author" content="Marianna">
   <link rel="canonical" href="https://www.mariannasumina.com/web-app.html">
   <link rel="icon" type="image/x-icon" href="/favicon.png">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #ffffff;
-      color: #111111;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --fg-dim: #666666;
+      --line: rgba(0, 0, 0, 0.15);
+      --card-bg: #f5f5f5;
     }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Playfair Display', serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
 
     .header {
-      position: fixed; top: 0; left: 0; width: 100%; padding: 1.8rem 4vw;
+      position: fixed; top: 0; left: 0; width: 100%;
+      padding: 2rem 4vw;
       display: flex; justify-content: space-between; align-items: center;
-      z-index: 100; background: #ffffff; border-bottom: 1px solid #f0f0f0;
+      z-index: 100; background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid var(--line);
     }
-    .header .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: #111; text-decoration: none; letter-spacing: -0.5px; }
-    .header nav { display: flex; gap: 2.5rem; align-items: center; }
-    .header nav a { color: #111; text-decoration: none; font-size: 0.9rem; font-weight: 400; transition: 0.2s; opacity: 0.7; }
-    .header nav a:hover { opacity: 1; }
-    
-    
-    .back-link { 
-      font-size: 1.2rem; margin-right: auto; opacity: 0.6; 
-      color: #111 !important; text-decoration: none !important; 
+    .header nav { display: flex; gap: 2rem; align-items: center; }
+    .header nav a, .back-link {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; transition: opacity 0.2s; opacity: 0.7;
     }
-    .back-link:hover { opacity: 1; }
-
-    /* Кнопка языка */
+    .header nav a:hover, .back-link:hover { opacity: 1; }
+    
     .lang-switch {
-      background: none; border: 1px solid #ddd; 
-      padding: 0.2rem 0.8rem; border-radius: 12px; font-size: 0.7rem; 
-      text-transform: uppercase; cursor: pointer; letter-spacing: 1px; color: #111;
-      font-family: 'Inter', sans-serif; transition: 0.2s;
+      background: none; border: 1px solid var(--fg);
+      padding: 0.3rem 0.8rem; border-radius: 2px; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      color: var(--fg); font-family: inherit; transition: 0.2s;
     }
-    .lang-switch:hover { border-color: #111; }
+    .lang-switch:hover { background: var(--fg); color: var(--bg); }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 10rem 20px 6rem 20px;
+    }
 
     .project-hero {
-      padding: 8rem 4vw 2rem 4vw;
-      background: #ffffff;
-      max-width: 1200px; margin: 0 auto;
+      text-align: center;
+      margin-bottom: 5rem;
     }
     .project-hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; color: #111;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
     }
-    .project-meta {
-      display: flex; gap: 2.5rem; margin-top: 1.5rem;
-      font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px;
-      flex-wrap: wrap; border-bottom: 1px solid #eee; padding-bottom: 1.5rem;
-    }
-
-    .content {
-      padding: 2rem 4vw 6rem 4vw;
-      max-width: 1100px; margin: 0 auto;
+    .project-hero .sub {
+      font-size: 11px; color: var(--fg-dim);
+      letter-spacing: 0.15em; text-transform: uppercase;
     }
 
     .section-block {
-      margin-bottom: 4rem;
+      margin-bottom: 5rem;
+      text-align: center;
     }
     .section-block h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem; font-weight: 600; letter-spacing: -0.3px;
-      margin-bottom: 1.5rem; color: #111;
+      font-size: 24px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
     }
     .section-block p {
-      font-size: 1.1rem; font-weight: 300; color: #444; line-height: 1.6;
-      margin-bottom: 1rem; max-width: 800px;
+      font-size: 14px; color: var(--fg-dim);
+      margin: 0 auto 1.5rem auto; max-width: 700px;
     }
-    
-    .section-block ul {
-      list-style: none; padding-left: 0; margin: 1.5rem 0; max-width: 800px;
-    }
-    .section-block li {
-      position: relative;
-      padding: 0.25rem 0 0.25rem 1.8rem;
-      font-size: 1rem; font-weight: 300; color: #444;
-      line-height: 1.6; margin-bottom: 0.25rem;
-    }
-    .section-block li::before {
-      content: '-';
-      position: absolute; left: 0; top: 0.25rem;
-      color: #111; font-weight: 400;
-    }
-    .section-block li strong {
-      font-weight: 600; color: #111; 
-      display: inline-block; margin-right: 0.5rem;
+    .section-block p strong {
+      color: var(--fg); font-weight: 500;
     }
 
-    .highlight-box {
-      background: #f8f8f8; padding: 1.5rem 2rem;
-      border-left: 2px solid #111; margin: 2rem 0; max-width: 800px;
+    .list-block {
+      list-style: none; padding: 0; margin: 0 auto 1.5rem auto; max-width: 700px;
+      text-align: left;
+    }
+    .list-block li {
+      position: relative;
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      font-size: 14px; color: var(--fg-dim);
+    }
+    .list-block li::before {
+      content: '—';
+      position: absolute; left: 0; top: 0.5rem;
+      color: var(--fg-dim);
+    }
+    .list-block li strong {
+      font-weight: 500; color: var(--fg);
     }
 
     .mockup-container {
-      width: 100%; margin: 2.5rem 0; border-radius: 4px;
-      overflow: hidden; border: 1px solid #f0f0f0; background: #ffffff;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      width: 100%; margin: 2.5rem auto;
+      background-color: var(--card-bg);
+      border: 1px solid var(--line);
+      max-width: 800px;
+      aspect-ratio: 16/9; /* Заглушка, чтобы блок не прыгал, если нет картинки */
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .mockup-container img {
       width: 100%; height: auto; display: block;
     }
     .mockup-caption {
-      font-size: 0.8rem; color: #888; margin-top: 0.5rem; letter-spacing: 0.5px;
+      font-size: 10px; color: var(--fg-dim); margin-top: 1rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
     }
 
     .role-tag {
-      display: inline-block; background: #f0f0f0; padding: 0.2rem 1.2rem;
-      border-radius: 16px; font-size: 0.8rem; color: #111; letter-spacing: 1px; margin-right: 0.5rem; margin-bottom: 0.3rem;
+      display: inline-block; border: 1px solid var(--line);
+      padding: 0.5rem 1.2rem; border-radius: 2px; font-size: 11px;
+      color: var(--fg-dim); letter-spacing: 0.1em; text-transform: uppercase;
+      margin: 0.25rem;
     }
 
     .page-footer {
-      margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-      font-size: 0.9rem; color: #666;
+      margin-top: 6rem; padding-top: 2rem; border-top: 1px solid var(--line);
+      display: flex; justify-content: flex-end;
+      font-size: 11px; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.15em;
     }
-    .page-footer a { color: #111; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.2s; }
-    .page-footer a:hover { border-bottom-color: #111; }
+    .page-footer a { 
+      color: var(--fg); border-bottom: 1px solid transparent; transition: 0.2s;
+      font-weight: 500;
+    }
+    .page-footer a:hover { border-bottom-color: var(--fg); }
 
-    @media (max-width: 900px) {
-      .project-hero { padding-top: 6rem; }
-    }
-    @media (max-width: 600px) {
-      .project-hero h1 { font-size: 2.2rem; }
-      .project-meta { gap: 1.5rem; font-size: 0.7rem; }
-      .section-block p { font-size: 1rem; }
-      .header { padding: 1.2rem 4vw; }
-      .header nav { gap: 1.5rem; }
-      .content { padding: 1rem 4vw 4rem 4vw; }
-      .section-block li { padding-left: 1.4rem; }
+    @media (max-width: 768px) {
+      .page-container { padding-top: 7rem; }
+      .header { padding: 1.5rem 4vw; }
+      .header nav { gap: 1rem; }
+      .header nav a, .back-link { font-size: 10px; letter-spacing: 0.1em; }
+      .project-hero h1 { font-size: 2rem; }
+      .section-block h2 { font-size: 20px; }
     }
   </style>
 </head>
 <body>
 
 <header class="header">
-  
   <a href="index.html" class="back-link" data-key="back_btn">← НАЗАД</a>
   <nav>
     <a href="index.html#projects" data-key="nav_projects">ПРОЕКТЫ</a>
@@ -164,103 +178,156 @@
   </nav>
 </header>
 
-<section class="project-hero">
-  <h1 data-key="hero_title">Веб-приложение<br>для центра культуры</h1>
-  <div class="project-meta">
-    <span data-key="meta_year">2025</span>
-    <span data-key="meta_role">UX/UI и Frontend</span>
-    <span data-key="meta_tech">Telegram Web App</span>
-  </div>
-</section>
+<div class="page-container">
 
-<div class="content">
+  <section class="project-hero">
+    <h1 data-key="hero_title">Telegram Mini App<br>для Центра российской<br>истории и культуры НИУ ВШЭ</h1>
+    <div class="sub" data-key="hero_sub">2025 · Product Design · UX/UI · Frontend · Telegram Web App</div>
+  </section>
 
   <div class="section-block">
-    <h2 data-key="sec1_title">Задача</h2>
-    <p data-key="sec1_p1">Разработать веб-приложение для Центра российской истории и культуры при факультете креативных индустрий ВШЭ. Основная цель - создать платформу, где можно легко публиковать события, а пользователи - быстро записываться и отменять записи.</p>
-    <p data-key="sec1_p2">Также требовалась геймификация: за посещение событий пользователь получает «монетки», которые в будущем можно будет потратить на что-то внутри системы.</p>
+    <p data-key="lead" style="font-size: 16px; color: var(--fg);">Сервис для анонсирования мероприятий и быстрой регистрации студентов без необходимости скачивать отдельное приложение. Спроектировала интерфейс с нуля и реализовала фронтенд за 30 дней.</p>
   </div>
 
   <div class="section-block">
-    <h2 data-key="sec2_title">Процесс работы</h2>
-    <p data-key="sec2_p1">Я полностью спроектировала интерфейс и реализовала его на HTML, CSS и JavaScript. Работа велась по чёткому графику, с акцентом на пользовательские сценарии и тестирование.</p>
-    <ul>
-      <li><strong data-key="sec2_l1_b">Дни 1–10:</strong> <span data-key="sec2_l1_t">анализ, user flow, wireframes</span></li>
-      <li><strong data-key="sec2_l2_b">Дни 11–20:</strong> <span data-key="sec2_l2_t">UI-дизайн, прототип, дизайн-система</span></li>
-      <li><strong data-key="sec2_l3_b">Дни 21–30:</strong> <span data-key="sec2_l3_t">реализация интерфейса, адаптивность, интерактивность, финальное тестирование</span></li>
+    <h2 data-key="sec1_title">Контекст и задача</h2>
+    <p data-key="sec1_p1">Центру российской истории и культуры при факультете креативных индустрий ВШЭ требовалась единая точка входа для анонса мероприятий и сбора регистраций. Раньше информация терялась в чатах, а запись через сторонние формы создавала лишний барьер для студентов.</p>
+    <p data-key="sec1_p2"><strong>Цели проекта:</strong></p>
+    <ul class="list-block">
+      <li><strong data-key="sec1_l1_b">Для пользователей:</strong> <span data-key="sec1_l1_t">сократить путь от просмотра афиши до записи на событие до двух кликов внутри привычного мессенджера.</span></li>
+      <li><strong data-key="sec1_l2_b">Для организаторов:</strong> <span data-key="sec1_l2_t">автоматизировать учет участников и повысить доходимость (retention) за счет механик геймификации.</span></li>
     </ul>
-    <p data-key="sec2_p2">Результат - полностью готовое к запуску веб-приложение, интегрированное в Telegram как Web App.</p>
+  </div>
+
+  <div class="section-block">
+    <h2 data-key="sec2_title">Ключевые продуктовые<br>и UX-решения</h2>
+    
+    <p data-key="sec2_p1" style="margin-bottom: 1rem; color: var(--fg); font-weight: 500; font-size: 16px;">1. Бесшовный онбординг и нативная интеграция</p>
+    <p data-key="sec2_p1_text">Выбор формата Telegram Mini App позволил отказаться от регистрации и ввода личных данных: приложение подтягивает профиль пользователя автоматически, а интерфейс адаптирован под нативные паттерны навигации Telegram.</p>
+
+    <p data-key="sec2_p2" style="margin-bottom: 1rem; color: var(--fg); font-weight: 500; font-size: 16px;">2. Сценарий записи в один клик</p>
+    <p data-key="sec2_p2_text">На карточке мероприятия собрана только критически важная для принятия решения информация: дата, формат (тег категории), визуальный акцент и ценность в баллах. Запись и отмена происходят мгновенно без перезагрузки страницы и перехода на внешние формы, а кнопка «Поделиться» позволяет сразу переслать анонс однокурсникам в чат.</p>
+
+    <p data-key="sec2_p3" style="margin-bottom: 1rem; color: var(--fg); font-weight: 500; font-size: 16px;">3. Геймификация и удержание</p>
+    <p data-key="sec2_p3_text">Чтобы мотивировать студентов посещать мероприятия регулярно, а не разово, я встроила систему внутренней валюты и достижений:</p>
+    <ul class="list-block">
+      <li><strong data-key="sec2_l1_b">Монеты за активность:</strong> <span data-key="sec2_l1_t">за каждое подтвержденное посещение начисляются баллы (например, +20 монет), которые в будущем можно обменять на мерч или бонусы центра.</span></li>
+      <li><strong data-key="sec2_l2_b">Прогресс в профиле:</strong> <span data-key="sec2_l2_t">блок «Мои достижения» и счетчик посещенных событий визуализируют вовлеченность и создают дополнительный стимул закрыть первый целевой шаг («Посетите 1 мероприятие»).</span></li>
+    </ul>
+
+    <p data-key="sec2_p4" style="margin-bottom: 1rem; color: var(--fg); font-weight: 500; font-size: 16px;">4. Визуальный контраст и фокус на контенте</p>
+    <p data-key="sec2_p4_text">Для промо-экрана выбрана выразительная типографика и контрастная акцентная палитра, отсылающая к культурному коду проекта. При этом основные рабочие экраны («События» и «Профиль») переведены в спокойную темную тему: это снижает визуальный шум, выделяет обложки мероприятий и комфортно воспринимается при просмотре со смартфона в любое время суток.</p>
   </div>
 
   <div class="section-block">
     <h2 data-key="sec3_title">Мокапы</h2>
     <div class="mockup-container">
-      <img src="imgs/mockups.png" alt="Мокапы веб-приложения" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:4rem;text-align:center;color:#888;\'>Изображение imgs/mockups.png не найдено</div>';">
+      
+      <img src="imgs/mockups.png" alt="Mockups" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#999;\'>[ Место для мокапов ]</div>';">
     </div>
-    <div class="mockup-caption" data-key="sec3_caption">Главный экран, список событий, профиль пользователя с монетками.</div>
+    <div class="mockup-caption" data-key="sec3_caption">Главный экран, список событий, профиль пользователя с монетками</div>
   </div>
 
   <div class="section-block">
-    <h2 data-key="sec4_title">Ключевые решения</h2>
-    <ul>
-      <li><strong data-key="sec4_l1_b">Простая система записи:</strong> <span data-key="sec4_l1_t">в один клик - запись на событие, повторный клик - отмена.</span></li>
-      <li><strong data-key="sec4_l2_b">Геймификация через монеты:</strong> <span data-key="sec4_l2_t">каждое посещение приносит монетки, которые накапливаются в профиле.</span></li>
-      <li><strong data-key="sec4_l3_b">Достижения:</strong> <span data-key="sec4_l3_t">система поощрения за активность (первое событие, посещение событий разных типов).</span></li>
-      <li><strong data-key="sec4_l4_b">Telegram Web App:</strong> <span data-key="sec4_l4_t">приложение полностью адаптировано под встраивание в Telegram с нативной навигацией.</span></li>
+    <h2 data-key="sec4_title">Процесс и реализация<br>(30 дней)</h2>
+    <p data-key="sec4_p1">Проект выполнен в формате полного цикла (end-to-end) — от исследования сценариев до готового кода:</p>
+    <ul class="list-block">
+      <li><strong data-key="sec4_l1_b">Неделя 1–2 (Исследование и проектирование):</strong> <span data-key="sec4_l1_t">анализ целевой аудитории, проработка User Flow для участников и администраторов, создание интерактивных вайрфреймов.</span></li>
+      <li><strong data-key="sec4_l2_b">Неделя 2–3 (UI и дизайн-система):</strong> <span data-key="sec4_l2_t">разработка компонентной базы (карточки событий, статусы кнопок, бейджи достижений), адаптация под разные экраны мобильных устройств.</span></li>
+      <li><strong data-key="sec4_l3_b">Неделя 3–4 (Frontend-разработка):</strong> <span data-key="sec4_l3_t">верстка и программирование логики на HTML, CSS и JavaScript, подключение Telegram Web App API, тестирование сценариев записи и отмены.</span></li>
     </ul>
   </div>
 
   <div class="section-block">
     <h2 data-key="sec5_title">Моя роль</h2>
-    <p>
-      <span class="role-tag" data-key="role1">UX/UI дизайн</span>
-      <span class="role-tag" data-key="role2">Frontend-разработка</span>
-      <span class="role-tag" data-key="role3">Концепция</span>
-    </p>
+    <div>
+      <span class="role-tag" data-key="role1">Продуктовая концепция</span>
+      <span class="role-tag" data-key="role2">UX-исследование</span>
+      <span class="role-tag" data-key="role3">UI-дизайн</span>
+      <span class="role-tag" data-key="role4">Фронтенд-разработка</span>
+    </div>
   </div>
 
   <div class="page-footer">
-    <span data-key="footer_counter">Проект 1 / 4</span>
     <a href="poster.html" data-key="footer_next">Следующий проект →</a>
   </div>
 
 </div>
 
 <script>
-  
   const translations = {
     ru: {
       back_btn: '← НАЗАД', nav_projects: 'ПРОЕКТЫ', nav_contact: 'КОНТАКТ',
-      hero_title: 'Веб-приложение<br>для центра культуры',
-      meta_year: '2025', meta_role: 'UX/UI и Frontend', meta_tech: 'Telegram Web App',
-      sec1_title: 'Задача', sec1_p1: 'Разработать веб-приложение для Центра российской истории и культуры при факультете креативных индустрий ВШЭ. Основная цель - создать платформу, где можно легко публиковать события, а пользователи - быстро записываться и отменять записи.', sec1_p2: 'Также требовалась геймификация: за посещение событий пользователь получает «монетки», которые в будущем можно будет потратить на что-то внутри системы.',
-      sec2_title: 'Процесс работы', sec2_p1: 'Я полностью спроектировала интерфейс и реализовала его на HTML, CSS и JavaScript. Работа велась по чёткому графику, с акцентом на пользовательские сценарии и тестирование.', sec2_l1_b: 'Дни 1–10:', sec2_l1_t: 'анализ, user flow, wireframes', sec2_l2_b: 'Дни 11–20:', sec2_l2_t: 'UI-дизайн, прототип, дизайн-система', sec2_l3_b: 'Дни 21–30:', sec2_l3_t: 'реализация интерфейса, адаптивность, интерактивность, финальное тестирование', sec2_p2: 'Результат - полностью готовое к запуску веб-приложение, интегрированное в Telegram как Web App.',
-      sec3_title: 'Мокапы', sec3_caption: 'Главный экран, список событий, профиль пользователя с монетками.',
-      sec4_title: 'Ключевые решения', sec4_l1_b: 'Простая система записи:', sec4_l1_t: 'в один клик - запись на событие, повторный клик - отмена.', sec4_l2_b: 'Геймификация через монеты:', sec4_l2_t: 'каждое посещение приносит монетки, которые накапливаются в профиле.', sec4_l3_b: 'Достижения:', sec4_l3_t: 'система поощрения за активность (первое событие, посещение событий разных типов).', sec4_l4_b: 'Telegram Web App:', sec4_l4_t: 'приложение полностью адаптировано под встраивание в Telegram с нативной навигацией.',
-      sec5_title: 'Моя роль', role1: 'UX/UI дизайн', role2: 'Frontend-разработка', role3: 'Концепция',
-      footer_counter: 'Проект 1 / 4', footer_next: 'Следующий проект →'
+      hero_title: 'Telegram Mini App<br>для Центра российской<br>истории и культуры НИУ ВШЭ',
+      hero_sub: '2025 · Product Design · UX/UI · Frontend · Telegram Web App',
+      lead: 'Сервис для анонсирования мероприятий и быстрой регистрации студентов без необходимости скачивать отдельное приложение. Спроектировала интерфейс с нуля и реализовала фронтенд за 30 дней.',
+      sec1_title: 'Контекст и задача',
+      sec1_p1: 'Центру российской истории и культуры при факультете креативных индустрий ВШЭ требовалась единая точка входа для анонса мероприятий и сбора регистраций. Раньше информация терялась в чатах, а запись через сторонние формы создавала лишний барьер для студентов.',
+      sec1_p2: '<strong>Цели проекта:</strong>',
+      sec1_l1_b: 'Для пользователей:', sec1_l1_t: 'сократить путь от просмотра афиши до записи на событие до двух кликов внутри привычного мессенджера.',
+      sec1_l2_b: 'Для организаторов:', sec1_l2_t: 'автоматизировать учет участников и повысить доходимость (retention) за счет механик геймификации.',
+      sec2_title: 'Ключевые продуктовые<br>и UX-решения',
+      sec2_p1: '1. Бесшовный онбординг и нативная интеграция',
+      sec2_p1_text: 'Выбор формата Telegram Mini App позволил отказаться от регистрации и ввода личных данных: приложение подтягивает профиль пользователя автоматически, а интерфейс адаптирован под нативные паттерны навигации Telegram.',
+      sec2_p2: '2. Сценарий записи в один клик',
+      sec2_p2_text: 'На карточке мероприятия собрана только критически важная для принятия решения информация: дата, формат (тег категории), визуальный акцент и ценность в баллах. Запись и отмена происходят мгновенно без перезагрузки страницы и перехода на внешние формы, а кнопка «Поделиться» позволяет сразу переслать анонс однокурсникам в чат.',
+      sec2_p3: '3. Геймификация и удержание',
+      sec2_p3_text: 'Чтобы мотивировать студентов посещать мероприятия регулярно, а не разово, я встроила систему внутренней валюты и достижений:',
+      sec2_l1_b: 'Монеты за активность:', sec2_l1_t: 'за каждое подтвержденное посещение начисляются баллы (например, +20 монет), которые в будущем можно обменять на мерч или бонусы центра.',
+      sec2_l2_b: 'Прогресс в профиле:', sec2_l2_t: 'блок «Мои достижения» и счетчик посещенных событий визуализируют вовлеченность и создают дополнительный стимул закрыть первый целевой шаг («Посетите 1 мероприятие»).',
+      sec2_p4: '4. Визуальный контраст и фокус на контенте',
+      sec2_p4_text: 'Для промо-экрана выбрана выразительная типографика и контрастная акцентная палитра, отсылающая к культурному коду проекта. При этом основные рабочие экраны («События» и «Профиль») переведены в спокойную темную тему: это снижает визуальный шум, выделяет обложки мероприятий и комфортно воспринимается при просмотре со смартфона в любое время суток.',
+      sec3_title: 'Мокапы',
+      sec3_caption: 'Главный экран, список событий, профиль пользователя с монетками',
+      sec4_title: 'Процесс и реализация<br>(30 дней)',
+      sec4_p1: 'Проект выполнен в формате полного цикла (end-to-end) — от исследования сценариев до готового кода:',
+      sec4_l1_b: 'Неделя 1–2 (Исследование и проектирование):', sec4_l1_t: 'анализ целевой аудитории, проработка User Flow для участников и администраторов, создание интерактивных вайрфреймов.',
+      sec4_l2_b: 'Неделя 2–3 (UI и дизайн-система):', sec4_l2_t: 'разработка компонентной базы (карточки событий, статусы кнопок, бейджи достижений), адаптация под разные экраны мобильных устройств.',
+      sec4_l3_b: 'Неделя 3–4 (Frontend-разработка):', sec4_l3_t: 'верстка и программирование логики на HTML, CSS и JavaScript, подключение Telegram Web App API, тестирование сценариев записи и отмены.',
+      sec5_title: 'Моя роль',
+      role1: 'Продуктовая концепция', role2: 'UX-исследование', role3: 'UI-дизайн', role4: 'Фронтенд-разработка',
+      footer_next: 'Следующий проект →'
     },
     en: {
       back_btn: '← BACK', nav_projects: 'PROJECTS', nav_contact: 'CONTACT',
-      hero_title: 'Web App<br>for Culture Center',
-      meta_year: '2025', meta_role: 'UX/UI & Frontend', meta_tech: 'Telegram Web App',
-      sec1_title: 'Task', sec1_p1: 'Develop a web application for the Center of Russian History and Culture at the Faculty of Creative Industries, HSE. The main goal is to create a platform where events can be easily published, and users can quickly sign up and cancel registrations.', sec1_p2: 'Gamification was also required: for attending events, a user receives "coins" that can be spent on something within the system in the future.',
-      sec2_title: 'Process', sec2_p1: 'I fully designed the interface and implemented it using HTML, CSS, and JavaScript. The work followed a clear schedule, focusing on user scenarios and testing.', sec2_l1_b: 'Days 1–10:', sec2_l1_t: 'analysis, user flow, wireframes', sec2_l2_b: 'Days 11–20:', sec2_l2_t: 'UI design, prototype, design system', sec2_l3_b: 'Days 21–30:', sec2_l3_t: 'interface implementation, responsiveness, interactivity, final testing', sec2_p2: 'The result is a fully ready-to-launch web application integrated into Telegram as a Web App.',
-      sec3_title: 'Mockups', sec3_caption: 'Main screen, event list, user profile with coins.',
-      sec4_title: 'Key Solutions', sec4_l1_b: 'Simple registration system:', sec4_l1_t: 'one click to sign up for an event, one click to cancel.', sec4_l2_b: 'Gamification through coins:', sec4_l2_t: 'each visit earns coins that accumulate in the profile.', sec4_l3_b: 'Achievements:', sec4_l3_t: 'reward system for activity (first event, attending events of different types).', sec4_l4_b: 'Telegram Web App:', sec4_l4_t: 'the app is fully adapted for embedding in Telegram with native navigation.',
-      sec5_title: 'My Role', role1: 'UX/UI Design', role2: 'Frontend Dev', role3: 'Concept',
-      footer_counter: 'Project 1 / 4', footer_next: 'Next project →'
+      hero_title: 'Telegram Mini App<br>for the HSE Center<br>for Russian History & Culture',
+      hero_sub: '2025 · Product Design · UX/UI · Frontend · Telegram Web App',
+      lead: 'A service for announcing events and quickly registering students without the need to download a separate app. I designed the interface from scratch and built the frontend in 30 days.',
+      sec1_title: 'Context & Task',
+      sec1_p1: 'The Center for Russian History and Culture at the HSE Faculty of Creative Industries needed a single entry point for announcing events and collecting registrations. Previously, information got lost in chats, and registration via third-party forms created an extra barrier for students.',
+      sec1_p2: '<strong>Project goals:</strong>',
+      sec1_l1_b: 'For users:', sec1_l1_t: 'reduce the path from viewing the poster to signing up for an event to two clicks within the familiar messenger.',
+      sec1_l2_b: 'For organizers:', sec1_l2_t: 'automate participant tracking and increase retention through gamification mechanics.',
+      sec2_title: 'Key Product<br>& UX Decisions',
+      sec2_p1: '1. Seamless onboarding & native integration',
+      sec2_p1_text: 'Choosing the Telegram Mini App format allowed us to eliminate registration and personal data entry: the app pulls the user profile automatically, and the interface is adapted to native Telegram navigation patterns.',
+      sec2_p2: '2. One-click registration flow',
+      sec2_p2_text: 'The event card contains only the information critical for decision-making: date, format (category tag), visual accent, and point value. Registration and cancellation happen instantly without page reloads or external forms, and the "Share" button lets users forward the announcement to classmates in chat.',
+      sec2_p3: '3. Gamification & retention',
+      sec2_p3_text: 'To motivate students to attend events regularly rather than one-time, I built in a system of internal currency and achievements:',
+      sec2_l1_b: 'Coins for activity:', sec2_l1_t: 'each confirmed attendance earns points (e.g., +20 coins), which can later be exchanged for merch or center bonuses.',
+      sec2_l2_b: 'Profile progress:', sec2_l2_t: 'the "My achievements" block and visited events counter visualize engagement and create an additional incentive to complete the first target step ("Attend 1 event").',
+      sec2_p4: '4. Visual contrast & focus on content',
+      sec2_p4_text: 'For the promo screen, I chose expressive typography and a contrasting accent palette referencing the project\'s cultural code. At the same time, the main working screens ("Events" and "Profile") are in a calm dark theme: this reduces visual noise, highlights event covers, and is comfortable to view on a smartphone at any time of day.',
+      sec3_title: 'Mockups',
+      sec3_caption: 'Main screen, event list, user profile with coins',
+      sec4_title: 'Process & Implementation<br>(30 days)',
+      sec4_p1: 'The project was delivered end-to-end — from scenario research to production-ready code:',
+      sec4_l1_b: 'Week 1–2 (Research & design):', sec4_l1_t: 'target audience analysis, User Flow development for participants and administrators, creation of interactive wireframes.',
+      sec4_l2_b: 'Week 2–3 (UI & design system):', sec4_l2_t: 'component base development (event cards, button states, achievement badges), adaptation for various mobile screens.',
+      sec4_l3_b: 'Week 3–4 (Frontend development):', sec4_l3_t: 'HTML, CSS, and JavaScript coding and logic programming, Telegram Web App API integration, testing of registration and cancellation flows.',
+      sec5_title: 'My Role',
+      role1: 'Product Concept', role2: 'UX Research', role3: 'UI Design', role4: 'Frontend Dev',
+      footer_next: 'Next project →'
     }
   };
 
-  
   function setLanguage(lang) {
     document.documentElement.lang = lang;
     const elements = document.querySelectorAll('[data-key]');
     elements.forEach(el => {
       const key = el.getAttribute('data-key');
       if (translations[lang] && translations[lang][key]) {
-        
         el.innerHTML = translations[lang][key];
       }
     });
@@ -268,12 +335,10 @@
     localStorage.setItem('preferredLanguage', lang);
   }
 
-  
   const userLang = localStorage.getItem('preferredLanguage') || navigator.language.slice(0, 2);
   const initialLang = (userLang === 'ru') ? 'ru' : 'en';
   setLanguage(initialLang);
 
-  
   document.getElementById('langToggle').addEventListener('click', () => {
     const currentLang = document.documentElement.lang;
     const nextLang = currentLang === 'ru' ? 'en' : 'ru';

@@ -1,411 +1,558 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Muslim Moscow</title>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>MARIANNA - Muslim Moscow: Data-Driven Research & Product Design</title>
+  <meta name="description" content="Кейс Muslim Moscow: как результаты глубинных интервью и количественного опроса (67 респондентов) превратились в конкретные решения продукта. UX/UI и фронтенд.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <style>
 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --fg-dim: #666666;
+      --line: rgba(0, 0, 0, 0.15);
+      --card-bg: #f5f5f5;
+      --accent: #2d5a4c; /* Изумрудный */
+    }
+    html { scroll-behavior: smooth; }
     body {
-        background: #E8E2D5;
-        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-        color: #1a1f2b;
-        line-height: 1.5;
-        min-height: 100vh;
-        padding: 48px 24px 72px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Playfair Display', serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
     }
+    a { color: inherit; text-decoration: none; }
 
-    .page {
-        max-width: 760px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    
-    .cover {
-        border-radius: 24px;
-        overflow: hidden;
-        line-height: 0;
-        box-shadow: 0 8px 30px rgba(60, 40, 20, 0.12);
-    }
-
-    .cover img {
-        width: 100%;
-        height: auto;
-        display: block;
-        aspect-ratio: 21 / 6;
-        object-fit: cover;
-    }
-
-  
-    .card {
-        background: #ffffff;
-        border-radius: 24px;
-        overflow: hidden;
-        box-shadow: 0 8px 30px rgba(60, 40, 20, 0.08);
-    }
-
-   
-    .title-bar {
-        background: #7A4A1E;
-        padding: 22px 40px;
-    }
-
-    .title-bar h1 {
-        font-size: 26px;
-        font-weight: 500;
-        letter-spacing: -0.4px;
-        color: #F6EFE3;
-        line-height: 1.25;
-    }
-
-  
     .header {
-        padding: 22px 40px;
-        border-bottom: 1px solid #EFEAE0;
+      position: fixed; top: 0; left: 0; width: 100%;
+      padding: 2rem 4vw;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 100; background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid var(--line);
+    }
+    .header nav { display: flex; gap: 2rem; align-items: center; }
+    .header nav a, .back-link {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; transition: opacity 0.2s; opacity: 0.7;
+    }
+    .header nav a:hover, .back-link:hover { opacity: 1; }
+
+    .page-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 10rem 20px 6rem 20px;
     }
 
-    .logo {
-        font-weight: 550;
-        font-size: 18px;
-        letter-spacing: -0.3px;
-        color: #2B1D0E;
+    .project-hero {
+      text-align: center;
+      margin-bottom: 4rem;
     }
-
-    .logo span {
-        font-weight: 350;
-        color: #9C8B74;
+    .project-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
     }
+    .project-hero .sub {
+      font-size: 11px; color: var(--fg-dim);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .project-meta {
+      display: flex; gap: 2rem; justify-content: center;
+      font-size: 10px; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.1em;
+      flex-wrap: wrap;
+    }
+    .project-meta a { border-bottom: 1px solid var(--fg); transition: opacity 0.2s; }
+    .project-meta a:hover { opacity: 0.6; }
 
+    .section-block {
+      margin-bottom: 5rem;
+      text-align: center;
+    }
+    .section-block h2 {
+      font-size: 24px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .section-block > p {
+      font-size: 14px; color: var(--fg-dim);
+      margin: 0 auto 2rem auto; max-width: 700px;
+    }
+    .section-block strong { color: var(--fg); font-weight: 500; }
     
-    .hero {
-        padding: 40px 40px 28px;
+    .mockup-image {
+      width: 100%; max-width: 800px; margin: 0 auto;
+      background-color: var(--card-bg); border: 1px solid var(--line);
+      display: block;
+    }
+    .mockup-caption {
+      font-size: 10px; color: var(--fg-dim); margin-top: 1rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
     }
 
-    .hero h2 {
-        font-size: 30px;
-        font-weight: 540;
-        letter-spacing: -0.6px;
-        color: #2B1D0E;
-        line-height: 1.2;
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+      margin: 2rem auto; max-width: 800px;
+    }
+    .stat-card {
+      background: var(--card-bg); border: 1px solid var(--line);
+      padding: 2rem 1rem; text-align: center;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .stat-number {
+      font-size: 36px; font-weight: 600; color: var(--accent);
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .stat-text {
+      font-size: 12px; color: var(--fg-dim); max-width: 200px; margin: 0 auto;
     }
 
-    .hero p {
-        font-size: 16.5px;
-        color: #6B5B47;
-        margin-top: 12px;
-        font-weight: 380;
-        max-width: 52ch;
+    .accordion {
+      width: 100%; max-width: 800px; margin: 0 auto 2rem auto;
+      border: 1px solid var(--line); background: var(--bg);
+      text-align: left;
+    }
+    .accordion-header {
+      padding: 1.5rem; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 16px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;
+      transition: background 0.2s;
+    }
+    .accordion-header:hover { background: var(--card-bg); }
+    .accordion-header::after {
+      content: '+'; font-size: 24px; font-weight: 300; transition: transform 0.3s;
+    }
+    .accordion.active .accordion-header::after {
+      transform: rotate(45deg);
+    }
+    .accordion-content {
+      display: none; padding: 0 1.5rem 1.5rem 1.5rem;
+      border-top: 1px solid transparent;
+    }
+    .accordion.active .accordion-content {
+      display: block; border-top-color: var(--line);
     }
 
-  
-    .block {
-        padding: 30px 40px;
-        border-top: 1px solid #EFEAE0;
+    .flowchart {
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      padding: 1rem 0;
+    }
+    .flow-node {
+      border: 1px solid var(--line); padding: 0.8rem 1.5rem;
+      font-size: 12px; text-align: center; background: var(--bg);
+      position: relative; min-width: 200px;
+    }
+    .flow-node.accent {
+      border-color: var(--accent); background: rgba(45, 90, 76, 0.05); color: var(--accent);
+    }
+    .flow-arrow {
+      color: var(--fg-dim); font-size: 18px; line-height: 1;
+    }
+    .flow-branch {
+      display: flex; gap: 2rem; justify-content: center; width: 100%;
+    }
+    .flow-branch .flow-col {
+      display: flex; flex-direction: column; align-items: center; gap: 1rem; flex: 1;
     }
 
-    .eyebrow {
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 0.4px;
-        text-transform: uppercase;
-        color: #9C8B74;
-        margin-bottom: 12px;
+    .table-wrapper {
+      overflow-x: auto; font-size: 11px;
+    }
+    .data-table {
+      width: 100%; border-collapse: collapse; text-align: left;
+    }
+    .data-table th, .data-table td {
+      padding: 0.8rem; border-bottom: 1px solid var(--line);
+      vertical-align: top; min-width: 150px;
+    }
+    .data-table th {
+      font-weight: 500; color: var(--fg); background: var(--card-bg);
+      position: sticky; top: 0;
+    }
+    .data-table td { color: var(--fg-dim); }
+
+    .role-tag {
+      display: inline-block; border: 1px solid var(--line);
+      padding: 0.5rem 1.2rem; border-radius: 2px; font-size: 11px;
+      color: var(--fg-dim); letter-spacing: 0.1em; text-transform: uppercase;
+      margin: 0.25rem;
     }
 
-    .block h3 {
-        font-size: 21px;
-        font-weight: 540;
-        color: #2B1D0E;
-        letter-spacing: -0.3px;
-        margin-bottom: 14px;
-        line-height: 1.3;
-        max-width: 32ch;
+    .page-footer {
+      margin-top: 6rem; padding-top: 2rem; border-top: 1px solid var(--line);
+      display: flex; justify-content: flex-end;
+      font-size: 11px; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.15em;
+    }
+    .page-footer a { color: var(--fg); font-weight: 500; border-bottom: 1px solid transparent; transition: 0.2s; }
+    .page-footer a:hover { border-bottom-color: var(--fg); }
+
+    .live-preview-container {
+      display: flex;
+      justify-content: center;
+      margin: 3rem auto;
+      max-width: 800px;
+    }
+    .phone-frame {
+      width: 100%;
+      max-width: 380px; 
+      height: 700px;    
+      border: 12px solid #1a1a1a;
+      border-radius: 40px;
+      overflow: hidden;
+      background-color: #fff;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      position: relative;
+      padding-top: 20px; 
+    }
+    .phone-notch {
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 120px; height: 20px;
+      background: #1a1a1a;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      z-index: 10;
+    }
+    .phone-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 20px; 
     }
 
-    .block p {
-        font-size: 15.5px;
-        color: #544636;
-        font-weight: 380;
-        margin-bottom: 12px;
-        max-width: 68ch;
+    @media (max-width: 768px) {
+      .page-container { padding-top: 7rem; }
+      .header { padding: 1.5rem 4vw; }
+      .header nav { gap: 1rem; }
+      .header nav a, .back-link { font-size: 10px; letter-spacing: 0.1em; }
+      .project-hero h1 { font-size: 2rem; }
+      .section-block h2 { font-size: 20px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .flow-branch { flex-direction: column; gap: 1rem; }
+      .phone-frame { height: 550px; border-width: 8px; border-radius: 30px; } /* Чуть меньше на телефонах */
     }
-
-    .block p:last-child {
-        margin-bottom: 0;
-    }
-
-    
-    .list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 18px;
-    }
-
-    .item {
-        background: #F5F0E6;
-        border: 1px solid #E8DFCE;
-        border-radius: 100px;
-        padding: 7px 14px;
-        font-size: 13.5px;
-        font-weight: 450;
-        color: #3B2C1B;
-        white-space: nowrap;
-    }
-
-    
-    .note {
-        background: #FAF6EE;
-        border: 1px solid #EEE5D5;
-        border-radius: 18px;
-        padding: 20px 24px;
-        margin-top: 18px;
-    }
-
-    .note p {
-        font-size: 15px;
-        color: #4A3B2A;
-        font-weight: 400;
-        line-height: 1.55;
-        margin: 0;
-        max-width: 60ch;
-    }
-
-    
-    .cards {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-top: 18px;
-    }
-
-    .feature {
-        background: #FFFFFF;
-        border: 1px solid #EFEAE0;
-        border-radius: 18px;
-        padding: 18px 20px;
-        box-shadow: 0 2px 6px rgba(60, 40, 20, 0.02);
-    }
-
-    .feature .title {
-        font-size: 15.5px;
-        font-weight: 540;
-        color: #2B1D0E;
-        letter-spacing: -0.2px;
-        margin-bottom: 6px;
-    }
-
-    .feature p {
-        font-size: 14px;
-        color: #7A6B57;
-        font-weight: 380;
-        margin: 0;
-        line-height: 1.55;
-        max-width: none;
-    }
-
-    
-    .cta {
-        padding: 44px 40px 52px;
-        text-align: center;
-        border-top: 1px solid #EFEAE0;
-    }
-
-    .cta .eyebrow {
-        margin-bottom: 10px;
-    }
-
-    .cta h3 {
-        font-size: 24px;
-        font-weight: 540;
-        color: #2B1D0E;
-        letter-spacing: -0.4px;
-        margin: 0 auto 14px;
-        line-height: 1.3;
-        max-width: 22ch;
-    }
-
-    .cta p {
-        font-size: 15px;
-        color: #6B5B47;
-        font-weight: 380;
-        margin: 0 auto 26px;
-        line-height: 1.6;
-        max-width: 48ch;
-    }
-
-    .btn {
-        display: inline-block;
-        background: #7A4A1E;
-        color: #F6EFE3;
-        text-decoration: none;
-        font-size: 15px;
-        font-weight: 500;
-        padding: 14px 32px;
-        border-radius: 100px;
-        transition: background 0.15s;
-    }
-
-    .btn:hover {
-        background: #5E3714;
-    }
-
-    .foot {
-        margin-top: 22px;
-        font-size: 13px;
-        color: #9C8B74;
-        font-weight: 380;
-    }
-
-    
-    @media (min-width: 720px) {
-        .cards {
-            grid-template-columns: 1fr 1fr;
-        }
-        .feature:first-child {
-            grid-column: 1 / -1;
-        }
-    }
-
-    
-    @media (max-width: 560px) {
-        body {
-            padding: 0;
-            background: #E8E2D5;
-        }
-        .page {
-            gap: 0;
-        }
-        .cover {
-            border-radius: 0;
-            box-shadow: none;
-        }
-        .cover img {
-            aspect-ratio: 16 / 9;
-        }
-        .card {
-            border-radius: 0;
-            box-shadow: none;
-        }
-        .title-bar { padding: 18px 20px; }
-        .title-bar h1 { font-size: 21px; }
-        .header { padding: 18px 20px; }
-        .hero { padding: 32px 20px 24px; }
-        .hero h2 { font-size: 26px; }
-        .hero p { font-size: 16px; }
-        .block { padding: 26px 20px; }
-        .block h3 { font-size: 19px; }
-        .cta { padding: 38px 20px 46px; }
-        .cta h3 { font-size: 21px; }
-    }
-</style>
+  </style>
 </head>
 <body>
 
-<div class="page">
+<header class="header">
+  <a href="index.html" class="back-link">← НАЗАД</a>
+  <nav>
+    <a href="index.html#projects">ПРОЕКТЫ</a>
+    <a href="index.html#contacts">КОНТАКТ</a>
+  </nav>
+</header>
 
+<div class="page-container">
+
+  <section class="project-hero">
+    <h1>MUSLIM MOSCOW</h1>
+    <div class="sub">RESEARCH · PRODUCT DESIGN · UX RESEARCH · 2026</div>
+    <div class="project-meta">
+      <span>67 РЕСПОНДЕНТОВ</span>
+      <span>DATA-DRIVEN ПОДХОД</span>
+      <a href="https://muslim-moscow.ru/" target="_blank" rel="noopener noreferrer">ОТКРЫТЬ MVP →</a>
+    </div>
+  </section>
+
+  <div class="section-block">
+    <p style="font-size: 16px; color: var(--fg); max-width: 800px;">
+      Muslim Moscow — городской гид для мусульман в Москве: интерактивная карта мечетей, халяльной еды и базовых сервисов, а также сценарий адаптации на первые 22 дня для тех, кто приехал в город впервые. Этот кейс о том, как результаты исследования превратились в конкретные решения продукта.
+    </p>
+  </div>
+
+  <div class="section-block">
+    <h2>Посмотреть вживую</h2>
+    <p>Попробуйте интерактивный прототип прямо на этой странице. Вы можете кликать по карте, искать места и открывать карточки.</p>
     
-    <div class="cover">
-        <img src="https://i.pinimg.com/736x/cf/d3/f3/cfd3f3b0d602d07d9fed4f93a919549b.jpg" alt="Мусульманская архитектура">
+    <div class="live-preview-container">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <iframe src="https://muslim-moscow.ru/" title="Muslim Moscow MVP" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      </div>
+    </div>
+    <div style="margin-top: 1.5rem; text-align: center;">
+      <a href="https://muslim-moscow.ru/" target="_blank" style="display: inline-block; border: 1px solid var(--fg); padding: 0.8rem 2rem; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.2s;">Открыть сайт в новой вкладке ↗</a>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Исследования и инсайты</h2>
+    <p>Перед проектированием интерфейса я провела серию глубинных интервью (CustDev) и количественный опрос среди 67 мусульман, живущих в Москве или приезжающих в город (35 женщин и 32 мужчины).</p>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">72%</div>
+        <div class="stat-text">не всегда понятно, насколько можно доверять информации о статусе halal</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">84%</div>
+        <div class="stat-text">подтвердили, что персональная подборка базовых мест в первые недели была бы им полезна</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">37%</div>
+        <div class="stat-text">сталкиваются с разрозненностью информации по разным площадкам</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">30%</div>
+        <div class="stat-text">жалуются на устаревшие данные в существующих сервисах</div>
+      </div>
     </div>
 
-    
-    <div class="card">
+    <p style="font-size: 12px; color: var(--fg-dim); max-width: 800px; margin-bottom: 3rem;">
+      <strong style="color: var(--fg);">Женские сценарии:</strong> для большинства опрошенных женщин критически важны закрытые помещения, отсутствие мужчин и мастера-женщины при выборе бьюти- и медицинских услуг.
+    </p>
 
-        
-        <div class="title-bar">
-            <h1>Городской гид Muslim Moscow</h1>
-        </div>
-
-        
-        <div class="header">
-            <div class="logo">Muslim <span>Moscow</span></div>
-        </div>
-
-        
-        <div class="hero">
-            <h2>О проекте</h2>
-            <p>Городской гид для мусульман в Москве. Ниже коротко о том, что это за идея и для кого она.</p>
-        </div>
-
-        
-        <div class="block">
-            <div class="eyebrow">Зачем</div>
-            <h3>Информация о городе разбросана по разным местам</h3>
-            <p>Сведения о мусульманской инфраструктуре Москвы сейчас живут в Telegram-каналах, чатах, соцсетях и личных советах. Иногда это удобно, но чаще приходится каждый раз собирать нужное заново: где молиться рядом, где поесть, куда обратиться.</p>
-            <p>Muslim Moscow задуман как одно спокойное место, где такая информация собрана вместе и подана понятно.</p>
-        </div>
-
-       
-        <div class="block">
-            <div class="eyebrow">Что может быть внутри</div>
-            <h3>Городские места и сервисы, которые могут быть полезны</h3>
-            <p>Предполагаемые разделы приложения. Список еще будет уточняться по итогам опроса.</p>
-            <div class="list">
-                <div class="item">места для молитвы</div>
-                <div class="item">халяльная еда</div>
-                <div class="item">магазины</div>
-                <div class="item">женские салоны</div>
-                <div class="item">клиники</div>
-                <div class="item">одежда и товары</div>
-                <div class="item">отели</div>
-                <div class="item">городские сервисы</div>
-                <div class="item">мероприятия</div>
-                <div class="item">карта</div>
-            </div>
-        </div>
-
-        
-        <div class="block">
-            <div class="eyebrow">Как это может работать</div>
-            <h3>Приложение, которое подстраивается под ситуацию</h3>
-            <p>Одна из идей: при первом входе приложение задает несколько простых вопросов и на их основе показывает то, что может быть актуально именно сейчас.</p>
-            <div class="note">
-                <p>Например, человек приехал в Москву впервые, и приложение предлагает подборку на первые дни: где помолиться, где поесть, какие сервисы могут пригодиться.</p>
-            </div>
-            <p style="margin-top:16px;">Такая подборка может быть временной и постепенно уступать место обычному режиму. Точный формат еще предстоит определить.</p>
-        </div>
-
-        
-        <div class="block">
-            <div class="eyebrow">Возможные функции</div>
-            <h3>Что можно будет делать в приложении</h3>
-            <div class="cards">
-                <div class="feature">
-                    <div class="title">Поиск обычными словами</div>
-                    <p>Например, написать «где поесть халяль рядом» или «место для молитвы поблизости» и получить понятный результат.</p>
-                </div>
-                <div class="feature">
-                    <div class="title">Карта и карточки мест</div>
-                    <p>Места на карте с фильтрами, а в карточке полезные детали: часы работы, особенности, наличие отдельных зон, языки, сведения о сертификатах.</p>
-                </div>
-                <div class="feature">
-                    <div class="title">Ежедневная польза</div>
-                    <p>На главном экране могут быть ближайшее время молитвы, погода, места рядом и сохраненные рекомендации.</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="cta">
-            <div class="eyebrow">Опрос</div>
-            <h3>Помогите сделать проект точнее</h3>
-            <p>Сейчас я собираю мнения, чтобы понять, какие разделы и функции действительно нужны. Если есть несколько минут, буду благодарна за ответы.</p>
-            <a class="btn" href="https://forms.gle/dzSmGxnMzL2Ntiwx6" target="_blank" rel="noopener">Пройти опрос</a>
-            <div class="foot">Muslim Moscow, городской гид для мусульман в Москве</div>
-        </div>
-
+    <h2 style="margin-top: 3rem;">От инсайтов к решениям</h2>
+    <div style="text-align: left; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem;">
+        <div style="font-weight: 500;">Нет доверия к информации о halal</div>
+        <div style="color: var(--fg-dim); font-size: 13px;">→ в карточке места показаны проверяемые признаки: закрытые комнаты и место для намаза. Статус сертификации и верификация через профильные организации запланированы как следующий этап.</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem;">
+        <div style="font-weight: 500;">Подборка на первые недели нужна почти всем</div>
+        <div style="color: var(--fg-dim); font-size: 13px;">→ режим адаптации «Чеклист на первые 22 дня»: ближайшие точки, экстренные номера и ссылки на базовые российские сервисы в одном окне.</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem;">
+        <div style="font-weight: 500;">Информация разрознена и устаревает</div>
+        <div style="color: var(--fg-dim); font-size: 13px;">→ единая карта с категориями вместо чатов и разных площадок; у каждого места в данных есть отметка о проверке координат.</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding-bottom: 1rem;">
+        <div style="font-weight: 500;">Особые женские сценарии</div>
+        <div style="color: var(--fg-dim); font-size: 13px;">→ вопрос о поле при настройке: для мужчин скрыта категория бьюти-услуг, а признак «закрытые комнаты» вынесен в карточку места. Интерфейс бьюти-категории готов, наполнение данными в работе.</div>
+      </div>
     </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Ключевые продуктовые и UX-решения</h2>
+    
+    <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);">1. Адаптивный онбординг без лишних барьеров</h3>
+      <p style="margin-bottom: 2rem;">Вместо регистрации приложение задаёт два коротких вопроса при первом входе. Они появляются как сообщения в чате поверх размытого приложения, а варианты ответа выглядят как реплики пользователя, поэтому прохождение занимает несколько секунд. Сценарий «Впервые в Москве» и «Живу здесь»: для новичков включается режим адаптации, для постоянных жителей — быстрый доступ к карте и поиску.</p>
+
+      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);">2. Чеклист на первые 22 дня</h3>
+      <p style="margin-bottom: 2rem;">Чтобы снизить стресс от переезда или поездки, я спроектировала временный режим сопровождения. Тем, кто впервые в Москве, после опроса сообщают о чеклисте и анимацией показывают, где находится его кнопка. Кнопка отсчитывает дни пребывания («День N из 22») и исчезает по окончании периода адаптации. Окно чеклиста состоит из трёх вкладок: Рядом, Номера, Приложения.</p>
+
+      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);">3. Информативный главный экран</h3>
+      <p style="margin-bottom: 2rem;">Главный экран построен по принципу «польза с первой секунды»: быстрые виджеты (время ближайшего намаза, погода в Москве и расстояние до ближайшей мечети), интерактивная карта и фильтры, крупные карточки категорий для быстрого перехода.</p>
+
+      <h3 style="font-size: 16px; margin-bottom: 0.5rem; color: var(--fg);">4. Доверие и верификация (Trust Layer)</h3>
+      <p style="margin-bottom: 2rem;">В архитектуру карточек заложены параметры, которые отвечают на главную боль аудитории из опроса: наличие закрытых помещений и места для намаза, отметка о проверке данных. В планах: статус сертификации halal, актуальное расписание, информация о комнатах для омовения и процесс верификации.</p>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Мокап приложения</h2>
+    <div class="mockup-image">
+      <img src="imgs/muslim_mockup.jpg" alt="Мокап Muslim Moscow" style="width: 100%; display: block;" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:4rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Мокап Muslim Moscow ]</div>';">
+    </div>
+    <div class="mockup-caption">Главный экран и интерактивная карта с фильтрами</div>
+  </div>
+
+  <div class="section-block">
+    <h2>Пользовательские сценарии</h2>
+    <p>Схемы показывают все пути пользователя в приложении: от первого входа до чеклиста и профиля.</p>
+    
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Онбординг · 2 вопроса, 2 ветки</span>
+      </div>
+      <div class="accordion-content">
+        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);">Блоки с акцентной рамкой видны только тем, кто впервые в Москве. Кнопка «Пропустить» на любом шаге ведёт на главный экран.</p>
+        <div class="flowchart">
+          <div class="flow-node">Первый заход</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">Приветствие-бабл</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-branch">
+            <div class="flow-col">
+              <div class="flow-node">Перейти в приложение</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Главный экран</div>
+            </div>
+            <div class="flow-col">
+              <div class="flow-node">Настроить под себя</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Вопрос: впервые в Москве?</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-branch">
+                <div class="flow-col">
+                  <div class="flow-node">Живу здесь</div>
+                  <div class="flow-arrow">↓</div>
+                  <div class="flow-node">Главный экран</div>
+                </div>
+                <div class="flow-col">
+                  <div class="flow-node accent">Впервые</div>
+                  <div class="flow-arrow">↓</div>
+                  <div class="flow-node">Вопрос: пол</div>
+                  <div class="flow-arrow">↓</div>
+                  <div class="flow-node accent">Баббл про чеклист</div>
+                  <div class="flow-arrow">↓</div>
+                  <div class="flow-node accent">Подсветка кнопки</div>
+                  <div class="flow-arrow">↓</div>
+                  <div class="flow-node">Главный экран</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Главный экран и места · 3 входа, одно окно места</span>
+      </div>
+      <div class="accordion-content">
+        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);">Поиск, карта и избранное ведут в одно окно места, откуда можно построить маршрут или добавить место в избранное.</p>
+        <div class="flowchart">
+          <div class="flow-node">Главный экран</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-branch">
+            <div class="flow-col">
+              <div class="flow-node">Поиск и категории</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Список мест</div>
+            </div>
+            <div class="flow-col">
+              <div class="flow-node">Карта</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Пии и карточка</div>
+            </div>
+            <div class="flow-col">
+              <div class="flow-node">Избранное</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Список избранного</div>
+            </div>
+          </div>
+          <div class="flow-arrow" style="margin-top: 1rem;">↓</div>
+          <div class="flow-node accent" style="width: 300px;">Окно места (адрес, признаки, ссылки)</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-branch">
+            <div class="flow-col">
+              <div class="flow-node">Маршрут</div>
+            </div>
+            <div class="flow-col">
+              <div class="flow-node">Избранное (добавить/убрать)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Профиль и чеклист · 2 ветки по 4 действия</span>
+      </div>
+      <div class="accordion-content">
+        <p style="text-align: center; font-size: 12px; margin-bottom: 1.5rem; color: var(--fg-dim);">Пункт «Номера и приложения» в профиле открывает то же окно, что и кнопка чеклиста, поэтому экстренные номера остаются под рукой и после 22 дней.</p>
+        <div class="flowchart">
+          <div class="flow-branch">
+            <div class="flow-col">
+              <div class="flow-node">Профиль</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Имя и фото профиля</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Язык: RU / EN</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node accent">Номера и приложения</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Пройти опрос заново</div>
+            </div>
+            <div class="flow-col">
+              <div class="flow-node">Чеклист: кнопка на 22 дня</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Рядом: 7 ближайших мест</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node accent">Номера: 112, справочная</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">Приложения и ссылки</div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">На карте или галочка</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Сырые данные (Data-Driven)</h2>
+    <p>Ниже представлены обезличенные ответы респондентов, которые легли в основу продуктовых решений.</p>
+    
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Посмотреть таблицу ответов (67 респондентов)</span>
+      </div>
+      <div class="accordion-content">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Пол</th>
+                <th>Как давно в Москве?</th>
+                <th>Как часто ищете места?</th>
+                <th>Где ищете?</th>
+                <th>Что сложно?</th>
+                <th>Что сложнее всего найти?</th>
+                <th>Важность Muslim-friendly салонов</th>
+                <th>Что важно при выборе салона?</th>
+                <th>Что полезно в первые недели?</th>
+                <th>Насколько полезна подборка?</th>
+                <th>Какими функциями пользовались бы?</th>
+                <th>Что хотели бы видеть?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Женщина</td><td>От 1 года до 5 лет</td><td>Несколько раз в неделю</td><td>Спрашиваю у знакомых / родственников, Ищу вывески глазами на улице</td><td>Информация находится на разных площадках, Не всегда понятно, насколько можно доверять информации о halal</td><td>Мечети / места для молитвы, Halal-рестораны и кафе</td><td>Очень важно</td><td>Только женщины среди мастеров, Отсутствие мужчин среди посетителей, Возможность закрытого помещения, Возможность снять хиджаб, Женщина-мастер</td><td>Где находятся мечети, Где поесть halal, Где купить продукты</td><td>Очень полезна</td><td>Найти мечеть / место для молитвы, Найти halal-ресторан или кафе, Найти Muslim-friendly бьюти-салоны</td><td>.</td></tr>
+              <tr><td>Женщина</td><td>От 1 года до 5 лет</td><td>Несколько раз в месяц</td><td>Яндекс.Карты / 2ГИС, Telegram-каналы, чаты, WhatsApp-группы, Социальные сети (Instagram, TikTok), Спрашиваю у знакомых / родственников, Поисковики / обычный поиск в интернете</td><td>Не знаю, где искать информацию, Информация бывает устаревшей, Не всегда понятно, насколько можно доверять информации о halal, Не хватает подробной информации о месте, Неудобно сравнивать разные варианты</td><td>Мечети / места для молитвы, Halal-рестораны и кафе</td><td>Не имеет значения</td><td>Удобное расположение, Отзывы других мусульманок</td><td>Где поесть halal, Где купить продукты, Где получить медицинскую помощь, Какие места стоит посетить</td><td>Очень полезна</td><td>Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет, Информация о halal и её подтверждении</td><td>Мечети, кафе/рестораны халяль, магазины с халяль продукцией (и какой именно продукцией), место совершения молитвы</td></tr>
+              <tr><td>Мужчина</td><td>От 1 года до 5 лет</td><td>Несколько раз в неделю</td><td>Яндекс.Карты / 2ГИС, Спрашиваю у знакомых / родственников</td><td>Не знаю, где искать информацию, Информация находится на разных площадках, Не хватает подробной информации о месте</td><td>Halal-рестораны и кафе</td><td>Не посещаю бьюти-салоны</td><td>Не посещаю бьюти-салоны</td><td>Где поесть halal, Где купить продукты, Где получить медицинскую помощь, Какие места стоит посетить</td><td>Не знаю</td><td>Найти мечеть / место для молитвы, Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет</td><td>.</td></tr>
+              <tr><td>Женщина</td><td>От 1 года до 5 лет</td><td>Примерно раз в месяц</td><td>Яндекс.Карты / 2ГИС, Telegram-каналы, чаты, WhatsApp-группы, Социальные сети (Instagram, TikTok), Поисковики / обычный поиск в интернете</td><td>Не всегда понятно, насколько можно доверять информации о halal, Не хватает подробной информации о месте</td><td>Halal-рестораны и кафе, Женские салоны, Исламские товары / одежду</td><td>Не имеет значения</td><td>Отсутствие мужчин среди посетителей, Возможность закрытого помещения, Женщина-мастер</td><td>Где поесть halal, Где купить продукты, Как пользоваться транспортом, Какие места стоит посетить</td><td>Очень полезна</td><td>Найти halal-ресторан или кафе, Найти halal-магазин / супермаркет</td><td>Разделение на категории мест</td></tr>
+              <tr><td>Мужчина</td><td>От 1 года до 5 лет</td><td>Практически никогда</td><td>Ничего специально не ищу / уже знаю проверенные места</td><td>Обычно быстро нахожу всё необходимое</td><td>Мероприятия / сообщества</td><td>Не посещаю бьюти-салоны</td><td>Не посещаю бьюти-салоны</td><td>Мне такая информация не нужна</td><td>Совсем не нужна</td><td>Интерактивная карта, Информация о halal и её подтверждении, Гид для тех, кто впервые в Москве</td><td>Нет</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Моя роль</h2>
+    <p>
+      <span class="role-tag">Product Management</span>
+      <span class="role-tag">UX-исследования (CustDev)</span>
+      <span class="role-tag">Информационная архитектура</span>
+      <span class="role-tag">UI/UX-дизайн</span>
+      <span class="role-tag">Фронтенд-разработка MVP</span>
+    </p>
+  </div>
+
+  <div class="page-footer">
+    <a href="index.html">В начало →</a>
+  </div>
 
 </div>
+
+<script>
+  function toggleAccordion(header) {
+    const accordion = header.parentElement;
+    accordion.classList.toggle('active');
+  }
+</script>
 
 </body>
 </html>

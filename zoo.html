@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DM65F50FVL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -25,297 +24,245 @@
   <meta property="og:type" content="article">
 
   <link rel="icon" type="image/x-icon" href="/favicon.png">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --fg-dim: #666666;
+      --line: rgba(0, 0, 0, 0.15);
+      --card-bg: #f5f5f5;
+    }
+    html { scroll-behavior: smooth; }
     body {
-      background: #1F2019;
-      color: #EBE7DC;
-      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Playfair Display', serif;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
     }
-
-    .firefly {
-      position: fixed;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgb(242, 225, 203), rgba(254, 179, 113, 0.7), rgba(0, 0, 0, 0));
-      box-shadow: 0 0 6px 2px rgba(254, 179, 113, 0.3), 0 0 15px 5px rgba(254, 179, 113, 0.15);
-      pointer-events: none;
-      z-index: 1;
-      animation: fly 12s infinite ease-in-out;
-      opacity: 0;
-    }
-
-    @keyframes fly {
-      0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
-      20% { opacity: 0.6; }
-      50% { opacity: 0.6; transform: translate(var(--dx), var(--dy)) scale(1.1); }
-      80% { opacity: 0.4; }
-      100% { opacity: 0; transform: translate(calc(var(--dx) * 1.7), calc(var(--dy) * 1.7)) scale(0.5); }
-    }
+    a { color: inherit; text-decoration: none; }
 
     .header {
-      position: fixed; top: 0; left: 0; width: 100%; padding: 1.8rem 4vw;
+      position: fixed; top: 0; left: 0; width: 100%;
+      padding: 2rem 4vw;
       display: flex; justify-content: space-between; align-items: center;
-      z-index: 100; background: rgba(31, 32, 25, 0.95); border-bottom: 1px solid rgba(235, 231, 220, 0.15);
-      backdrop-filter: blur(8px);
+      z-index: 100; background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid var(--line);
     }
-    .header .logo, .header nav a, .lang-switch {
-      color: #EBE7DC; text-decoration: none; transition: 0.2s;
+    .header nav { display: flex; gap: 2rem; align-items: center; }
+    .header nav a, .back-link {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; transition: opacity 0.2s; opacity: 0.7;
     }
-    .header .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
-    .header nav { display: flex; gap: 2.5rem; align-items: center; }
-    .header nav a { font-size: 0.9rem; font-weight: 400; opacity: 0.7; }
-    .header nav a:hover { opacity: 1; }
-    .back-link { font-size: 1.2rem; margin-right: auto; opacity: 0.6; }
-    .back-link:hover { opacity: 1; }
-
-    .back-link:visited, .header nav a:visited, .page-footer a:visited, .external-links a:visited {
-      color: #EBE7DC;
-    }
-    .back-link { color: #EBE7DC !important; text-decoration: none !important; }
-
+    .header nav a:hover, .back-link:hover { opacity: 1; }
+    
     .lang-switch {
-      background: none; border: 1px solid rgba(235, 231, 220, 0.3);
-      padding: 0.2rem 0.8rem; border-radius: 12px; font-size: 0.7rem;
-      text-transform: uppercase; cursor: pointer; letter-spacing: 1px;
-      font-family: 'Inter', sans-serif;
+      background: none; border: 1px solid var(--fg);
+      padding: 0.3rem 0.8rem; border-radius: 2px; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      color: var(--fg); font-family: inherit; transition: 0.2s;
     }
-    .lang-switch:hover { border-color: #EBE7DC; }
+    .lang-switch:hover { background: var(--fg); color: var(--bg); }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 10rem 20px 6rem 20px;
+    }
 
     .project-hero {
-      padding: 8rem 4vw 3rem 4vw;
-      max-width: 1200px; margin: 0 auto;
-      position: relative; z-index: 2;
+      text-align: center;
+      margin-bottom: 5rem;
     }
     .project-hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      font-weight: 600; letter-spacing: -0.03em; line-height: 1; color: #EBE7DC; text-transform: uppercase;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
     }
     .project-hero .sub {
-      font-size: 1rem; font-weight: 300; color: #A8A89C; letter-spacing: 2px; text-transform: uppercase; margin-top: 0.5rem;
+      font-size: 11px; color: var(--fg-dim);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 1rem;
     }
     .project-meta {
-      display: flex; gap: 2rem; margin-top: 2rem;
-      font-size: 0.9rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;
-      flex-wrap: wrap;
-    }
-
-    .content {
-      padding: 2rem 4vw 6rem 4vw;
-      max-width: 1000px; margin: 0 auto;
-      position: relative; z-index: 2;
+      display: flex; gap: 2rem; justify-content: center;
+      font-size: 10px; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.1em;
     }
 
     .section-block {
-      margin-bottom: 4rem;
+      margin-bottom: 5rem;
+      text-align: center;
     }
     .section-block h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2rem; font-weight: 600; letter-spacing: -0.3px;
-      margin-bottom: 1.5rem; color: #EBE7DC;
+      font-size: 24px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
     }
     .section-block p {
-      font-size: 1.1rem; font-weight: 300; color: #D5D0C3; line-height: 1.6;
-      margin-bottom: 1.5rem; max-width: 800px;
+      font-size: 14px; color: var(--fg-dim);
+      margin: 0 auto 2rem auto; max-width: 700px;
+    }
+    .section-block p strong {
+      color: var(--fg); font-weight: 500;
     }
 
     .project-image {
-      width: 100%;
-      background: #2A2B23; border: 1px solid rgba(235, 231, 220, 0.15);
-      overflow: hidden; border-radius: 4px;
+      width: 100%; margin-bottom: 1.5rem;
+      background-color: var(--card-bg);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
     .project-image img {
       width: 100%; height: auto; display: block;
     }
+    .project-image .caption, .grid-item .caption {
+      padding: 0.8rem 1rem; font-size: 10px; color: var(--fg-dim);
+      text-transform: uppercase; letter-spacing: 0.1em; flex-shrink: 0;
+      text-align: center;
+    }
 
     .grid-2 {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;
     }
     .grid-item {
-      background: #2A2B23; border: 1px solid rgba(235, 231, 220, 0.1);
-      overflow: hidden; border-radius: 4px;
-      display: flex; flex-direction: column;
+      background: var(--card-bg); border: 1px solid var(--line);
+      display: flex; flex-direction: column; text-align: center;
     }
-    .grid-item .image-wrapper {
-      flex-grow: 1;
-      overflow: hidden;
-    }
-    .grid-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .grid-item .caption {
-      padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;
-      flex-shrink: 0;
-    }
+    .grid-item .image-wrapper { flex-grow: 1; overflow: hidden; }
+    .grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .grid-3 {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.5rem;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem;
     }
-    .grid-3 .grid-item {
-      background: #2A2B23; border: 1px solid rgba(235, 231, 220, 0.1);
-      overflow: hidden; border-radius: 4px;
-      display: flex; flex-direction: column;
-    }
-    .grid-3 .grid-item:first-child {
-      grid-column: span 2;
-    }
-    .grid-3 .image-wrapper {
-      flex-grow: 1;
-      overflow: hidden;
-    }
-    .grid-3 img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .grid-3 .caption {
-      padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;
-      flex-shrink: 0;
-    }
+    .grid-3 .grid-item:first-child { grid-column: span 2; }
+    .grid-3 .grid-item { background: var(--card-bg); border: 1px solid var(--line); display: flex; flex-direction: column; text-align: center; }
+    .grid-3 .image-wrapper { flex-grow: 1; overflow: hidden; }
+    .grid-3 img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    .comparison-wrapper {
-      margin-top: 1.5rem;
-    }
+    .comparison-wrapper { margin-top: 2rem; }
     .toggle-buttons {
-      display: flex; gap: 0.5rem; margin-bottom: 1rem;
+      display: flex; gap: 0.5rem; margin-bottom: 1.5rem; justify-content: center;
     }
     .toggle-buttons button {
-      background: rgba(235, 231, 220, 0.1);
-      border: 1px solid rgba(235, 231, 220, 0.3);
-      color: #EBE7DC; font-family: 'Inter', sans-serif;
-      font-size: 0.9rem; padding: 0.8rem 1.5rem;
-      border-radius: 4px; cursor: pointer; transition: 0.2s;
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--fg-dim); font-family: inherit;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.6rem 1.5rem; border-radius: 2px; cursor: pointer; transition: 0.2s;
     }
-    .toggle-buttons button:hover,
-    .toggle-buttons button.active {
-      background: #EBE7DC; color: #1F2019;
-    }
+    .toggle-buttons button:hover { border-color: var(--fg); color: var(--fg); }
+    .toggle-buttons button.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    
     .comparison-slot {
-      background: #2A2B23; border: 1px solid rgba(235, 231, 220, 0.1);
-      overflow: hidden; border-radius: 4px;
+      background: var(--card-bg); border: 1px solid var(--line);
+      overflow: hidden; display: flex; flex-direction: column;
     }
-    .comparison-slot img {
-      width: 100%; height: auto; display: block;
-    }
-
-    .rect-image {
-      width: 100%; margin-top: 1.5rem;
-      border-radius: 4px; overflow: hidden;
-    }
-    .rect-image img {
-      width: 100%; height: auto; display: block;
+    .comparison-slot img { width: 100%; height: auto; display: block; }
+    .comparison-slot .caption {
+       padding: 0.8rem 1rem; font-size: 10px; color: var(--fg-dim);
+      text-transform: uppercase; letter-spacing: 0.1em; text-align: center;
     }
 
     .section-blo p {
-      font-size: 0.8rem; opacity: 60%;
+      font-size: 10px; letter-spacing: 0.05em; color: var(--fg-dim); opacity: 0.7;
+      text-align: center; max-width: 800px; margin: 4rem auto 0 auto;
     }
 
     .page-footer {
-      margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(235, 231, 220, 0.2);
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-      font-size: 0.9rem; color: #A8A89C;
+      margin-top: 6rem; padding-top: 2rem; border-top: 1px solid var(--line);
+      display: flex; justify-content: flex-end;
+      font-size: 11px; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.15em;
     }
-    .page-footer a { color: #EBE7DC; text-decoration: none; border-bottom: 1px solid transparent; transition: 0.2s; }
-    .page-footer a:hover { border-bottom-color: #EBE7DC; }
-    .page-footer a:visited { color: #EBE7DC; }
+    .page-footer a { color: var(--fg); font-weight: 500; border-bottom: 1px solid transparent; transition: 0.2s; }
+    .page-footer a:hover { border-bottom-color: var(--fg); }
 
-    @media (max-width: 900px) {
-      .grid-2 { grid-template-columns: 1fr; }
-      .grid-3 { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+      .page-container { padding-top: 7rem; }
+      .header { padding: 1.5rem 4vw; }
+      .header nav { gap: 1rem; }
+      .header nav a, .back-link { font-size: 10px; letter-spacing: 0.1em; }
+      .project-hero h1 { font-size: 2rem; }
+      .section-block h2 { font-size: 20px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
       .grid-3 .grid-item:first-child { grid-column: span 1; }
-    }
-
-    @media (max-width: 600px) {
-      .project-hero h1 { font-size: 2.2rem; }
-      .project-meta { gap: 1rem; font-size: 0.7rem; }
-      .section-block p { font-size: 1rem; }
-      .header nav { gap: 1.5rem; }
-      .content { padding: 1rem 4vw 4rem 4vw; }
-      .external-links { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
-      .external-links a { font-size: 1rem; }
-      .toggle-buttons { flex-direction: column; width: 100%; }
+      .toggle-buttons { flex-direction: column; }
       .toggle-buttons button { width: 100%; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<div id="firefly-container"></div>
-
 <header class="header">
-  <a href="index.html" class="back-link" data-key="back_btn">← BACK</a>
+  <a href="index.html" class="back-link" data-key="back_btn">← НАЗАД</a>
   <nav>
-    <a href="index.html#projects" data-key="nav_projects">PROJECTS</a>
-    <a href="index.html#contacts" data-key="nav_contact">CONTACT</a>
-    <button class="lang-switch" id="langToggle">RU</button>
+    <a href="index.html#projects" data-key="nav_projects">ПРОЕКТЫ</a>
+    <a href="index.html#contacts" data-key="nav_contact">КОНТАКТ</a>
+    <button class="lang-switch" id="langToggle">EN</button>
   </nav>
 </header>
 
-<section class="project-hero">
-  <h1 data-key="hero_title">КАЛИНИНГРАДСКИЙ<br>ЗООПАРК</h1>
-  <div class="sub" data-key="hero_sub">КУЛЬТУРНЫЙ РЕБРЕНДИНГ / АЙДЕНТИКА</div>
-  <div class="project-meta">
-    <span data-key="meta_year">2026</span>
-    <span data-key="meta_tools">БРЕНДИНГ, UX, УПАКОВКА</span>
-  </div>
-</section>
+<div class="page-container">
 
-<div class="content">
-
+  <section class="project-hero">
+    <h1 data-key="hero_title">КАЛИНИНГРАДСКИЙ<br>ЗООПАРК</h1>
+    <div class="sub" data-key="hero_sub">КУЛЬТУРНЫЙ РЕБРЕНДИНГ / АЙДЕНТИКА</div>
+    <div class="project-meta">
+      <span data-key="meta_year">2026</span>
+      <span data-key="meta_tools">БРЕНДИНГ, UX, УПАКОВКА</span>
+    </div>
+  </section>
 
   <div class="section-block">
     <p data-key="project_info">Концептуальный ребрендинг одного из старейших зоопарков Европы - основан в 1896 году, вновь открыт в 1947-м. Независимый проект, не связанный с самим зоопарком и не заказанный им.</p>
   </div>
 
-
   <div class="section-block">
     <h2 data-key="sec1_title">Идея</h2>
     <p data-key="sec1_p1">Калининград - город янтаря. Я превратила это в физический опыт: билет зоопарка содержит биопластиковую вставку, похожую на витраж - она светится янтарным на солнце и может использоваться как закладка. В итоге билет ощущается не как формальность, а как памятный предмет. Я сохранила оригинальный логотип - бегемот уже давно играет важную роль в истории зоопарка.</p>
     <div class="project-image">
-      <img src="imgs/ticket.jpg" alt="Билет" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+      <img src="imgs/ticket.jpg" alt="Билет" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Билет ]</div>';">
     </div>
   </div>
 
-
-    <div class="section-block">
+  <div class="section-block">
     <h2 data-key="sec2_title">Визуальная система</h2>
     <p data-key="sec2_p1">Тёмная лесная палитра, тёплое золото и янтарные текстуры. Каждая деталь от логотипа до формы сотрудников создает общую атмосферу в любой точке контакта.</p>
     <div class="project-image">
-      <img src="imgs/zoo_system.jpg" alt="Визуальная система" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+      <img src="imgs/zoo_system.jpg" alt="Визуальная система" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Визуальная система ]</div>';">
     </div>
 
     <h2 data-key="sec_type_title" style="margin-top: 3rem;">Типографика</h2>
     <p data-key="sec_type_p1">В основе системы лежит контраст двух шрифтов. <strong>Cormorant Garamond</strong> - это элегантная антиква с изящными засечками, которая передает благородство и историческую глубину зоопарка. <strong>Inter</strong> - это чистый гротеск, который отвечает за современный цифровой ритм и безупречную читаемость на любых носителях. Этот дуэт позволяет айдентике звучать торжественно в печати и оставаться функциональной в интерфейсах.</p>
     <div class="project-image">
-      <img src="imgs/zoo_typography.jpg" alt="Типографика" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+      <img src="imgs/zoo_typography.jpg" alt="Типографика" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Типографика ]</div>';">
     </div>
   </div>
 
- 
   <div class="section-block">
     <h2 data-key="sec_logo_title">Лого</h2>
     <p data-key="sec_logo_p">Было решено сохранить оригинальный логотип зоопарка, потому что бегемот — его главный символ, играющий важную роль в истории зоопарка.</p>
     
     <div class="project-image" style="margin-bottom: 1.5rem;">
-      <img src="imgs/zoo_logo_digital.jpg" alt="Логотип в цифровом виде" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
-      <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;">Логотип в цифровом виде</div>
+      <img src="imgs/zoo_logo_digital.jpg" alt="Логотип в цифровом виде" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Логотип в цифровом виде ]</div>';">
+      <div class="caption">Логотип в цифровом виде</div>
     </div>
 
     <div class="project-image">
-
-      <img src="imgs/zoo_logo_ru.jpg" alt="Логотип на материалах" id="logoMaterialsImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
-      <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;">Логотип на материалах</div>
+      <img src="imgs/zoo_logo_ru.jpg" alt="Логотип на материалах" id="logoMaterialsImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Логотип на материалах ]</div>';">
+      <div class="caption">Логотип на материалах</div>
     </div>
   </div>
 
@@ -330,13 +277,13 @@
       </div>
 
       <div class="comparison-slot" id="oldSiteSlot" style="display: block;">
-        <img src="imgs/zoo_old_site.jpg" alt="Старый сайт" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
-        <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;" data-key="sec3_caption_old">До</div>
+        <img src="imgs/zoo_old_site.jpg" alt="Старый сайт" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Старый сайт ]</div>';">
+        <div class="caption" data-key="sec3_caption_old">До</div>
       </div>
 
       <div class="comparison-slot" id="newSiteSlot" style="display: none;">
-        <img src="imgs/zoo_new_site.jpg" alt="Новый сайт" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
-        <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;" data-key="sec3_caption_new">После</div>
+        <img src="imgs/zoo_new_site.jpg" alt="Новый сайт" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Новый сайт ]</div>';">
+        <div class="caption" data-key="sec3_caption_new">После</div>
       </div>
     </div>
   </div>
@@ -344,8 +291,8 @@
   <div class="section-block">
     <h2 data-key="sec_mobile_title">Мобильная адаптация</h2>
     <p data-key="sec_mobile_p1">Ключевые кнопки - покупка билетов, карта и другие - выстроены в сетку для быстрого доступа без необходимости прокрутки. Расписание событий выбранного дня выстроено в столбик на светлом фоне, чтобы нужную информацию было быстрее и проще найти в солнечный день, когда нет времени листать карусель. Кнопки товаров в разделе мерча расположены в столбик для чистого вертикального ритма.</p>
-    <div class="rect-image">
-      <img src="imgs/zoo_mobile.png" alt="Мобильная адаптация" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+    <div class="project-image">
+      <img src="imgs/zoo_mobile.png" alt="Мобильная адаптация" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Мобильная адаптация ]</div>';">
     </div>
   </div>
 
@@ -355,19 +302,19 @@
     <div class="grid-3">
       <div class="grid-item">
         <div class="image-wrapper">
-          <img src="imgs/zoo_nav_species.jpg" alt="Species label" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+          <img src="imgs/zoo_nav_species.jpg" alt="Species label" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Видовая табличка ]</div>';">
         </div>
         <div class="caption" data-key="sec_nav_cap1">Видовая табличка</div>
       </div>
       <div class="grid-item">
         <div class="image-wrapper">
-          <img src="imgs/zoo_nav_signposts.jpg" alt="Signposts" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+          <img src="imgs/zoo_nav_signposts.jpg" alt="Signposts" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Указатели ]</div>';">
         </div>
         <div class="caption" data-key="sec_nav_cap2">Указатели</div>
       </div>
       <div class="grid-item">
         <div class="image-wrapper">
-          <img src="imgs/zoo_nav_map.jpg" alt="Map" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+          <img src="imgs/zoo_nav_map.jpg" alt="Map" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Карта ]</div>';">
         </div>
         <div class="caption" data-key="sec_nav_cap3">Карта</div>
       </div>
@@ -380,13 +327,13 @@
     <div class="grid-2">
       <div class="grid-item">
         <div class="image-wrapper">
-          <img src="imgs/zoo_retail_bags.jpg" alt="Сумки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+          <img src="imgs/zoo_retail_bags.jpg" alt="Сумки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Сумки ]</div>';">
         </div>
         <div class="caption" data-key="sec4_cap1">Сумки</div>
       </div>
       <div class="grid-item">
         <div class="image-wrapper">
-          <img src="imgs/zoo_retail_keychains.jpg" alt="Брелоки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+          <img src="imgs/zoo_retail_keychains.jpg" alt="Брелоки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Брелоки ]</div>';">
         </div>
         <div class="caption" data-key="sec4_cap2">Брелоки</div>
       </div>
@@ -397,7 +344,7 @@
     <h2 data-key="sec_stationery_title">Канцелярия</h2>
     <p data-key="sec_stationery_p1">Блокноты, брендированный лист А4 и карандаши продолжают линию айдентики в офисных пространствах и сувенирной лавке. Обложка блокнота - из той же тёмной ткани, что и билет, а на каждой - свой обитатель зоопарка.</p>
     <div class="project-image">
-      <img src="imgs/zoo_stationery.jpg" alt="Канцелярия" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+      <img src="imgs/zoo_stationery.jpg" alt="Канцелярия" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Канцелярия ]</div>';">
     </div>
   </div>
 
@@ -407,19 +354,19 @@
     <div class="grid-3">
       <div class="grid-item">
         <div class="image-wrapper">
-          <img src="imgs/zoo_kids_full.jpg" alt="Сборное фото детской линейки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+          <img src="imgs/zoo_kids_full.jpg" alt="Сборное фото детской линейки" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Сборное фото ]</div>';">
         </div>
         <div class="caption" data-key="sec5_cap_full">Сборное фото</div>
       </div>
       <div class="grid-item">
         <div class="image-wrapper">
-          <img src="imgs/zoo_kids_kit.jpg" alt="Набор юного исследователя" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+          <img src="imgs/zoo_kids_kit.jpg" alt="Набор юного исследователя" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Набор юного исследователя ]</div>';">
         </div>
         <div class="caption" data-key="sec5_cap_kit">Набор юного исследователя</div>
       </div>
       <div class="grid-item">
         <div class="image-wrapper">
-          <img src="imgs/zoo_kids_tictactoe.jpg" alt="Крестики-нолики" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+          <img src="imgs/zoo_kids_tictactoe.jpg" alt="Крестики-нолики" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Крестики-нолики ]</div>';">
         </div>
         <div class="caption" data-key="sec5_cap_tictactoe">Крестики-нолики</div>
       </div>
@@ -430,13 +377,13 @@
     <h2 data-key="sec6_title">Форма сотрудников</h2>
     <p data-key="sec6_p1">Многослойная система - от лёгкой футболки до ветровки - из дышащих натуральных материалов. Свободный крой предотвращает сенсорные раздражения, обеспечивая комфорт в течение долгих смен. Слоёный дизайн позволяет каждому сотруднику адаптировать свой комплект под любые условия.</p>
     <div class="project-image" style="margin-bottom: 1.5rem;">
-      <img src="imgs/zoo_uniform_crew.jpg" alt="Сотрудники в форме" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
-      <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;" data-key="sec6_cap1">Сотрудники в форме</div>
+      <img src="imgs/zoo_uniform_crew.jpg" alt="Сотрудники в форме" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Сотрудники в форме ]</div>';">
+      <div class="caption" data-key="sec6_cap1">Сотрудники в форме</div>
     </div>
 
     <div class="project-image">
-      <img src="imgs/zoo_uniform_ru.jpg" alt="Части комплекта" id="uniformImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
-      <div class="caption" style="padding: 0.8rem 1rem; font-size: 0.8rem; color: #A8A89C; text-transform: uppercase; letter-spacing: 1px;" data-key="sec6_cap2">Части комплекта</div>
+      <img src="imgs/zoo_uniform_ru.jpg" alt="Части комплекта" id="uniformImg" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Части комплекта ]</div>';">
+      <div class="caption" data-key="sec6_cap2">Части комплекта</div>
     </div>
   </div>
 
@@ -444,14 +391,14 @@
     <h2 data-key="sec_badge_title">Бейджи</h2>
     <p data-key="sec_badge_p1">ID является частью повседневной униформы. Он обеспечивает быстрый доступ, безопасность и чувство принадлежности.</p>
     <div class="project-image">
-      <img src="imgs/zoo_badges.jpg" alt="Бейджи сотрудников" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#555;\'></div>';">
+      <img src="imgs/zoo_badges.jpg" alt="Бейджи сотрудников" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'padding:2rem;text-align:center;color:#999;font-size:12px;letter-spacing:0.1em;\'>[ Изображение: Бейджи ]</div>';">
     </div>
   </div>
 
   <div class="section-block">
     <h2 data-key="sec_role_title">Моя роль</h2>
     <p>
-      <span class="role-tag" data-key="role1">Я самостоятельно разработала концепцию, айдентику, редизайн сайта и весь ассортимент продукци - от идеи до финальных мокапов.</span>
+      <span data-key="role1">Я самостоятельно разработала концепцию, айдентику, редизайн сайта и весь ассортимент продукци - от идеи до финальных мокапов.</span>
     </p>
   </div>
 
@@ -459,9 +406,7 @@
     <p data-key="sec_role_rights">© 2026 Marianna Sumina. Данная концепция является объектом интеллектуальной собственности автора. Все материалы защищены авторским правом. Использование, копирование или коммерческое применение идей без письменного согласия автора не допускается.</p>
   </div>
 
-
   <div class="page-footer">
-    <span data-key="footer_counter">Проект 4 / 4</span>
     <a href="index.html" data-key="footer_next">В начало →</a>
   </div>
 
@@ -489,8 +434,7 @@
       sec_badge_title: 'Бейджи', sec_badge_p1: 'ID стал неотъемлемой частью повседневной униформы. Он обеспечивает быстрый доступ в помещения, гарантирует безопасность и подчеркивает чувство принадлежности к команде.',
       sec_role_title: 'Моя роль', role1: 'Я самостоятельно разработала концепцию, айдентику, редизайн сайта и весь ассортимент продукци - от идеи до финальных мокапов.',
       sec_role_rights: '© 2026 Марианна Сумина. Данная концепция является объектом интеллектуальной собственности автора. Все материалы защищены авторским правом. Использование, копирование или коммерческое применение идей без письменного согласия автора не допускается.',
-      
-      footer_counter: 'Проект 4 / 4', footer_next: 'В начало →'
+      footer_next: 'В начало →'
     },
     en: {
       back_btn: '← BACK', nav_projects: 'PROJECTS', nav_contact: 'CONTACT',
@@ -511,8 +455,8 @@
       sec6_title: 'Staff Uniforms', sec6_p1: 'The layered clothing system includes everything from a lightweight t-shirt to a windbreaker and is made from breathable, natural materials. The loose fit prevents sensory irritation and ensures comfort during long shifts. The layered design allows each zookeeper to easily adapt their outfit to any weather conditions.', sec6_cap1: 'Staff in uniform', sec6_cap2: 'Set components',
       sec_badge_title: 'Badges', sec_badge_p1: 'The ID card has become an integral part of the daily uniform. It provides quick access, ensures security, and highlights a sense of belonging to the team.',
       sec_role_title: 'My Role', role1: 'I independently developed the concept, brand identity, website redesign, and the entire product range - from the initial idea to the final mockups.',
-      sec_role_rights: "© 2026 Marianna Sumina.This concept is the author's intellectual property. All materials are protected by copyright. The use, copying, or commercial exploitation of these ideas without the author's written consent is prohibited. ",
-      footer_counter: 'Project 4 / 4', footer_next: 'Back to start →'
+      sec_role_rights: "© 2026 Marianna Sumina. This concept is the author's intellectual property. All materials are protected by copyright. The use, copying, or commercial exploitation of these ideas without the author's written consent is prohibited. ",
+      footer_next: 'Back to start →'
     }
   };
 
@@ -566,21 +510,6 @@
       oldBtn.classList.remove('active');
       newBtn.classList.add('active');
     }
-  }
-
-  const fireflyContainer = document.getElementById('firefly-container');
-  const fireflyCount = 14;
-
-  for (let i = 0; i < fireflyCount; i++) {
-    const firefly = document.createElement('div');
-    firefly.classList.add('firefly');
-    firefly.style.left = `${Math.random() * 100}vw`;
-    firefly.style.top = `${Math.random() * 100}vh`;
-    firefly.style.animationDuration = `${10 + Math.random() * 8}s`;
-    firefly.style.animationDelay = `${Math.random() * 12}s`;
-    firefly.style.setProperty('--dx', `${(Math.random() - 0.5) * 150}px`);
-    firefly.style.setProperty('--dy', `${(Math.random() - 0.5) * 150}px`);
-    fireflyContainer.appendChild(firefly);
   }
 </script>
 </body>
